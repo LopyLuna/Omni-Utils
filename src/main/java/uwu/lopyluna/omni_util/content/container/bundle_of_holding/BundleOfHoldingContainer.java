@@ -5,6 +5,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import uwu.lopyluna.omni_util.content.container.ItemContainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BundleOfHoldingContainer extends ItemContainer {
     public BundleOfHoldingContainer(InteractionHand hand, ItemStack stack) {
         super(hand, stack, 6, true);
@@ -15,6 +18,18 @@ public class BundleOfHoldingContainer extends ItemContainer {
 
     public Iterable<ItemStack> getItemsCopy() {
         return Iterables.transform(getItems(), ItemStack::copy);
+    }
+
+    public List<ItemStack> getItemsListCopy() {
+        List<ItemStack> items = new ArrayList<>();
+        for (var item : getItems()) if (!item.isEmpty()) items.add(item.copy());
+        return items;
+    }
+
+    public int getContentItemSize() {
+        int i = 0;
+        for (var item : getItems()) if (!item.isEmpty()) i++;
+        return i;
     }
 
     public int getContentSize() {

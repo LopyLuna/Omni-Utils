@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "omni_util:item/bundle_of_holding_open",
+      "predicate": {
+        "omni_util:open": 1.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "omni_util:item/bundle_of_holding"
   }

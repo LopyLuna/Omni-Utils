@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.BlockGetter;
@@ -64,7 +65,7 @@ public class AllBlocks {
                 p.simpleBlockItem(c, model);
             })
             .blockItem(AngelBlockItem::new)
-            .properties(p -> p.fireResistant().rarity(Rarity.EPIC))
+            .properties(p -> p.fireResistant().rarity(Rarity.UNCOMMON))
             .buildBlockItem()
             .register();
 
@@ -159,7 +160,9 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.NETHERITE_BLOCK).mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(20.0F, 600.0F).noOcclusion())
             .mineablePickaxe().needDiamondTools()
             .blockstate(modelSpike("netherite"))
-            .simpleBlockItem()
+            .blockItem()
+            .properties(Item.Properties::fireResistant)
+            .buildBlockItem()
             .register();
 
     //CURSED BLOCKS

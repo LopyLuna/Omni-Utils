@@ -7,12 +7,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import org.jetbrains.annotations.NotNull;
+import uwu.lopyluna.omni_util.OmniUtils;
 
 public class ItemContainer extends SimpleContainer {
     int size;
-    final ItemStack stack;
-    final InteractionHand hand;
-    final boolean inHand;
+    public final ItemStack stack;
+    public final InteractionHand hand;
+    public final boolean inHand;
 
     public ItemContainer(InteractionHand hand, ItemStack stack, int rows, boolean inHand) {
         super(9*rows);
@@ -29,6 +30,18 @@ public class ItemContainer extends SimpleContainer {
     public void setChanged() {
         super.setChanged();
         stack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(getItems()));
+    }
+
+    @Override
+    public void startOpen(@NotNull Player player) {
+        super.startOpen(player);
+        if (!stack.has(DataComponents.NOTE_BLOCK_SOUND)) stack.set(DataComponents.NOTE_BLOCK_SOUND, OmniUtils.empty());
+    }
+
+    @Override
+    public void stopOpen(@NotNull Player player) {
+        super.stopOpen(player);
+        if (stack.has(DataComponents.NOTE_BLOCK_SOUND)) stack.remove(DataComponents.NOTE_BLOCK_SOUND);
     }
 
     @Override

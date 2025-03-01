@@ -1,7 +1,8 @@
-// 1.21.1	2025-02-24T04:11:50.425865	Item Models: omni_util
+// 1.21.1	2025-03-01T06:36:35.763593	Item Models: omni_util
 c2e5e4996078248ed4af174b2495876f81cfa248 assets/omni_util/models/item/angel_ring.json
 83070696f166108574019a5322a5e39753858871 assets/omni_util/models/item/bat_angel_ring.json
-a747071b26091e24064692d4e40710b9bcd0e077 assets/omni_util/models/item/bundle_of_holding.json
+888dccddb3678af0bd09353000d4b73253117335 assets/omni_util/models/item/bundle_of_holding.json
+76a117d64a442aa0376f4ac63dde8c33b9969c4e assets/omni_util/models/item/bundle_of_holding_open.json
 26369e1246b2da51e6e0141fef2c17a4a981a94a assets/omni_util/models/item/demon_angel_ring.json
 c5e142c74a81536b2620f7c1e2a000b2c240f99d assets/omni_util/models/item/feathered_angel_ring.json
 0178f22316c3c6d42431453821a9610c3d3b89ab assets/omni_util/models/item/gilded_angel_ring.json

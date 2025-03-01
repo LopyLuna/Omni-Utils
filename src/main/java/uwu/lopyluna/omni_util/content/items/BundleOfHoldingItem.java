@@ -55,15 +55,15 @@ public class BundleOfHoldingItem extends ItemWithContents {
         return new SimpleMenuProvider((id, inv, player) -> new BundleOfHoldingMenu(id, inv, new BundleOfHoldingContainer(hand, stack)), getDescription());
     }
 
-    private void playRemoveOneSound(Entity entity) {
+    public void playRemoveOneSound(Entity entity) {
         entity.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playInsertSound(Entity entity) {
+    public void playInsertSound(Entity entity) {
         entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playDropContentsSound(Entity entity) {
+    public void playDropContentsSound(Entity entity) {
         entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 

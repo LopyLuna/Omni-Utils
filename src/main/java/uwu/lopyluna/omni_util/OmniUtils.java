@@ -70,4 +70,7 @@ public class OmniUtils {
     public static ResourceLocation loc(String loc) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, loc);
     }
+    public static ResourceLocation empty() {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "none");
+    }
 }

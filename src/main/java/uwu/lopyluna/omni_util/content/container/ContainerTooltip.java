@@ -10,13 +10,17 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.container.bundle_of_holding.BundleOfHoldingContainer;
 
+import java.util.List;
+
 @OnlyIn(Dist.CLIENT)
 public class ContainerTooltip implements ClientTooltipComponent {
     private static final ResourceLocation BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("container/bundle/background");
     private final BundleOfHoldingContainer contents;
+    private final List<ItemStack> items;
 
     public ContainerTooltip(BundleOfHoldingContainer contents) {
         this.contents = contents;
+        this.items = this.contents.getItemsListCopy();
     }
 
     @Override
@@ -53,9 +57,9 @@ public class ContainerTooltip implements ClientTooltipComponent {
     }
 
     private void renderSlot(int x, int y, int itemIndex, boolean isBundleFull, GuiGraphics guiGraphics, Font font) {
-        if (itemIndex >= this.contents.getItems().size()) this.blit(guiGraphics, x, y, isBundleFull ? ContainerTooltip.Texture.BLOCKED_SLOT : ContainerTooltip.Texture.SLOT);
+        if (itemIndex >= this.items.size()) this.blit(guiGraphics, x, y, isBundleFull ? ContainerTooltip.Texture.BLOCKED_SLOT : ContainerTooltip.Texture.SLOT);
         else {
-            ItemStack itemstack = this.contents.getItem(itemIndex);
+            ItemStack itemstack = this.items.get(itemIndex);
             this.blit(guiGraphics, x, y, ContainerTooltip.Texture.SLOT);
             guiGraphics.renderItem(itemstack, x + 1, y + 1, itemIndex);
             guiGraphics.renderItemDecorations(font, itemstack, x + 1, y + 1);
@@ -67,11 +71,11 @@ public class ContainerTooltip implements ClientTooltipComponent {
     }
 
     private int gridSizeX() {
-        return Math.max(2, (int)Math.ceil(Math.sqrt((double)this.contents.getItems().size() + 1.0)));
+        return Math.max(2, (int)Math.ceil(Math.sqrt((double)this.contents.getContentItemSize() + 1.0)));
     }
 
     private int gridSizeY() {
-        return (int)Math.ceil(((double)this.contents.getItems().size() + 1.0) / (double)this.gridSizeX());
+        return (int)Math.ceil(((double)this.contents.getContentItemSize() + 1.0) / (double)this.gridSizeX());
     }
 
     @OnlyIn(Dist.CLIENT)
