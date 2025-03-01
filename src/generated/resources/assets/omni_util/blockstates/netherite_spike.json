@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "omni_util:block/netherite_spike",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "omni_util:block/netherite_spike",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "omni_util:block/netherite_spike",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "omni_util:block/netherite_spike",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "omni_util:block/netherite_spike"
+    },
+    "facing=west": {
+      "model": "omni_util:block/netherite_spike",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

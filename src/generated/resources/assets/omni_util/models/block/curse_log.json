@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "omni_util:block/curse_log_top",
+    "side": "omni_util:block/curse_log"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "values": [
+    "omni_util:generator_block",
+    "omni_util:angel_block",
+    "omni_util:polished_stone",
+    "omni_util:grimspiral",
+    "omni_util:grimrock",
+    "omni_util:glowrock",
+    "omni_util:copper_spike",
+    "omni_util:stone_spike",
+    "omni_util:gold_spike",
+    "omni_util:iron_spike",
+    "omni_util:diamond_spike",
+    "omni_util:netherite_spike",
+    "omni_util:curse_stone",
+    "omni_util:dead_stone"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "omni_util:block/base_spike",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "1": "omni_util:block/copper_spike"
+  }
+}

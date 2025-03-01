@@ -1,0 +1,10 @@
+{
+  "values": [
+    "omni_util:generator_block",
+    "omni_util:polished_stone",
+    "omni_util:copper_spike",
+    "omni_util:stone_spike",
+    "omni_util:gold_spike",
+    "omni_util:iron_spike"
+  ]
+}

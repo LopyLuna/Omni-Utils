@@ -1,0 +1,26 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"1": "omni_util:block/trash_can",
+		"2": "omni_util:block/trash_can_bottom",
+		"particle": "omni_util:block/trash_can_open"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 14, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, 0, 2]},
+			"faces": {
+				"north": {"uv": [4, 2, 16, 16], "texture": "#1"},
+				"east": {"uv": [4, 2, 16, 16], "texture": "#1"},
+				"south": {"uv": [4, 2, 16, 16], "texture": "#1"},
+				"west": {"uv": [4, 2, 16, 16], "texture": "#1"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#particle"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#2"}
+			}
+		}
+	],
+	"gui_light": "front"
+}

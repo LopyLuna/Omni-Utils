@@ -1,0 +1,41 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"1": "#spike",
+		"particle": "omni_util:block/polished_stone"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 4, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [0, 12, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 12, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 12, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 12, 16, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#particle"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#particle"}
+			}
+		},
+		{
+			"from": [8, 4, 0],
+			"to": [8, 16, 16],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 12], "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 12], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 4, 8],
+			"to": [16, 16, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 12], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 12], "texture": "#1"}
+			}
+		}
+	]
+}

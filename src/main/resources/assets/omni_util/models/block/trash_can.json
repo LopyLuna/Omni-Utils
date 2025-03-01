@@ -1,0 +1,49 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"1": "omni_util:block/trash_can",
+		"2": "omni_util:block/trash_can_bottom",
+		"3": "omni_util:block/trash_can_top",
+		"particle": "omni_util:block/trash_can_open"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 11, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, 0, 2]},
+			"faces": {
+				"north": {"uv": [4, 5, 16, 16], "texture": "#1"},
+				"east": {"uv": [4, 5, 16, 16], "texture": "#1"},
+				"south": {"uv": [4, 5, 16, 16], "texture": "#1"},
+				"west": {"uv": [4, 5, 16, 16], "texture": "#1"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#particle"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#2"}
+			}
+		},
+		{
+			"from": [1, 11, 1],
+			"to": [15, 16, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 11, 2]},
+			"faces": {
+				"north": {"uv": [2, 0, 16, 5], "texture": "#1"},
+				"east": {"uv": [2, 0, 16, 5], "texture": "#1"},
+				"south": {"uv": [2, 0, 16, 5], "texture": "#1"},
+				"west": {"uv": [2, 0, 16, 5], "texture": "#1"},
+				"up": {"uv": [1, 1, 15, 15], "rotation": 90, "texture": "#3"},
+				"down": {"uv": [1, 1, 15, 15], "rotation": 270, "texture": "#2"}
+			}
+		},
+		{
+			"from": [5, 16, 8],
+			"to": [11, 19, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 16, 2]},
+			"faces": {
+				"north": {"uv": [1, 10, 4, 16], "rotation": 90, "texture": "#1"},
+				"south": {"uv": [1, 10, 4, 16], "rotation": 90, "texture": "#1"}
+			}
+		}
+	],
+	"gui_light": "front"
+}

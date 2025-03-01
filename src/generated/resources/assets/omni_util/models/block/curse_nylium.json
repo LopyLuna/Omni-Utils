@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/podzol",
+  "textures": {
+    "side": "omni_util:block/curse_nylium",
+    "top": "omni_util:block/curse_nylium_top"
+  }
+}

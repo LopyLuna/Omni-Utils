@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "omni_util:item/bat_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 1.0
+      }
+    },
+    {
+      "model": "omni_util:item/demon_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 2.0
+      }
+    },
+    {
+      "model": "omni_util:item/feathered_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 3.0
+      }
+    },
+    {
+      "model": "omni_util:item/gilded_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 4.0
+      }
+    },
+    {
+      "model": "omni_util:item/invisible_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 5.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "omni_util:item/angel_ring"
+  }
+}

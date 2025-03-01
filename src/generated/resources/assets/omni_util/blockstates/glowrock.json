@@ -1,0 +1,60 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_dim_1"
+      },
+      "when": {
+        "glowing": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_dim_2"
+      },
+      "when": {
+        "glowing": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_dim_3"
+      },
+      "when": {
+        "glowing": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_1"
+      },
+      "when": {
+        "glowing": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_2"
+      },
+      "when": {
+        "glowing": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_3"
+      },
+      "when": {
+        "glowing": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "omni_util:block/glowrock_bright"
+      },
+      "when": {
+        "glowing": "2"
+      }
+    }
+  ]
+}

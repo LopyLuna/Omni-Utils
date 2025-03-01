@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "omni_util:block/dead_leaves"
+    }
+  }
+}
