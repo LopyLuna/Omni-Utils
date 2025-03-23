@@ -1,0 +1,10 @@
+{
+  "loader": "fusion:model",
+  "type": "connecting",
+  "parent": "minecraft:block/cube_all",
+  "connections": [
+    {
+      "type": "is_same_block"
+    }
+  ]
+}

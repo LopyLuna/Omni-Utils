@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -23,7 +22,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import uwu.lopyluna.omni_util.register.AllDimensions;
+import uwu.lopyluna.omni_util.register.worldgen.AllDimensions;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -84,7 +83,7 @@ public class GrimspiralBlock extends Block implements Portal {
             level.playLocalSound(
                     (double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5,
                     SoundEvents.PORTAL_AMBIENT, SoundSource.BLOCKS,
-                    0.5F, r.nextFloat() * 0.4F + 0.4F, false
+                    0.25F, r.nextFloat() * 0.4F + 0.4F, false
             );
         }
 

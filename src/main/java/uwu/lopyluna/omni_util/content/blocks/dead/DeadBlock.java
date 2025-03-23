@@ -28,8 +28,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.blocks.curse.Cursed;
-import uwu.lopyluna.omni_util.register.AllBiomes;
-import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
+import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

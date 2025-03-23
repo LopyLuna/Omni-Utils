@@ -1,14 +1,8 @@
 {
-  "carvers": {
-    "air": [
-      "minecraft:cave",
-      "minecraft:cave_extra_underground",
-      "minecraft:canyon"
-    ]
-  },
+  "carvers": {},
   "downfall": 0.0,
   "effects": {
-    "fog_color": 2236969,
+    "fog_color": 0,
     "foliage_color": 4473924,
     "grass_color": 4473924,
     "music": {
@@ -23,25 +17,47 @@
       },
       "probability": 0.06
     },
-    "sky_color": 2236969,
+    "sky_color": 0,
     "water_color": 4405620,
     "water_fog_color": 4405620
   },
   "features": [
     [],
-    [
-      "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
-    ],
+    [],
     [],
     [
       "minecraft:monster_room",
-      "minecraft:monster_room_deep"
+      "minecraft:monster_room_deep",
+      "minecraft:fossil_upper",
+      "minecraft:fossil_lower"
     ],
     [],
     [],
     [],
-    [],
+    [
+      "omni_util:ore_coal_upper",
+      "omni_util:ore_coal_lower",
+      "omni_util:ore_iron_upper",
+      "omni_util:ore_iron_middle",
+      "omni_util:ore_iron_small",
+      "omni_util:ore_gold",
+      "omni_util:ore_gold_lower",
+      "omni_util:ore_redstone",
+      "omni_util:ore_redstone_lower",
+      "omni_util:ore_diamond",
+      "omni_util:ore_diamond_medium",
+      "omni_util:ore_diamond_large",
+      "omni_util:ore_diamond_buried",
+      "omni_util:ore_amethyst",
+      "omni_util:ore_lapis",
+      "omni_util:ore_lapis_buried",
+      "omni_util:ore_copper",
+      "omni_util:ore_emerald",
+      "omni_util:ore_gilded",
+      "omni_util:ore_quartz",
+      "omni_util:ore_ancient_large",
+      "omni_util:ore_ancient_small"
+    ],
     [],
     [
       "minecraft:glow_lichen",

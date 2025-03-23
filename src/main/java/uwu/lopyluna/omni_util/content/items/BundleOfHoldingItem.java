@@ -21,9 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import uwu.lopyluna.omni_util.content.container.ContainerTooltipComponent;
 import uwu.lopyluna.omni_util.content.container.bundle_of_holding.BundleOfHoldingContainer;
 import uwu.lopyluna.omni_util.content.container.bundle_of_holding.BundleOfHoldingMenu;
-import uwu.lopyluna.omni_util.content.container.ContainerTooltipComponent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;

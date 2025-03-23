@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/goat_horn",
+  "textures": {
+    "layer0": "omni_util:item/empty_watering_can"
+  }
+}

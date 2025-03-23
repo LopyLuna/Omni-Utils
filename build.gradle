@@ -49,23 +49,27 @@ configurations {
 }
 
 repositories {
-    maven {
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
+    maven { url = "https://maven.blamejared.com" }
+    maven { url = "https://modmaven.dev" }
+    maven { url = "https://api.modrinth.com/maven" }
+    maven { url = "https://mvn.devos.one/snapshots" }
     mavenLocal()
 }
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+    implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    implementation("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    implementation "maven.modrinth:fusion-connected-textures:${fusion_version}-neoforge-mc${mc_version}"
 
+    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api")
+    runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")
+
+    implementation("maven.modrinth:sodium:mc${minecraft_version}-${sodium_version}-neoforge")
+    implementation("maven.modrinth:jade:jBPaSUDN")
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -75,6 +79,7 @@ tasks.withType(ProcessResources).configureEach {
             neo_version            : neo_version,
             neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
+            fusion_version_range   : fusion_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

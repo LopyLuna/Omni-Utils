@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "omni_util:block/polished_grimrock_slab"
+    },
+    "type=double": {
+      "model": "omni_util:block/polished_grimrock"
+    },
+    "type=top": {
+      "model": "omni_util:block/polished_grimrock_slab_top"
+    }
+  }
+}

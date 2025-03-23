@@ -22,9 +22,8 @@ import uwu.lopyluna.omni_util.content.container.ContainerTooltipComponent;
 import uwu.lopyluna.omni_util.content.container.bundle_of_holding.BundleOfHoldingContainer;
 import uwu.lopyluna.omni_util.content.items.AngelRing;
 import uwu.lopyluna.omni_util.content.items.BundleOfHoldingItem;
-import uwu.lopyluna.omni_util.register.AllDimensions;
 import uwu.lopyluna.omni_util.register.AllItems;
-
+import uwu.lopyluna.omni_util.register.worldgen.AllDimensions;
 
 @EventBusSubscriber(modid = OmniUtils.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {

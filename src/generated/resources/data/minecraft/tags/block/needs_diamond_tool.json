@@ -1,6 +1,10 @@
 {
   "values": [
     "omni_util:grimspiral",
-    "omni_util:netherite_spike"
+    "omni_util:grimrock_gold_ore",
+    "omni_util:grimrock_diamond_ore",
+    "omni_util:grimrock_redstone_ore",
+    "omni_util:grimrock_emerald_ore",
+    "omni_util:grimrock_quartz_ore"
   ]
 }

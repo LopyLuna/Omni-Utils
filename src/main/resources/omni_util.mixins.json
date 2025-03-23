@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "omni_util.refmap.json",
   "mixins": [
+    "AxeItemAccessor",
+    "CreeperAccessor"
   ],
   "minVersion": "0.8"
 }

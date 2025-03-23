@@ -13,6 +13,24 @@ public class AllSoundTypes {
             () -> SoundEvents.GILDED_BLACKSTONE_HIT,
             () -> SoundEvents.GILDED_BLACKSTONE_FALL
     );
+    public static final DeferredSoundType COBBLED_GRIMROCK = new DeferredSoundType(
+            1.0F,
+            0.65F,
+            () -> SoundEvents.DEEPSLATE_BREAK,
+            () -> SoundEvents.DEEPSLATE_STEP,
+            () -> SoundEvents.GILDED_BLACKSTONE_PLACE,
+            () -> SoundEvents.GILDED_BLACKSTONE_HIT,
+            () -> SoundEvents.GILDED_BLACKSTONE_FALL
+    );
+    public static final DeferredSoundType POLISHED_GRIMROCK = new DeferredSoundType(
+            1.0F,
+            0.75F,
+            () -> SoundEvents.DEEPSLATE_TILES_BREAK,
+            () -> SoundEvents.DEEPSLATE_TILES_HIT,
+            () -> SoundEvents.POLISHED_DEEPSLATE_PLACE,
+            () -> SoundEvents.POLISHED_DEEPSLATE_HIT,
+            () -> SoundEvents.POLISHED_DEEPSLATE_FALL
+    );
     public static final DeferredSoundType CURSED_LEAVES = new DeferredSoundType(
             1.0F,
             0.75F,

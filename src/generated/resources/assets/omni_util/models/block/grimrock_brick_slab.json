@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "omni_util:block/grimrock_bricks",
+    "side": "omni_util:block/grimrock_bricks",
+    "top": "omni_util:block/grimrock_bricks"
+  }
+}

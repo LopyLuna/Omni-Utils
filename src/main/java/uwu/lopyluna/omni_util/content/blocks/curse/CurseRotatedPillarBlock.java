@@ -29,8 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uwu.lopyluna.omni_util.register.AllBiomes;
-import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
+import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

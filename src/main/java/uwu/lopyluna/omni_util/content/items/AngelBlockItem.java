@@ -22,9 +22,10 @@ public class AngelBlockItem extends BlockItem {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        var scale = player.blockInteractionRange() * (player.isShiftKeyDown() ? 0.5 : 1);
         Vec3 vec3 = player.getEyePosition();
-        Vec3 vec31 = player.getViewVector(1f);
-        var dist = player.isShiftKeyDown() ? 2.5 : 4.5;
-        return new InteractionResultHolder<>(this.useOn(new UseOnContext(player, usedHand, level.clip(new ClipContext(vec3, vec3.add(vec31.x * dist, vec31.y * dist, vec31.z * dist), ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player)))), player.getItemInHand(usedHand));
+        Vec3 vec31 = vec3.add(player.calculateViewVector(player.getXRot(), player.getYRot()).scale(scale));
+        var rayTrace = level.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
+        return new InteractionResultHolder<>(this.useOn(new UseOnContext(player, usedHand, rayTrace)), player.getItemInHand(usedHand));
     }
 }

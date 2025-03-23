@@ -28,3 +28,10 @@ license="${mod_license}"
     versionRange="${minecraft_version_range}"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="fusion"
+    type="required"
+    versionRange="${fusion_version_range}"
+    ordering="NONE"
+    side="CLIENT"

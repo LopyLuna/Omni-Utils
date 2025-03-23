@@ -19,8 +19,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import uwu.lopyluna.omni_util.content.blocks.curse.Cursed;
-import uwu.lopyluna.omni_util.register.AllBiomes;
-import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
+import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

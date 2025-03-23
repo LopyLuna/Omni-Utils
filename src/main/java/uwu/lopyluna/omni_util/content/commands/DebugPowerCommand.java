@@ -6,7 +6,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import uwu.lopyluna.omni_util.content.power.PowerManager;
+import uwu.lopyluna.omni_util.content.managers.PowerManager;
+import uwu.lopyluna.omni_util.events.PowerTickHandler;
 
 public class DebugPowerCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -17,7 +18,7 @@ public class DebugPowerCommand {
                     return 1;
                 })
         );
-        dispatcher.register(Commands.literal("debugResetRadiantPower")
+        dispatcher.register(Commands.literal("debugClearPower")
                 .executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
                     PowerManager.resetRP(player);
@@ -25,9 +26,27 @@ public class DebugPowerCommand {
                     return 1;
                 })
         );
+        dispatcher.register(Commands.literal("debugClearPowerEntries")
+                .executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    PowerTickHandler.blocks.clear();
+                    player.displayClientMessage(Component.literal("🔄 Powered Entries cleared!").withStyle(ChatFormatting.YELLOW), false);
+                    return 1;
+                })
+        );
+        dispatcher.register(Commands.literal("debugClearAll")
+                .executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    PowerTickHandler.blocks.clear();
+                    PowerManager.resetRP(player);
+                    player.displayClientMessage(Component.literal("🔄 Powered Entries cleared!").withStyle(ChatFormatting.YELLOW), false);
+                    return 1;
+                })
+        );
     }
 
     private static void sendRPDebugMessage(ServerPlayer player) {
+        if (player == null) return;
         int generated = PowerManager.getGeneratedRP(player);
         int consumed = PowerManager.getConsumedRP(player);
         int netRP = PowerManager.getNetRP(player);
