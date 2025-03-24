@@ -4,8 +4,11 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "omni_util.refmap.json",
   "mixins": [
+    "AbstractCauldronBlockAccessor",
+    "AbstractCauldronBlockMixin",
     "AxeItemAccessor",
-    "CreeperAccessor"
+    "CreeperAccessor",
+    "ServerPlayerGameModeAccessor"
   ],
   "minVersion": "0.8"
 }

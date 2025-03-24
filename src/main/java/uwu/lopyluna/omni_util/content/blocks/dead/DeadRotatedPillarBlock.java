@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import uwu.lopyluna.omni_util.content.blocks.curse.Cursed;
 import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
-import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
+import uwu.lopyluna.omni_util.register.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

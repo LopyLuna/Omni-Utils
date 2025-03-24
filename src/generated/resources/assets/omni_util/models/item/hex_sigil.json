@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:item/goat_horn",
   "textures": {
     "layer0": "omni_util:item/hex_sigil"
   }

@@ -19,7 +19,8 @@ import uwu.lopyluna.omni_util.network.SyncActivationToClientPacket;
 import uwu.lopyluna.omni_util.network.SyncRPToClientPacket;
 import uwu.lopyluna.omni_util.network.SyncSanityToClientPacket;
 import uwu.lopyluna.omni_util.register.*;
-import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
+import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllFeature;
 
 @SuppressWarnings("unused")
 @Mod(OmniUtils.MOD_ID)
@@ -42,6 +43,7 @@ public class OmniUtils {
         AllItems.register();
         AllBlocks.register();
         AllBlockEntities.register();
+        AllFeature.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegisterPayloadHandlers);

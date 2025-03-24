@@ -1,0 +1,16 @@
+{
+  "values": [
+    "minecraft:pumpkin",
+    "minecraft:carved_pumpkin",
+    "minecraft:jack_o_lantern",
+    "minecraft:melon",
+    "#minecraft:cave_vines",
+    "#minecraft:crops",
+    "#minecraft:flowers",
+    "#minecraft:leaves",
+    "#minecraft:saplings",
+    "#minecraft:replaceable",
+    "#minecraft:small_flowers",
+    "#minecraft:tall_flowers"
+  ]
+}

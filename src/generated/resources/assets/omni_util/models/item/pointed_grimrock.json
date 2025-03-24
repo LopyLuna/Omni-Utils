@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "omni_util:item/simple_paxel"
+    "layer0": "omni_util:item/pointed_grimrock"
   }
 }

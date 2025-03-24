@@ -24,7 +24,7 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.ClientSanityData;
 import uwu.lopyluna.omni_util.client.SanityAmbientSoundInstance;
-import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
+import uwu.lopyluna.omni_util.register.AllBlocks;
 
 import static net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS;
 

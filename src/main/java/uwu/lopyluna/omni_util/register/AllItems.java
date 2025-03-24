@@ -9,14 +9,109 @@ import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaNugget;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
-import static net.minecraft.world.item.Tiers.NETHERITE;
+import static net.minecraft.world.item.Tiers.*;
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 
 @SuppressWarnings("unused")
 public class AllItems {
 
-    public static final ItemEntry<PaxelItem> SIMPLE_PAXEL = REG.item("simple_paxel", p -> new PaxelItem(NETHERITE, p))
-            .lang("Simple Paxel")
+    public static final ItemEntry<ScytheItem> NETHERITE_SCYTHE = REG.item("netherite_scythe", p -> new ScytheItem(3, 24, NETHERITE, p))
+            .lang("Netherite Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> DIAMOND_SCYTHE = REG.item("diamond_scythe", p -> new ScytheItem(3, 24, DIAMOND, p))
+            .lang("Diamond Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> EMERALD_SCYTHE = REG.item("emerald_scythe", p -> new ScytheItem(2, 16, DIAMOND, p))
+            .lang("Emerald Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> IRON_SCYTHE = REG.item("iron_scythe", p -> new ScytheItem(2, 16, IRON, p))
+            .lang("Iron Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> GOLDEN_SCYTHE = REG.item("golden_scythe", p -> new ScytheItem(1, 12, GOLD, p))
+            .lang("Golden Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> COPPER_SCYTHE = REG.item("copper_scythe", p -> new ScytheItem(2, 12, STONE, p))
+            .lang("Copper Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> STONE_SCYTHE = REG.item("stone_scythe", p -> new ScytheItem(1, 8, STONE, p))
+            .lang("Stone Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<ScytheItem> WOODEN_SCYTHE = REG.item("wooden_scythe", p -> new ScytheItem(1, 8, WOOD, p))
+            .lang("Wooden Scythe")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+
+    public static final ItemEntry<PaxelItem> NETHERITE_PAXEL = REG.item("netherite_paxel", p -> new PaxelItem(NETHERITE, p))
+            .lang("Netherite Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> DIAMOND_PAXEL = REG.item("diamond_paxel", p -> new PaxelItem(DIAMOND, p))
+            .lang("Diamond Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> EMERALD_PAXEL = REG.item("emerald_paxel", p -> new PaxelItem(DIAMOND, p))
+            .lang("Emerald Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> IRON_PAXEL = REG.item("iron_paxel", p -> new PaxelItem(IRON, p))
+            .lang("Iron Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> GOLDEN_PAXEL = REG.item("golden_paxel", p -> new PaxelItem(GOLD, p))
+            .lang("Golden Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> COPPER_PAXEL = REG.item("copper_paxel", p -> new PaxelItem(STONE, p))
+            .lang("Copper Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> STONE_PAXEL = REG.item("stone_paxel", p -> new PaxelItem(STONE, p))
+            .lang("Stone Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<PaxelItem> WOODEN_PAXEL = REG.item("wooden_paxel", p -> new PaxelItem(WOOD, p))
+            .lang("Wooden Paxel")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+
+    public static final ItemEntry<HammerItem> NETHERITE_HAMMER = REG.item("netherite_hammer", p -> new HammerItem(2, NETHERITE, p))
+            .lang("Netherite Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> DIAMOND_HAMMER = REG.item("diamond_hammer", p -> new HammerItem(2, DIAMOND, p))
+            .lang("Diamond Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> EMERALD_HAMMER = REG.item("emerald_hammer", p -> new HammerItem(1, DIAMOND, p))
+            .lang("Emerald Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> IRON_HAMMER = REG.item("iron_hammer", p -> new HammerItem(1, IRON, p))
+            .lang("Iron Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> GOLDEN_HAMMER = REG.item("golden_hammer", p -> new HammerItem(1, GOLD, p))
+            .lang("Golden Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> COPPER_HAMMER = REG.item("copper_hammer", p -> new HammerItem(1, STONE, p))
+            .lang("Copper Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> STONE_HAMMER = REG.item("stone_hammer", p -> new HammerItem(1, STONE, p))
+            .lang("Stone Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
+            .register();
+    public static final ItemEntry<HammerItem> WOODEN_HAMMER = REG.item("wooden_hammer", p -> new HammerItem(1, WOOD, p))
+            .lang("Wooden Hammer")
+            .model((c, p) -> p.handheldItem(c.get()))
             .register();
 
     public static final ItemEntry<UnstableHexaIngot> UNSTABLE_HEXA_INGOT = REG.item("unstable_hexa_ingot", UnstableHexaIngot::new)
@@ -37,10 +132,12 @@ public class AllItems {
 
     public static final ItemEntry<Item> BLANK_TABLET = REG.item("blank_tablet", Item::new)
             .lang("Blank Tablet")
+            .model(ModelHelper::forwardItem)
             .register();
 
     public static final ItemEntry<HexSigilItem> HEX_SIGIL = REG.item("hex_sigil", HexSigilItem::new)
             .lang("Hex Sigil")
+            .model(ModelHelper::forwardItem)
             .register();
 
     public static final ItemEntry<Item> WITHERED_TEAR = REG.item("withered_tear", Item::new)

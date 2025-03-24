@@ -22,6 +22,15 @@ public class AllSoundTypes {
             () -> SoundEvents.GILDED_BLACKSTONE_HIT,
             () -> SoundEvents.GILDED_BLACKSTONE_FALL
     );
+    public static final DeferredSoundType POINTED_GRIMROCK = new DeferredSoundType(
+            1.0F,
+            0.65F,
+            () -> SoundEvents.GILDED_BLACKSTONE_BREAK,
+            () -> SoundEvents.POINTED_DRIPSTONE_STEP,
+            () -> SoundEvents.GILDED_BLACKSTONE_PLACE,
+            () -> SoundEvents.POINTED_DRIPSTONE_HIT,
+            () -> SoundEvents.POINTED_DRIPSTONE_FALL
+    );
     public static final DeferredSoundType POLISHED_GRIMROCK = new DeferredSoundType(
             1.0F,
             0.75F,

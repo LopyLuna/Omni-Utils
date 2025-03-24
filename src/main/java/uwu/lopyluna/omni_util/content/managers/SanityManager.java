@@ -6,7 +6,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import uwu.lopyluna.omni_util.network.SyncSanityToClientPacket;
 
 public class SanityManager {
-    private static final String SANITY = "omni_utils_sanity";
+    public static final String SANITY = "omni_utils_sanity";
 
     public static float getSanity(ServerPlayer player) {
         if (!player.getPersistentData().contains(SANITY)) {

@@ -24,7 +24,9 @@
   "features": [
     [],
     [],
-    [],
+    [
+      "omni_util:grimrock_cluster"
+    ],
     [
       "minecraft:monster_room",
       "minecraft:monster_room_deep",
@@ -35,6 +37,8 @@
     [],
     [],
     [
+      "omni_util:large_grimrock",
+      "omni_util:pointed_grimrock",
       "omni_util:ore_coal_upper",
       "omni_util:ore_coal_lower",
       "omni_util:ore_iron_upper",

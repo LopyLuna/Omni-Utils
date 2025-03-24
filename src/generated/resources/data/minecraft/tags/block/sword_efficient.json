@@ -1,5 +1,17 @@
 {
   "values": [
+    "minecraft:ochre_froglight",
+    "minecraft:pearlescent_froglight",
+    "minecraft:verdant_froglight",
+    "minecraft:honeycomb_block",
+    "minecraft:cobweb",
+    "minecraft:bamboo",
+    "minecraft:bamboo_sapling",
+    "minecraft:cactus",
+    "minecraft:cake",
+    "#minecraft:candle_cakes",
+    "#minecraft:candles",
+    "#minecraft:wool_carpets",
     "omni_util:curse_roots",
     "omni_util:dead_roots"
   ]

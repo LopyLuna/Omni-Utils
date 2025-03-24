@@ -11,13 +11,14 @@ import uwu.lopyluna.omni_util.content.blocks.base.PowerBlockEntity;
 import uwu.lopyluna.omni_util.content.items.base.PowerItem;
 import uwu.lopyluna.omni_util.content.managers.PowerManager;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 import static uwu.lopyluna.omni_util.OmniUtils.MOD_ID;
 
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class PowerTickHandler {
-    public static final Map<UUID, PowerBlockEntity> blocks = new HashMap<>();
+    @Nullable public static final Map<UUID, PowerBlockEntity> blocks = new HashMap<>();
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
@@ -25,7 +26,7 @@ public class PowerTickHandler {
         if (!(p instanceof ServerPlayer player)) return;
         PowerManager.resetRP(player);
         ServerLevel serverLevel = player.serverLevel();
-        if (!blocks.isEmpty()) blocks.forEach((uuid, powerBlockEntity) -> { if (powerBlockEntity != null && uuid != null) powerBlockEntity.onProcessPower(player); });
+        if (blocks != null && !blocks.isEmpty()) blocks.forEach((uuid, powerBlockEntity) -> { if (powerBlockEntity != null && uuid != null) powerBlockEntity.onProcessPower(player); });
         List<ItemStack> ignoreStacks = new ArrayList<>();
 
         for (ItemStack armorStack : player.getArmorSlots()) if (!armorStack.isEmpty()) ignoreStacks.add(armorStack);

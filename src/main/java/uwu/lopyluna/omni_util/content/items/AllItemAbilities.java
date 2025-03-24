@@ -24,7 +24,7 @@ public class AllItemAbilities {
             SWORD_DIG
     );
     public static final Set<ItemAbility> DEFAULT_HAMMER_ACTIONS = of(HAMMER_DIG);
-    public static final Set<ItemAbility> DEFAULT_SCYTHE_ACTIONS = of(SCYTHE_DIG, SCYTHE_TILL);
+    public static final Set<ItemAbility> DEFAULT_SCYTHE_ACTIONS = of(SCYTHE_DIG, HOE_DIG, SCYTHE_TILL, HOE_TILL);
 
     private static Set<ItemAbility> of(ItemAbility... actions) {
         return Stream.of(actions).collect(Collectors.toCollection(Sets::newIdentityHashSet));

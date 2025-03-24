@@ -10,6 +10,8 @@ import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
 
 import java.util.function.Function;
@@ -17,10 +19,11 @@ import java.util.stream.Stream;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unused"})
 public class AllTags {
     public static final TagKey<Block> MINEABLE_WITH_PAXEL = block("mineable/paxel");
     public static final TagKey<Block> MINEABLE_WITH_SCYTHE = block("mineable/scythe");
+    public static final TagKey<Block> BULK_MINEABLE_WITH_SCYTHE = block("bulk_mineable/scythe");
     public static final TagKey<Block> MINEABLE_WITH_HAMMER = block("mineable/hammer");
 
     public static void addGenerators() {
@@ -39,9 +42,71 @@ public class AllTags {
         prov.tag(MINEABLE_WITH_HAMMER)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(BlockTags.MINEABLE_WITH_AXE);
+
         prov.tag(MINEABLE_WITH_SCYTHE)
                 .addTag(BlockTags.MINEABLE_WITH_HOE)
                 .addTag(BlockTags.SWORD_EFFICIENT);
+
+        prov.tag(BULK_MINEABLE_WITH_SCYTHE)
+                .add(Blocks.PUMPKIN)
+                .add(Blocks.CARVED_PUMPKIN)
+                .add(Blocks.JACK_O_LANTERN)
+                .add(Blocks.MELON)
+                .addTag(BlockTags.CAVE_VINES)
+                .addTag(BlockTags.CROPS)
+                .addTag(BlockTags.FLOWERS)
+                .addTag(BlockTags.LEAVES)
+                .addTag(BlockTags.SAPLINGS)
+                .addTag(BlockTags.REPLACEABLE)
+                .addTag(BlockTags.SMALL_FLOWERS)
+                .addTag(BlockTags.TALL_FLOWERS);
+
+        prov.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(Blocks.REINFORCED_DEEPSLATE)
+                .add(Blocks.TRIAL_SPAWNER)
+                .add(Blocks.VAULT)
+                .add(Blocks.BEACON)
+                .add(Blocks.GLOWSTONE)
+                .add(Blocks.REDSTONE_LAMP)
+                .add(Blocks.SEA_LANTERN)
+                .add(Blocks.LEVER)
+                .add(Blocks.FROSTED_ICE)
+                .addTag(Tags.Blocks.GLASS_BLOCKS)
+                .addTag(Tags.Blocks.GLASS_PANES)
+                .addTag(Tags.Blocks.SKULLS)
+        ;
+        prov.tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(Blocks.BAMBOO_SAPLING)
+                .addTag(BlockTags.BEDS)
+        ;
+        prov.tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(Blocks.CAKE)
+                .addTag(BlockTags.CANDLE_CAKES)
+        ;
+        prov.tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(Blocks.OCHRE_FROGLIGHT)
+                .add(Blocks.PEARLESCENT_FROGLIGHT)
+                .add(Blocks.VERDANT_FROGLIGHT)
+                .add(Blocks.HONEYCOMB_BLOCK)
+                .add(Blocks.CACTUS)
+                .add(Blocks.CAKE)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addTag(BlockTags.WOOL_CARPETS)
+        ;
+        prov.tag(BlockTags.SWORD_EFFICIENT)
+                .add(Blocks.OCHRE_FROGLIGHT)
+                .add(Blocks.PEARLESCENT_FROGLIGHT)
+                .add(Blocks.VERDANT_FROGLIGHT)
+                .add(Blocks.HONEYCOMB_BLOCK)
+                .add(Blocks.COBWEB)
+                .add(Blocks.BAMBOO)
+                .add(Blocks.BAMBOO_SAPLING)
+                .add(Blocks.CACTUS)
+                .add(Blocks.CAKE)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addTag(BlockTags.CANDLES)
+                .addTag(BlockTags.WOOL_CARPETS)
+        ;
     }
 
     public static void genItemTags(RegistrateTagsProvider<Item> provIn) {
@@ -93,7 +158,7 @@ public class AllTags {
 
         @SafeVarargs
         public final TagAppender<T> add(T... entries) {
-            Stream.<T>of(entries)
+            Stream.of(entries)
                     .map(this.keyExtractor)
                     .forEach(this::add);
             return this;

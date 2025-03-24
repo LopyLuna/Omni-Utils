@@ -9,6 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.CavePlacements;
+import net.minecraft.data.worldgen.placement.NetherPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.commands.FillBiomeCommand;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.phys.AABB;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.register.worldgen.placed_features.AllOrePlacements;
+import uwu.lopyluna.omni_util.register.worldgen.placed_features.AllPlacements;
 
 import java.util.function.Predicate;
 
@@ -57,6 +59,7 @@ public class AllBiomes {
         var access = level.registryAccess();
         FillBiomeCommand.fill(level, from, to, access.registryOrThrow(Registries.BIOME).getHolderOrThrow(biome), filter, c -> {});
     }
+
     public static Biome grimspireBiome(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
         MobSpawnSettings.Builder mobSpawnBuilder = new MobSpawnSettings.Builder();
         mobSpawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE_VILLAGER, 2, 1, 1));
@@ -67,9 +70,13 @@ public class AllBiomes {
         mobSpawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN,        5, 1, 2));
         mobSpawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.WITCH,           2, 1, 1));
         BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder(placedFeatures, worldCarvers);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.GLOW_LICHEN);
+        generationSettings
+                .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.GLOW_LICHEN)
+                .addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, NetherPlacements.BASALT_PILLAR);
+        AllPlacements.addPointedGrimrock(generationSettings);
         AllOrePlacements.addGrimOres(generationSettings);
         //BiomeDefaultFeatures.addDefaultCarversAndLakes(generationSettings);
+
         BiomeDefaultFeatures.addDefaultMonsterRoom(generationSettings);
         BiomeDefaultFeatures.addDefaultMushrooms(generationSettings);
         BiomeDefaultFeatures.addFossilDecoration(generationSettings);

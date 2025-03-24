@@ -1,4 +1,4 @@
-package uwu.lopyluna.omni_util.register.worldgen;
+package uwu.lopyluna.omni_util.register;
 
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -34,6 +34,7 @@ import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.content.blocks.AngelBlock;
 import uwu.lopyluna.omni_util.content.blocks.GlowrockBlock;
 import uwu.lopyluna.omni_util.content.blocks.GrimspiralBlock;
+import uwu.lopyluna.omni_util.content.blocks.PointedGrimrockBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseLeavesBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseRotatedPillarBlock;
@@ -45,12 +46,12 @@ import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
 import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.LootTableHelper;
-import uwu.lopyluna.omni_util.register.AllSoundTypes;
+import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "removal"})
 public class AllBlocks {
 
     public static final BlockEntry<GeneratorBlock> GENERATOR = REG.block("generator_block", GeneratorBlock::new)
@@ -108,6 +109,24 @@ public class AllBlocks {
             .item()
             .properties(p -> p.fireResistant().rarity(Rarity.EPIC))
             .build()
+            .register();
+
+    public static final BlockEntry<PointedGrimrockBlock> POINTED_GRIMROCK = REG.block("pointed_grimrock", PointedGrimrockBlock::new)
+            .lang("Pointed Grimrock")
+            .properties(p -> p.mapColor(MapColor.COLOR_GRAY)
+                    .noOcclusion()
+                    .sound(AllSoundTypes.POINTED_GRIMROCK)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(9.0F, 12.0F)
+                    .dynamicShape()
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .pushReaction(PushReaction.DESTROY)
+                    .isRedstoneConductor(AllBlocks::never))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .tag(mineablePickaxe(), needIronTools())
+            .blockstate(ModelHelper::createPointedDripstoneLike)
+            .simpleItem()
             .register();
 
     public static final BlockEntry<Block> COBBLED_GRIMROCK = REG.block("cobbled_grimrock", Block::new)
@@ -231,20 +250,20 @@ public class AllBlocks {
             .lang("Glowrock")
             .properties(p -> p.lightLevel(b -> b.getValue(GlowrockBlock.GLOWING) == 0 ? 4 : b.getValue(GlowrockBlock.GLOWING) == 1 ? 8 : 12).mapColor(MapColor.TERRACOTTA_ORANGE).sound(AllSoundTypes.GRIMROCK).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(7.5F, 12.0F))
             .blockstate((c, p) -> {
-                //MultiPartBlockStateBuilder builder = p.getMultipartBuilder(c.get());
+                //*MultiPartBlockStateBuilder builder = p.getMultipartBuilder(c.get());
 
-                //List<ModelFile> modelDimVariants = new ArrayList<>();
-                //for (int i = 1; i < 4; i++) modelDimVariants.add(p.models().cubeAll("block/glowrock_dim_" + i, OmniUtils.loc("block/glowrock_dim_" + i)));
-                //List<ModelFile> modelNormalVariants = new ArrayList<>();
-                //for (int i = 1; i < 4; i++) modelNormalVariants.add(p.models().cubeAll("block/glowrock_" + i, OmniUtils.loc("block/glowrock_" + i)));
+                //*List<ModelFile> modelDimVariants = new ArrayList<>();
+                //*for (int i = 1; i < 4; i++) modelDimVariants.add(p.models().cubeAll("block/glowrock_dim_" + i, OmniUtils.loc("block/glowrock_dim_" + i)));
+                //*List<ModelFile> modelNormalVariants = new ArrayList<>();
+                //*for (int i = 1; i < 4; i++) modelNormalVariants.add(p.models().cubeAll("block/glowrock_" + i, OmniUtils.loc("block/glowrock_" + i)));
 
                 var modelBright = p.models().cubeAll("block/glowrock_bright", OmniUtils.loc("block/glowrock_bright"));
 
-                //for (int level = 0; 3 > level; level++) {
-                //    if (level==2) builder.part().modelFile(modelBright).addModel().condition(GlowrockBlock.GLOWING, 2).end();
-                //    else if (level==1) for (var model : modelNormalVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 1).end();
-                //    else for (var model : modelDimVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 0).end();
-                //}
+                //*for (int level = 0; 3 > level; level++) {
+                //*    if (level==2) builder.part().modelFile(modelBright).addModel().condition(GlowrockBlock.GLOWING, 2).end();
+                //*    else if (level==1) for (var model : modelNormalVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 1).end();
+                //*    else for (var model : modelDimVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 0).end();
+                //*}
                 p.simpleBlock(c.get(), modelBright);
                 p.simpleBlockItem(c.get(), modelBright);
             })

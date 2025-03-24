@@ -9,14 +9,25 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockDropsEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import uwu.lopyluna.omni_util.content.commands.DebugPowerCommand;
 import uwu.lopyluna.omni_util.content.commands.DebugSanityCommand;
+import uwu.lopyluna.omni_util.content.items.base.BlockBreakingDiggerItem;
+import uwu.lopyluna.omni_util.content.items.base.BlockBreakingItem;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaNugget;
 import uwu.lopyluna.omni_util.mixin.CreeperAccessor;
@@ -38,29 +49,104 @@ public class ServerEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        var accessor = event.getLevel();
+        if (!(accessor instanceof Level level)) return;
+        Player player = event.getPlayer();
+        ItemStack stack = player.getMainHandItem();
+        BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        if (stack.getItem() instanceof BlockBreakingItem item)
+            item.onBlockBreak(stack, level, player, event.getPos(), event.getState(), rayTrace, event);
+        if (stack.getItem() instanceof BlockBreakingDiggerItem item)
+            item.onBlockBreak(stack, level, player, event.getPos(), event.getState(), rayTrace, event);
+    }
+    @SubscribeEvent
+    public static void onBlockDrops(BlockDropsEvent event) {
+        if (!(event.getBreaker() instanceof Player player)) return;
+        var level = event.getLevel();
+        BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        if (event.getTool().getItem() instanceof BlockBreakingItem item)
+            item.onBlockDrops(event.getTool(), event.getLevel(), player, event.getPos(), event.getState(), event.getBlockEntity(), event.getDrops(), rayTrace, event);
+        if (event.getTool().getItem() instanceof BlockBreakingDiggerItem item)
+            item.onBlockDrops(event.getTool(), event.getLevel(), player, event.getPos(), event.getState(), event.getBlockEntity(), event.getDrops(), rayTrace, event);
+    }
+    @SubscribeEvent
+    public static void breakingSpeed(PlayerEvent.BreakSpeed event) {
+        if (event.getPosition().isEmpty()) return;
+        Player player = event.getEntity();
+        ItemStack stack = player.getMainHandItem();
         var level = player.level();
-        var pos = player.blockPosition();
+        BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        if (stack.getItem() instanceof BlockBreakingItem item)
+            event.setNewSpeed(item.breakingSpeed(stack, level, player, event.getPosition().get(), event.getState(), rayTrace, event.getNewSpeed(), event.getOriginalSpeed(), event));
+        if (stack.getItem() instanceof BlockBreakingDiggerItem item)
+            event.setNewSpeed(item.breakingSpeed(stack, level, player, event.getPosition().get(), event.getState(), rayTrace, event.getNewSpeed(), event.getOriginalSpeed(), event));
+    }
+    @SubscribeEvent
+    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        Player player = event.getEntity();
+        var level = event.getLevel();
+        ItemStack stack = event.getItemStack();
+        var pos = event.getPos();
+        BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        if (stack.getItem() instanceof BlockBreakingItem item) switch (event.getAction()) {
+            case START -> item.onStartLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            case STOP -> item.onStoppedLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            case ABORT -> item.onAbortLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            default -> item.onLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+        }
+        if (stack.getItem() instanceof BlockBreakingDiggerItem item) switch (event.getAction()) {
+            case START -> item.onStartLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            case STOP -> item.onStoppedLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            case ABORT -> item.onAbortLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+            default -> item.onLeftClickBlock(stack, level, player, pos, level.getBlockState(pos), event.getHand(), event.getFace(), rayTrace, event);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        var player = event.getEntity();
+        var level = player.level();
+
+        //*var handStack = player.getMainHandItem();
+        //*if (handStack.getItem() instanceof HammerItem item) {
+        //*    BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        //*    var center = rayTrace.getBlockPos();
+        //*    var centerState = level.getBlockState(center);
+        //*    if (centerState.isAir() || centerState.getDestroySpeed(level, center) <= -1) return;
+        //*    int radius = item.size;
+        //*    Direction face = rayTrace.getDirection();
+        //*    for (BlockPos pos : item.getAoEBox(center, face, radius)) {
+        //*        if (pos.equals(center)) continue;
+        //*        BlockState blockstate = level.getBlockState(pos);
+        //*        if (blockstate.isAir() || blockstate.getDestroySpeed(level, pos) <= -1)
+        //*            level.destroyBlockProgress(player.getId() + pos.hashCode(), pos, -1);
+        //*        else item.destroyProgress(blockstate, pos, center, level, player);
+        //*    }
+        //*}
 
         if (level.isClientSide) return;
+        if (!(player instanceof ServerPlayer pPlayer)) return;
+        var pos = pPlayer.blockPosition();
 
-        if (player.isInvulnerable()) return;
+        if (player.isCreative() || player.isSpectator()) return;
         if (level.getBiome(pos).is(AllBiomes.GRIMSPIRE_BIOME)) {
+            if (level.random.nextBoolean() && level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.clearFire();
+            if (pPlayer.hasEffect(MobEffects.NIGHT_VISION)) pPlayer.removeEffect(MobEffects.NIGHT_VISION);
             int light = level.getMaxLocalRawBrightness(pos);
-            if (light < 7) adjustSanity(player, -((7 - light) * 0.05f));
-            else if (light > 7) adjustSanity(player, ((light - 7) * 0.03f));
-        } else adjustSanity(player, 0.4f);
+            if (light < 7) adjustSanity(pPlayer, -((7 - light) * 0.05f));
+            else if (light > 7) adjustSanity(pPlayer, ((light - 7) * 0.03f));
+        } else adjustSanity(pPlayer, 0.4f);
 
-        if (getSanity(player) <= 0) {
-            if (!player.isDeadOrDying()) player.kill();
-        } else if (getSanity(player) < 5) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
-            if (level.random.nextBoolean() && level.random.nextBoolean()) player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
-        } else if (getSanity(player) < 10) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
-        } else if (getSanity(player) < 25) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
+        if (getSanity(pPlayer) <= 0) {
+            if (!pPlayer.isDeadOrDying()) pPlayer.kill();
+        } else if (getSanity(pPlayer) < 5) {
+            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
+            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
+        } else if (getSanity(pPlayer) < 10) {
+            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
+        } else if (getSanity(pPlayer) < 25) {
+            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
         }
     }
 

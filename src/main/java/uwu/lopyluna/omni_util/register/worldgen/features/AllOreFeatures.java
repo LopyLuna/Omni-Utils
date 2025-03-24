@@ -9,7 +9,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import uwu.lopyluna.omni_util.OmniUtils;
-import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
+import uwu.lopyluna.omni_util.register.AllBlocks;
 
 public class AllOreFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_GILDED = createKey("ore_gilded");

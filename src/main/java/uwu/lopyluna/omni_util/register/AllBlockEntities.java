@@ -3,7 +3,6 @@ package uwu.lopyluna.omni_util.register;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBE;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBE;
-import uwu.lopyluna.omni_util.register.worldgen.AllBlocks;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 

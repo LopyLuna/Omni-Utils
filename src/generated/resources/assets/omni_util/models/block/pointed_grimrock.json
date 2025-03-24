@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pointed_dripstone",
+  "textures": {
+    "cross": "omni_util:block/pointed_grimrock"
+  }
+}
