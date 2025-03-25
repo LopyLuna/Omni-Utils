@@ -1,8 +1,8 @@
-// 1.21.1	2025-03-23T21:54:48.9870962	Registries
+// 1.21.1	2025-03-24T16:51:40.3896939	Registries
 ab90fc5bc6805e08fd136024ed9b9e0a1321efc6 data/omni_util/dimension_type/the_grimspire.json
 33439ee478f5c89569d660b49ef78ea05cd617e1 data/omni_util/worldgen/biome/cursed_biome.json
 a5a4f94df2736f15f1ea7f65aa8875f5a605b766 data/omni_util/worldgen/biome/dead_biome.json
-1e6774352f8f48a9b3118dadf0b719d7075c7450 data/omni_util/worldgen/biome/grimspire_biome.json
+e1b8a1af36dc376b1de14be7b369cb75bab3d55d data/omni_util/worldgen/biome/grimspire_biome.json
 17da3906d1ad6c14be43adff1f83b8eb14437499 data/omni_util/worldgen/configured_feature/grimrock_cluster.json
 f5b7a83ba46f3e7ab4f7c1644690605133360a97 data/omni_util/worldgen/configured_feature/large_grimrock.json
 294eb2cb7456711deb5014a8363895903de7ffe5 data/omni_util/worldgen/configured_feature/ore_amethyst.json

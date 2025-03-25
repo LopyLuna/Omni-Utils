@@ -4,8 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -45,12 +47,15 @@ public class HammerItem extends BlockBreakingDiggerItem {
 
     @Override
     public void onBlockBreak(ItemStack pStack, Level pLevel, Player pBreaker, BlockPos pPos, BlockState pState, BlockHitResult pRayTrace, BlockEvent.BreakEvent pEvent) {
+        if (pBreaker.isShiftKeyDown()) return;
         int radius = size;
         Direction face = pRayTrace.getDirection();
         for (BlockPos pos : getAoEBox(pPos, face, radius)) {
             if (pos.equals(pPos)) continue;
             BlockState state = pLevel.getBlockState(pos);
-            if (state.isAir() || state.getDestroySpeed(pLevel, pos) <= -1) continue;
+            float hardness = state.getDestroySpeed(pLevel, pos);
+            if (state.isAir() || hardness <= -1) continue;
+            if (hardness > pState.getDestroySpeed(pLevel, pPos) + 2) continue;
             BlockEntity blockentity = pLevel.getBlockEntity(pos);
             Block block = state.getBlock();
             if (block instanceof GameMasterBlock && !pBreaker.canUseGameMasterBlocks()) {
@@ -63,15 +68,14 @@ public class HammerItem extends BlockBreakingDiggerItem {
 
 
             //*pLevel.levelEvent(pBreaker, 2001, pos, Block.getId(state));
-            //*if (state.is(BlockTags.GUARDED_BY_PIGLINS)) PiglinAi.angerNearbyPiglins(pBreaker, false);
             //*pLevel.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(pBreaker, state));
-
-            if (pBreaker.isCreative()) removeBlock(pLevel, pos, state, pBreaker, false, pStack);
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS)) PiglinAi.angerNearbyPiglins(pBreaker, false);
+            if (pBreaker.isCreative()) pLevel.destroyBlock(pos, false, pBreaker);
             else {
                 ItemStack itemstack1 = pStack.copy();
                 boolean flag1 = state.canHarvestBlock(pLevel, pos, pBreaker);
                 pStack.mineBlock(pLevel, state, pos, pBreaker);
-                boolean flag = removeBlock(pLevel, pos, state, pBreaker, flag1, pStack);
+                boolean flag = pLevel.destroyBlock(pos, false, pBreaker);
 
                 if (flag1 && flag) block.playerDestroy(pLevel, pBreaker, pos, state, blockentity, itemstack1);
                 if (pStack.isEmpty() && !itemstack1.isEmpty())
@@ -81,12 +85,9 @@ public class HammerItem extends BlockBreakingDiggerItem {
         }
     }
 
-    private boolean removeBlock(Level level, BlockPos pos, BlockState state, Player player, boolean canHarvest, ItemStack stack) {
-        return level.destroyBlock(pos, false, player);
-    }
-
     @Override
     public float breakingSpeed(ItemStack pStack, Level pLevel, Player pBreaker, BlockPos pPos, BlockState pState, BlockHitResult pRayTrace, float pNewSpeed, float pOriginalSpeed, PlayerEvent.BreakSpeed pEvent) {
+        if (pBreaker.isShiftKeyDown()) return pNewSpeed;
         int radius = size;
         Direction face = pRayTrace.getDirection();
         List<BlockPos> positions = getAoEBox(pPos, face, radius);
@@ -94,9 +95,10 @@ public class HammerItem extends BlockBreakingDiggerItem {
         int validBlocks = 0;
 
         for (BlockPos pos : positions) {
-            BlockState state = pLevel.getBlockState(pos);
             if (pos == pPos) continue;
-            if (state.isAir() || state.getDestroySpeed(pLevel, pos) <= -1) continue;
+            BlockState state = pLevel.getBlockState(pos);
+            float hardness = state.getDestroySpeed(pLevel, pos);
+            if (state.isAir() || hardness <= -1) continue;
 
             Block block = state.getBlock();
             if (block instanceof GameMasterBlock && !pBreaker.canUseGameMasterBlocks()) continue;
@@ -104,8 +106,7 @@ public class HammerItem extends BlockBreakingDiggerItem {
             if (type != null && pBreaker.blockActionRestricted(pLevel, pos, type)) continue;
             if (!state.canHarvestBlock(pLevel, pos, pBreaker)) continue;
 
-            float hardness = state.getDestroySpeed(pLevel, pos);
-            if (hardness > (pState.getDestroySpeed(pLevel, pPos) + 5f)) continue;
+            if (hardness > pState.getDestroySpeed(pLevel, pPos) + 2) continue;
 
             if (hardness >= 0) {
                 totalHardness += hardness;

@@ -44,15 +44,20 @@ public class ScytheItem extends BlockBreakingDiggerItem {
 
     @Override
     public void onBlockBreak(ItemStack pStack, Level pLevel, Player pBreaker, BlockPos pPos, BlockState pState, BlockHitResult pRayTrace, BlockEvent.BreakEvent pEvent) {
+        if (pBreaker.isShiftKeyDown()) return;
+        //if (pState.getBlock() instanceof CropBlock) harvestConnectedCrops(pLevel, pBreaker, pPos, amount * 2, pStack, true);
         if (pState.is(AllTags.BULK_MINEABLE_WITH_SCYTHE)) breakConnectedBlocks(pLevel, pBreaker, pPos, amount, pStack);
-        else if (pState.getBlock() instanceof CropBlock) harvestConnectedCrops(pLevel, pBreaker, pPos, amount, pStack);
 
     }
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        BlockPos clickedPos = context.getClickedPos();
+        var level = context.getLevel();
+        var clickedPos = context.getClickedPos();
+        var player = context.getPlayer();
+        if (player != null && level.getBlockState(clickedPos).getBlock() instanceof CropBlock)
+            return harvestConnectedCrops(level, player, clickedPos, amount * 2, context.getItemInHand(), false) ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;
+
         var success = false;
         if (!level.getBlockState(clickedPos).is(Blocks.FARMLAND)) for (BlockPos blockpos : BlockPos.betweenClosed(clickedPos.offset(-size, -1, -size), clickedPos.offset(size, 0, size))) {
             var newContext = new UseOnContext(context.getLevel(), context.getPlayer(), context.getHand(), context.getItemInHand(),
@@ -63,7 +68,6 @@ public class ScytheItem extends BlockBreakingDiggerItem {
             Predicate<UseOnContext> predicate = pair.getFirst();
             Consumer<UseOnContext> consumer = pair.getSecond();
             if (predicate.test(newContext)) {
-                Player player = newContext.getPlayer();
                 if (!success) level.playSound(player, clickedPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!level.isClientSide) {
                     consumer.accept(newContext);
@@ -118,7 +122,8 @@ public class ScytheItem extends BlockBreakingDiggerItem {
         }
     }
 
-    private void harvestConnectedCrops(Level level, Player player, BlockPos origin, int maxCount, ItemStack tool) {
+    @SuppressWarnings("SameParameterValue")
+    private boolean harvestConnectedCrops(Level level, Player player, BlockPos origin, int maxCount, ItemStack tool, boolean center) {
         Set<BlockPos> visited = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
         queue.add(origin);
@@ -141,26 +146,28 @@ public class ScytheItem extends BlockBreakingDiggerItem {
         List<BlockPos> list = new ArrayList<>(visited);
         Collections.shuffle(list);
 
+        var success = false;
         for (int i = 0; i < Math.min(maxCount, list.size()); i++) {
             BlockPos pos = list.get(i);
-            if (pos.equals(origin)) continue;
             BlockState state = level.getBlockState(pos);
             CropBlock crop = (CropBlock) state.getBlock();
 
             //breakBlock(tool, level, player, pos, state);
             final boolean[] gatheredSeed = {false};
-            if (level instanceof ServerLevel serverLevel) Block.getDrops(state, serverLevel, pos, null, player, tool)
+            if (!center && level instanceof ServerLevel serverLevel) Block.getDrops(state, serverLevel, pos, null, player, tool)
                     .forEach(drop -> {
                         if (drop.is(Tags.Items.SEEDS) && !gatheredSeed[0]) {
                             gatheredSeed[0] = true;
-                            return;
+                            drop.shrink(1);
                         }
                         Block.popResource(level, pos, drop);
                     });
 
-            if (gatheredSeed[0]) level.setBlock(pos, crop.getStateForAge(0), 3);
+            if (gatheredSeed[0] || center) level.setBlock(pos, crop.getStateForAge(0), 3);
             else level.destroyBlock(pos, false, player);
+            success = true;
         }
+        return success;
     }
 
     public static void breakBlock(ItemStack pStack, Level pLevel, Player pBreaker, BlockPos pPos, BlockState pState) {
@@ -185,5 +192,10 @@ public class ScytheItem extends BlockBreakingDiggerItem {
             if (pStack.isEmpty() && !itemstack1.isEmpty())
                 net.neoforged.neoforge.event.EventHooks.onPlayerDestroyItem(pBreaker, itemstack1, InteractionHand.MAIN_HAND);
         }
+    }
+
+    @Override
+    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        super.postHurtEnemy(stack, target, attacker);
     }
 }

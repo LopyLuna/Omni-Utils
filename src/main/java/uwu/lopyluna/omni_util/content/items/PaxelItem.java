@@ -36,6 +36,8 @@ public class PaxelItem extends DiggerItem {
         super(tier, AllTags.MINEABLE_WITH_PAXEL, properties);
     }
 
+
+
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         var axe = axeUseOn(context);

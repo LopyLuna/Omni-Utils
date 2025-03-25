@@ -1,0 +1,12 @@
+{
+  "values": [
+    "omni_util:netherite_hammer",
+    "omni_util:diamond_hammer",
+    "omni_util:emerald_hammer",
+    "omni_util:iron_hammer",
+    "omni_util:golden_hammer",
+    "omni_util:copper_hammer",
+    "omni_util:stone_hammer",
+    "omni_util:wooden_hammer"
+  ]
+}

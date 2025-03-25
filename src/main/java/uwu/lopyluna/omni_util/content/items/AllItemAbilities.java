@@ -21,10 +21,10 @@ public class AllItemAbilities {
             HOE_DIG, HOE_TILL,
             SHOVEL_DIG, SHOVEL_FLATTEN, SHOVEL_DOUSE,
             PICKAXE_DIG,
-            SWORD_DIG
+            SWORD_DIG, SWORD_SWEEP
     );
     public static final Set<ItemAbility> DEFAULT_HAMMER_ACTIONS = of(HAMMER_DIG);
-    public static final Set<ItemAbility> DEFAULT_SCYTHE_ACTIONS = of(SCYTHE_DIG, HOE_DIG, SCYTHE_TILL, HOE_TILL);
+    public static final Set<ItemAbility> DEFAULT_SCYTHE_ACTIONS = of(SCYTHE_DIG, HOE_DIG, SCYTHE_TILL, HOE_TILL, SWORD_DIG, SWORD_SWEEP);
 
     private static Set<ItemAbility> of(ItemAbility... actions) {
         return Stream.of(actions).collect(Collectors.toCollection(Sets::newIdentityHashSet));

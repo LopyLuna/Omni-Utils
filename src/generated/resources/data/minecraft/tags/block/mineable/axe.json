@@ -2,6 +2,7 @@
   "values": [
     "minecraft:bamboo_sapling",
     "#minecraft:beds",
+    "omni_util:hexa_tnt",
     "omni_util:curse_log",
     "omni_util:dead_log"
   ]

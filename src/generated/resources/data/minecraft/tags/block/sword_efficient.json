@@ -12,6 +12,7 @@
     "#minecraft:candle_cakes",
     "#minecraft:candles",
     "#minecraft:wool_carpets",
+    "omni_util:hexa_tnt",
     "omni_util:curse_roots",
     "omni_util:dead_roots"
   ]

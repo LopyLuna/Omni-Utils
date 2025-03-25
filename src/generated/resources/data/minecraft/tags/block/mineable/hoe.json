@@ -8,6 +8,7 @@
     "minecraft:cake",
     "#minecraft:candle_cakes",
     "#minecraft:wool_carpets",
+    "omni_util:hexa_tnt",
     "omni_util:curse_leaves",
     "omni_util:dead_leaves"
   ]

@@ -1,0 +1,12 @@
+{
+  "values": [
+    "omni_util:netherite_paxel",
+    "omni_util:diamond_paxel",
+    "omni_util:emerald_paxel",
+    "omni_util:iron_paxel",
+    "omni_util:golden_paxel",
+    "omni_util:copper_paxel",
+    "omni_util:stone_paxel",
+    "omni_util:wooden_paxel"
+  ]
+}

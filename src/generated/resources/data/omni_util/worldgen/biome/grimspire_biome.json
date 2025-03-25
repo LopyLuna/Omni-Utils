@@ -25,6 +25,7 @@
     [],
     [],
     [
+      "minecraft:basalt_pillar",
       "omni_util:grimrock_cluster"
     ],
     [
@@ -87,25 +88,49 @@
         "type": "minecraft:spider",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 50
+        "weight": 25
+      },
+      {
+        "type": "minecraft:cave_spider",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 25
       },
       {
         "type": "minecraft:zombie",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 47
+        "weight": 24
+      },
+      {
+        "type": "minecraft:husk",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 24
       },
       {
         "type": "minecraft:skeleton",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 50
+        "weight": 25
+      },
+      {
+        "type": "minecraft:bogged",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 25
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 50
+        "weight": 25
+      },
+      {
+        "type": "minecraft:phantom",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 25
       },
       {
         "type": "minecraft:enderman",

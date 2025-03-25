@@ -1,8 +1,10 @@
 package uwu.lopyluna.omni_util.register;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.content.items.*;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
@@ -16,101 +18,165 @@ import static uwu.lopyluna.omni_util.OmniUtils.REG;
 public class AllItems {
 
     public static final ItemEntry<ScytheItem> NETHERITE_SCYTHE = REG.item("netherite_scythe", p -> new ScytheItem(3, 24, NETHERITE, p))
+            .properties(p -> p.fireResistant().attributes(ScytheItem.createAttributes(NETHERITE, 1.0F, -1.5F)))
             .lang("Netherite Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> DIAMOND_SCYTHE = REG.item("diamond_scythe", p -> new ScytheItem(3, 24, DIAMOND, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(DIAMOND, 1.0F, -1.5F)))
             .lang("Diamond Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> EMERALD_SCYTHE = REG.item("emerald_scythe", p -> new ScytheItem(2, 16, DIAMOND, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(DIAMOND, 1.0F, -1.5F)))
             .lang("Emerald Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> IRON_SCYTHE = REG.item("iron_scythe", p -> new ScytheItem(2, 16, IRON, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(IRON, 1.5F, -1.5F)))
             .lang("Iron Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> GOLDEN_SCYTHE = REG.item("golden_scythe", p -> new ScytheItem(1, 12, GOLD, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(GOLD, 1.5F, -1.5F)))
             .lang("Golden Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> COPPER_SCYTHE = REG.item("copper_scythe", p -> new ScytheItem(2, 12, STONE, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(STONE, 1.5F, -1.5F)))
             .lang("Copper Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> STONE_SCYTHE = REG.item("stone_scythe", p -> new ScytheItem(1, 8, STONE, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(STONE, 2.0F, -1.5F)))
             .lang("Stone Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<ScytheItem> WOODEN_SCYTHE = REG.item("wooden_scythe", p -> new ScytheItem(1, 8, WOOD, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(WOOD, 1.5F, -1.5F)))
             .lang("Wooden Scythe")
+            .tag(ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
 
     public static final ItemEntry<PaxelItem> NETHERITE_PAXEL = REG.item("netherite_paxel", p -> new PaxelItem(NETHERITE, p))
+            .properties(p -> p.fireResistant().attributes(PaxelItem.createAttributes(NETHERITE, 2.6f, -2.6f)))
             .lang("Netherite Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> DIAMOND_PAXEL = REG.item("diamond_paxel", p -> new PaxelItem(DIAMOND, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(DIAMOND, 2.6f, -2.6f)))
             .lang("Diamond Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> EMERALD_PAXEL = REG.item("emerald_paxel", p -> new PaxelItem(DIAMOND, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(DIAMOND, 2.6f, -2.6f)))
             .lang("Emerald Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> IRON_PAXEL = REG.item("iron_paxel", p -> new PaxelItem(IRON, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(IRON, 2.9f, -2.6f)))
             .lang("Iron Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> GOLDEN_PAXEL = REG.item("golden_paxel", p -> new PaxelItem(GOLD, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(GOLD, 2.9f, -2.6f)))
             .lang("Golden Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> COPPER_PAXEL = REG.item("copper_paxel", p -> new PaxelItem(STONE, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(STONE, 2.9f, -2.6f)))
             .lang("Copper Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> STONE_PAXEL = REG.item("stone_paxel", p -> new PaxelItem(STONE, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(STONE, 3.1f, -2.6f)))
             .lang("Stone Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<PaxelItem> WOODEN_PAXEL = REG.item("wooden_paxel", p -> new PaxelItem(WOOD, p))
+            .properties(p -> p.attributes(PaxelItem.createAttributes(WOOD, 2.9f, -2.6f)))
             .lang("Wooden Paxel")
+            .tag(ItemTags.AXES, ItemTags.SHOVELS, ItemTags.PICKAXES, ItemTags.HOES, ItemTags.SWORDS)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
 
     public static final ItemEntry<HammerItem> NETHERITE_HAMMER = REG.item("netherite_hammer", p -> new HammerItem(2, NETHERITE, p))
+            .properties(p -> p.fireResistant().attributes(ScytheItem.createAttributes(NETHERITE, 6.0F, -3.5F)))
             .lang("Netherite Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> DIAMOND_HAMMER = REG.item("diamond_hammer", p -> new HammerItem(2, DIAMOND, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(DIAMOND, 6.0F, -3.5F)))
             .lang("Diamond Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> EMERALD_HAMMER = REG.item("emerald_hammer", p -> new HammerItem(1, DIAMOND, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(DIAMOND, 6.0F, -3.5F)))
             .lang("Emerald Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> IRON_HAMMER = REG.item("iron_hammer", p -> new HammerItem(1, IRON, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(IRON, 7.0F, -3.5F)))
             .lang("Iron Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> GOLDEN_HAMMER = REG.item("golden_hammer", p -> new HammerItem(1, GOLD, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(GOLD, 7.0F, -3.5F)))
             .lang("Golden Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> COPPER_HAMMER = REG.item("copper_hammer", p -> new HammerItem(1, STONE, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(STONE, 7.0F, -3.5F)))
             .lang("Copper Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> STONE_HAMMER = REG.item("stone_hammer", p -> new HammerItem(1, STONE, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(STONE, 8.0F, -3.5F)))
             .lang("Stone Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
     public static final ItemEntry<HammerItem> WOODEN_HAMMER = REG.item("wooden_hammer", p -> new HammerItem(1, WOOD, p))
+            .properties(p -> p.attributes(ScytheItem.createAttributes(WOOD, 7.0F, -3.5F)))
             .lang("Wooden Hammer")
+            .tag(ItemTags.MINING_ENCHANTABLE, ItemTags.MINING_LOOT_ENCHANTABLE, ItemTags.FIRE_ASPECT_ENCHANTABLE,
+                    ItemTags.DURABILITY_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.BREAKS_DECORATED_POTS,
+                    Tags.Items.MINING_TOOL_TOOLS, Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.ENCHANTABLES)
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
 

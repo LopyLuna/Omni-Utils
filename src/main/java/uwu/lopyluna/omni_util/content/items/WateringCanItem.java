@@ -73,7 +73,7 @@ public class WateringCanItem extends Item {
             var state = level.getBlockState(pos);
             if (!(state.getBlock() instanceof FarmBlock)) continue;
             int i = state.getValue(FarmBlock.MOISTURE);
-            if (i < 7) level.setBlock(pos, state.setValue(FarmBlock.MOISTURE, i + 1), 2);
+            if (i < 7) level.setBlock(pos, state.setValue(FarmBlock.MOISTURE, i + 1), 3);
         }
         for (BlockPos pos : BlockPos.betweenClosed(clickedPos.offset(-2, 0, -2), clickedPos.offset(2, 0, 2))) {
             if (random.nextInt(60) != 0) continue;

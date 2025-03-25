@@ -31,10 +31,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
-import uwu.lopyluna.omni_util.content.blocks.AngelBlock;
-import uwu.lopyluna.omni_util.content.blocks.GlowrockBlock;
-import uwu.lopyluna.omni_util.content.blocks.GrimspiralBlock;
-import uwu.lopyluna.omni_util.content.blocks.PointedGrimrockBlock;
+import uwu.lopyluna.omni_util.content.blocks.*;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseLeavesBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseRotatedPillarBlock;
@@ -65,6 +62,35 @@ public class AllBlocks {
             .lang("Consumor")
             .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needStoneTools())
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<UnstableHexaTnt> UNSTABLE_HEXA_TNT = REG.block("hexa_tnt", UnstableHexaTnt::new)
+            .lang("Unstable Hexa TNT")
+            .properties(p -> p.strength(8.0F, 8.0F))
+            .tag(mineablePickaxe(), mineableHoe(), mineableAxe(), mineableShovel(), mineableSword(), needIronTools())
+            .blockstate((c, p) -> {
+                var model = p.models().cubeBottomTop(c.getName(),
+                        OmniUtils.loc("block/hexa_tnt_side"),
+                        OmniUtils.loc("block/hexa_tnt_bottom"),
+                        OmniUtils.loc("block/hexa_tnt_top"));
+                p.simpleBlock(c.get(), model);
+                p.simpleBlockItem(c.get(), model);
+            })
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> UNSTABLE_HEXA_BLOCK = REG.block("unstable_hexa_block", Block::new)
+            .lang("Block of Unstable Hexa")
+            .properties(p -> p.strength(10.0F, 12.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needIronTools())
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> HEXA_BLOCK = REG.block("hexa_block", Block::new)
+            .lang("Block of Hexa")
+            .properties(p -> p.strength(10.0F, 12.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needIronTools())
             .simpleItem()
             .register();
 
