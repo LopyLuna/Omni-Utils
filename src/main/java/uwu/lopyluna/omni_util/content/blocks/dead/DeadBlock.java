@@ -28,8 +28,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.blocks.curse.Cursed;
-import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -71,6 +71,7 @@ public class DeadBlock extends Block implements Dead, Cursed {
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource r) {
         super.randomTick(state, level, pos, r);
+        if (!level.isAreaLoaded(pos, 1)) return;
         spreadCurse(level, pos, r, state);
         if (type==1 && level.getBlockState(pos.above()).isSolidRender(level, pos.above())) level.setBlockAndUpdate(pos, AllBlocks.DEAD_COARSE.get().defaultBlockState());
     }

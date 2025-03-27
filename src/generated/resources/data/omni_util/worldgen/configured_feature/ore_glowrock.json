@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "discard_chance_on_air_exposure": 0.25,
+    "size": 24,
+    "targets": [
+      {
+        "state": {
+          "Name": "omni_util:glowrock",
+          "Properties": {
+            "glowing": "0"
+          }
+        },
+        "target": {
+          "block": "omni_util:grimrock",
+          "predicate_type": "minecraft:block_match"
+        }
+      }
+    ]
+  }
+}

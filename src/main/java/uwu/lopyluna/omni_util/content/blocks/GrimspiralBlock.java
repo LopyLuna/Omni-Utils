@@ -9,7 +9,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.lopyluna.omni_util.register.worldgen.AllDimensions;
 
@@ -34,15 +38,18 @@ public class GrimspiralBlock extends Block implements Portal {
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        if (entity.canUsePortal(false)) {
-            entity.setAsInsidePortal(this, pos);
-        }
+        if (entity.canUsePortal(false)) entity.setAsInsidePortal(this, pos);
     }
 
     @Override
     public int getPortalTransitionTime(ServerLevel level, Entity entity) {
         return entity instanceof Player player ? Math.max(1, level.getGameRules().getInt(player.getAbilities().invulnerable
                         ? GameRules.RULE_PLAYERS_NETHER_PORTAL_CREATIVE_DELAY : GameRules.RULE_PLAYERS_NETHER_PORTAL_DEFAULT_DELAY)) : 0;
+    }
+
+    @Override
+    public @NotNull Transition getLocalTransition() {
+        return Transition.CONFUSION;
     }
 
     @Nullable
@@ -56,8 +63,11 @@ public class GrimspiralBlock extends Block implements Portal {
             double d0 = DimensionType.getTeleportationScale(level.dimensionType(), serverlevel.dimensionType());
             BlockPos pos = worldborder.clampToBounds(blockpos.getX() * d0, 256, blockpos.getZ() * d0);
 
-            if (flag) for (var offset : BlockPos.betweenClosed(pos.offset(2, 3, 2), pos.offset(-2, 0, -2))) serverlevel.setBlock(offset, Blocks.AIR.defaultBlockState(), 3);
-            if (flag) for (var direction : Direction.values()) if (!direction.getAxis().isVertical()) serverlevel.setBlock(pos.relative(direction), Blocks.TORCH.defaultBlockState(), 18);
+            if (flag) {
+                for (var offset : BlockPos.betweenClosed(pos.offset(2, 3, 2), pos.offset(-2, 0, -2))) serverlevel.setBlock(offset, Blocks.AIR.defaultBlockState(), 3);
+                for (var direction : Direction.values()) if (!direction.getAxis().isVertical()) serverlevel.setBlock(pos.relative(direction), Blocks.TORCH.defaultBlockState(), 18);
+            }
+            if (entity instanceof LivingEntity livingEntity) livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0, true, false, false));
 
             serverlevel.setBlock(pos, this.defaultBlockState(), 18);
             Vec3 vec3 = pos.above().getBottomCenter();

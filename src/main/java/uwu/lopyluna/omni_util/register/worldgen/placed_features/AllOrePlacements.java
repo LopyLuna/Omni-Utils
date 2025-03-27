@@ -37,6 +37,7 @@ public class AllOrePlacements {
     public static final ResourceKey<PlacedFeature> ORE_ANCIENT_LARGE = createKey("ore_ancient_large");
     public static final ResourceKey<PlacedFeature> ORE_ANCIENT_SMALL = createKey("ore_ancient_small");
     public static final ResourceKey<PlacedFeature> ORE_COPPER = createKey("ore_copper");
+    public static final ResourceKey<PlacedFeature> ORE_GLOWROCK = createKey("ore_glowrock");
 
     public static void addGrimOres(BiomeGenerationSettings.Builder builder) {
         builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, AllOrePlacements.ORE_COAL_UPPER);
@@ -61,6 +62,7 @@ public class AllOrePlacements {
         builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, AllOrePlacements.ORE_QUARTZ);
         builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, AllOrePlacements.ORE_ANCIENT_LARGE);
         builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, AllOrePlacements.ORE_ANCIENT_SMALL);
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, AllOrePlacements.ORE_GLOWROCK);
     }
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
@@ -85,6 +87,7 @@ public class AllOrePlacements {
         var oreAncientLarge = holdergetter.getOrThrow(AllOreFeatures.ORE_ANCIENT_LARGE);
         var oreAncientSmall = holdergetter.getOrThrow(AllOreFeatures.ORE_ANCIENT_SMALL);
         var oreCopper = holdergetter.getOrThrow(AllOreFeatures.ORE_COPPER_SMALL);
+        var oreGlowrock = holdergetter.getOrThrow(AllOreFeatures.ORE_GLOWROCK);
         PlacementUtils.register(context, ORE_GILDED, oreGilded, commonOrePlacement(8, PlacementUtils.RANGE_10_10));
         PlacementUtils.register(context, ORE_QUARTZ, oreQuartz, commonOrePlacement(12, PlacementUtils.RANGE_10_10));
         PlacementUtils.register(context, ORE_COAL_UPPER, oreCoalUpper, commonOrePlacement(20, HeightRangePlacement.uniform(VerticalAnchor.absolute(136), VerticalAnchor.top())));
@@ -107,6 +110,7 @@ public class AllOrePlacements {
         PlacementUtils.register(context, ORE_ANCIENT_LARGE, oreAncientLarge, InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(8), VerticalAnchor.absolute(24)), BiomeFilter.biome());
         PlacementUtils.register(context, ORE_ANCIENT_SMALL, oreAncientSmall, InSquarePlacement.spread(), PlacementUtils.RANGE_8_8, BiomeFilter.biome());
         PlacementUtils.register(context, ORE_COPPER, oreCopper, commonOrePlacement(14, HeightRangePlacement.triangle(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(256))));
+        PlacementUtils.register(context, ORE_GLOWROCK, oreGlowrock, commonOrePlacement(12, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(384))));
     }
 
     private static List<PlacementModifier> orePlacement(PlacementModifier countPlacement, PlacementModifier heightRange) {

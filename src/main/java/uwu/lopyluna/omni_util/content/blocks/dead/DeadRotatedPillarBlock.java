@@ -19,8 +19,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import uwu.lopyluna.omni_util.content.blocks.curse.Cursed;
-import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -55,6 +55,7 @@ public class DeadRotatedPillarBlock extends RotatedPillarBlock implements Dead, 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource r) {
         super.randomTick(state, level, pos, r);
+        if (!level.isAreaLoaded(pos, 1)) return;
         spreadCurse(level, pos, r, state);
     }
 

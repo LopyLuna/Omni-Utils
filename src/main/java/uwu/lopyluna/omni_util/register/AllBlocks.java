@@ -1,10 +1,7 @@
 package uwu.lopyluna.omni_util.register;
 
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -40,12 +37,15 @@ import uwu.lopyluna.omni_util.content.blocks.dead.DeadLeavesBlock;
 import uwu.lopyluna.omni_util.content.blocks.dead.DeadRotatedPillarBlock;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBlock;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
+import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
+import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
 import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.LootTableHelper;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
+import static uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper.modelSpike;
 import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 
 @SuppressWarnings({"unused", "removal"})
@@ -65,6 +65,22 @@ public class AllBlocks {
             .simpleItem()
             .register();
 
+    public static final BlockEntry<SolarPanelBlock> SOLAR_PANEL = REG.block("solar_panel", SolarPanelBlock::new)
+            .lang("Solar Panel")
+            .properties(p -> p.strength(0.5F, 2.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needWoodTools())
+            .blockstate(ModelHelper::getExistingModel)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<LunarPanelBlock> LUNAR_PANEL = REG.block("lunar_panel", LunarPanelBlock::new)
+            .lang("Lunar Panel")
+            .properties(p -> p.strength(0.5F, 2.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needWoodTools())
+            .blockstate(ModelHelper::getExistingModel)
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<UnstableHexaTnt> UNSTABLE_HEXA_TNT = REG.block("hexa_tnt", UnstableHexaTnt::new)
             .lang("Unstable Hexa TNT")
             .properties(p -> p.strength(8.0F, 8.0F))
@@ -80,7 +96,7 @@ public class AllBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> UNSTABLE_HEXA_BLOCK = REG.block("unstable_hexa_block", Block::new)
+    public static final BlockEntry<UnstableHexaBlock> UNSTABLE_HEXA_BLOCK = REG.block("unstable_hexa_block", UnstableHexaBlock::new)
             .lang("Block of Unstable Hexa")
             .properties(p -> p.strength(10.0F, 12.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needIronTools())
@@ -274,26 +290,19 @@ public class AllBlocks {
 
     public static final BlockEntry<GlowrockBlock> GLOWROCK = REG.block("glowrock", GlowrockBlock::new)
             .lang("Glowrock")
-            .properties(p -> p.lightLevel(b -> b.getValue(GlowrockBlock.GLOWING) == 0 ? 4 : b.getValue(GlowrockBlock.GLOWING) == 1 ? 8 : 12).mapColor(MapColor.TERRACOTTA_ORANGE).sound(AllSoundTypes.GRIMROCK).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(7.5F, 12.0F))
-            .blockstate((c, p) -> {
-                //*MultiPartBlockStateBuilder builder = p.getMultipartBuilder(c.get());
-
-                //*List<ModelFile> modelDimVariants = new ArrayList<>();
-                //*for (int i = 1; i < 4; i++) modelDimVariants.add(p.models().cubeAll("block/glowrock_dim_" + i, OmniUtils.loc("block/glowrock_dim_" + i)));
-                //*List<ModelFile> modelNormalVariants = new ArrayList<>();
-                //*for (int i = 1; i < 4; i++) modelNormalVariants.add(p.models().cubeAll("block/glowrock_" + i, OmniUtils.loc("block/glowrock_" + i)));
-
-                var modelBright = p.models().cubeAll("block/glowrock_bright", OmniUtils.loc("block/glowrock_bright"));
-
-                //*for (int level = 0; 3 > level; level++) {
-                //*    if (level==2) builder.part().modelFile(modelBright).addModel().condition(GlowrockBlock.GLOWING, 2).end();
-                //*    else if (level==1) for (var model : modelNormalVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 1).end();
-                //*    else for (var model : modelDimVariants) builder.part().modelFile(model).addModel().condition(GlowrockBlock.GLOWING, 0).end();
-                //*}
-                p.simpleBlock(c.get(), modelBright);
-                p.simpleBlockItem(c.get(), modelBright);
-            })
+            .properties(p -> p.lightLevel(b -> b.getValue(GlowrockBlock.GLOWING) == 0 ? 4 : b.getValue(GlowrockBlock.GLOWING) == 1 ? 8 : 12)
+                    .mapColor(MapColor.TERRACOTTA_ORANGE)
+                    .sound(AllSoundTypes.GRIMROCK)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(13.5F, 12.0F))
+            .blockstate(ModelHelper::createGlowrock)
             .tag(mineablePickaxe(), needIronTools())
+            .loot((p, c) -> p.add(c, p.createSilkTouchDispatchTable(c,
+                    p.applyExplosionDecay(c, LootItem.lootTableItem(Items.GLOWSTONE_DUST)
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)))
+                            .apply(ApplyBonusCount.addOreBonusCount(p.getRegistries().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))
+            )))
             .simpleItem()
             .register();
 
@@ -677,18 +686,6 @@ public class AllBlocks {
         if (targetBlock.is(CURSE_LOG.get()))
             return DEAD_LOG.get();
         return targetBlock.getBlock();
-    }
-
-    private static NonNullBiConsumer<DataGenContext<Block, SpikeBlock>, RegistrateBlockstateProvider> modelSpike(String type) {
-        return (c, p) -> {
-            var model = p.models()
-                    .withExistingParent("block/" + type + "_spike", OmniUtils.loc("block/base_spike"))
-                    .texture("1", OmniUtils.loc("block/" + type + "_spike"))
-                    .renderType(RenderType.CUTOUT.name);
-
-            p.directionalBlock(c.get(), model);
-            p.itemModels().basicItem(c.get().asItem());
-        };
     }
 
     public static Boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entity) {

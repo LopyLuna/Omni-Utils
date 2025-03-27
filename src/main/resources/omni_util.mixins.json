@@ -11,5 +11,8 @@
     "PrimedTntMixin",
     "ServerPlayerGameModeAccessor"
   ],
-  "minVersion": "0.8"
+  "minVersion": "0.8",
+  "client": [
+    "GuiMixin"
+  ]
 }

@@ -17,10 +17,8 @@ public class OmniBlockEntity extends BlockEntity {
     public boolean initialized = false;
     private int counter = 0;
     private int delayRate = 10;
-    public UUID blockUUID;
     public OmniBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
-        this.blockUUID = UUID.randomUUID();
     }
 
     @Override
@@ -45,11 +43,9 @@ public class OmniBlockEntity extends BlockEntity {
     }
 
     public void onLoad(CompoundTag nbt) {
-        if (nbt.hasUUID("BlockUUID")) blockUUID = nbt.getUUID("BlockUUID");
     }
 
     public void onSave(CompoundTag nbt) {
-        if (blockUUID != null) nbt.putUUID("BlockUUID", blockUUID);
     }
 
     public void onPlaced(LivingEntity pPlacer, boolean pClient) {

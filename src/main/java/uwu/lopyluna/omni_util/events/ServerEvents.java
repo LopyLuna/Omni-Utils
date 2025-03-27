@@ -1,9 +1,11 @@
 package uwu.lopyluna.omni_util.events;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,8 +15,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -26,11 +30,13 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import uwu.lopyluna.omni_util.content.commands.DebugPowerCommand;
 import uwu.lopyluna.omni_util.content.commands.DebugSanityCommand;
+import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.items.base.BlockBreakingDiggerItem;
 import uwu.lopyluna.omni_util.content.items.base.BlockBreakingItem;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaNugget;
 import uwu.lopyluna.omni_util.mixin.CreeperAccessor;
+import uwu.lopyluna.omni_util.register.AllBlocks;
 import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 
 import java.util.ArrayList;
@@ -103,50 +109,69 @@ public class ServerEvents {
         }
     }
 
+    public static boolean containsItem(ItemLike item, NonNullList<ItemStack> stacks) {
+        for (var stack : stacks) if (stack.is(item.asItem())) return true;
+        return false;
+    }
+
+    @SubscribeEvent
+    public static void onLogIn(PlayerEvent.PlayerLoggedInEvent event) {
+        var e = event.getEntity();
+        var level = e.level();
+        if (level.isClientSide) return;
+        if (!(e instanceof ServerPlayer)) return;
+        PowerTickHandler.blocks.clear();
+    }
+
+    @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         var player = event.getEntity();
         var level = player.level();
 
-        //*var handStack = player.getMainHandItem();
-        //*if (handStack.getItem() instanceof HammerItem item) {
-        //*    BlockHitResult rayTrace = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
-        //*    var center = rayTrace.getBlockPos();
-        //*    var centerState = level.getBlockState(center);
-        //*    if (centerState.isAir() || centerState.getDestroySpeed(level, center) <= -1) return;
-        //*    int radius = item.size;
-        //*    Direction face = rayTrace.getDirection();
-        //*    for (BlockPos pos : item.getAoEBox(center, face, radius)) {
-        //*        if (pos.equals(center)) continue;
-        //*        BlockState blockstate = level.getBlockState(pos);
-        //*        if (blockstate.isAir() || blockstate.getDestroySpeed(level, pos) <= -1)
-        //*            level.destroyBlockProgress(player.getId() + pos.hashCode(), pos, -1);
-        //*        else item.destroyProgress(blockstate, pos, center, level, player);
-        //*    }
-        //*}
-
         if (level.isClientSide) return;
+        AngelBlockItem.angelBlockTick(level, player);
         if (!(player instanceof ServerPlayer pPlayer)) return;
         var pos = pPlayer.blockPosition();
+        var isCreative = pPlayer.isCreative() || pPlayer.isSpectator();
+        var inGrimspire = level.getBiome(pos).is(AllBiomes.GRIMSPIRE_BIOME);
 
-        if (player.isCreative() || player.isSpectator()) return;
-        if (level.getBiome(pos).is(AllBiomes.GRIMSPIRE_BIOME)) {
+        if (inGrimspire) {
+            if (!isCreative) {
+                var abilities = pPlayer.getAbilities();
+                boolean update = false;
+                if (abilities.mayfly) {
+                    abilities.mayfly = false;
+                    update = true;
+                }
+                if (abilities.flying) {
+                    abilities.flying = false;
+                    update = true;
+                }
+                if (update) pPlayer.onUpdateAbilities();
+            }
             if (level.random.nextBoolean() && level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.clearFire();
-            if (pPlayer.hasEffect(MobEffects.NIGHT_VISION)) pPlayer.removeEffect(MobEffects.NIGHT_VISION);
+            if (!isCreative && pPlayer.hasEffect(MobEffects.NIGHT_VISION)) pPlayer.removeEffect(MobEffects.NIGHT_VISION);
             int light = level.getMaxLocalRawBrightness(pos);
-            if (light < 7) adjustSanity(pPlayer, -((7 - light) * 0.05f));
+            if (light < 7 && !isCreative) adjustSanity(pPlayer, -((7 - light) * 0.05f));
             else if (light > 7) adjustSanity(pPlayer, ((light - 7) * 0.03f));
         } else adjustSanity(pPlayer, 0.4f);
 
         if (getSanity(pPlayer) <= 0) {
             if (!pPlayer.isDeadOrDying()) pPlayer.kill();
-        } else if (getSanity(pPlayer) < 5) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
-            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
-        } else if (getSanity(pPlayer) < 10) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
-        } else if (getSanity(pPlayer) < 25) {
-            if (level.random.nextBoolean() && level.random.nextBoolean()) pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
+        } else if (!isCreative) {
+            if (getSanity(pPlayer) < 5) {
+                if (level.random.nextBoolean() && level.random.nextBoolean())
+                    pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
+                if (level.random.nextBoolean() && level.random.nextBoolean())
+                    pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
+            } else if (getSanity(pPlayer) < 10) {
+                if (level.random.nextBoolean() && level.random.nextBoolean())
+                    pPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, false));
+            } else if (getSanity(pPlayer) < 25) {
+                if (level.random.nextBoolean() && level.random.nextBoolean())
+                    pPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, false));
+            }
         }
     }
 
@@ -211,12 +236,26 @@ public class ServerEvents {
                         } else if (item instanceof UnstableHexaNugget nugget) {
                             itemEntity.discard();
                             nugget.explode(stack, level, pos);
+                        } else if (stack.is(AllBlocks.UNSTABLE_HEXA_BLOCK.asItem())) {
+                            itemEntity.discard();
+                            explode(stack, level, pos, 24);
                         }
                     }
                 });
             });
         }
         delay = ++delay % 5;
+    }
+
+    public static void explode(ItemStack stack, Level level, Vec3 pos, int radius) {
+        var entity = EntityType.CREEPER.create(level);
+        if (entity == null) return;
+        entity.setInvisible(true);
+        entity.noPhysics = true;
+        entity.setPos(pos);
+        entity.setCustomName(stack.getDisplayName());
+        ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(radius);
+        ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
     }
 
     @SubscribeEvent

@@ -32,6 +32,7 @@ public class AllOreFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_ANCIENT_LARGE = createKey("ore_ancient_large");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_ANCIENT_SMALL = createKey("ore_ancient_small");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_COPPER_SMALL = createKey("ore_copper_small");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_GLOWROCK = createKey("ore_glowrock");
 
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
@@ -56,6 +57,8 @@ public class AllOreFeatures {
         FeatureUtils.register(context, ORE_ANCIENT_LARGE, Feature.SCATTERED_ORE, new OreConfiguration(ruleTest, AllBlocks.GRIMROCK_ANCIENT_ORE.getDefaultState(), 5, 1.0F));
         FeatureUtils.register(context, ORE_ANCIENT_SMALL, Feature.SCATTERED_ORE, new OreConfiguration(ruleTest, AllBlocks.GRIMROCK_ANCIENT_ORE.getDefaultState(), 3, 1.0F));
         FeatureUtils.register(context, ORE_COPPER_SMALL, Feature.ORE, new OreConfiguration(ruleTest, AllBlocks.GRIMROCK_COPPER_ORE.getDefaultState(), 8));
+
+        FeatureUtils.register(context, ORE_GLOWROCK, Feature.ORE, new OreConfiguration(ruleTest, AllBlocks.GLOWROCK.getDefaultState(), 24, 0.25F));
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name) {

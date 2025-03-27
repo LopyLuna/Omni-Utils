@@ -6,6 +6,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import uwu.lopyluna.omni_util.content.blocks.base.PowerBlockEntity;
 import uwu.lopyluna.omni_util.content.managers.PowerManager;
 import uwu.lopyluna.omni_util.events.PowerTickHandler;
 
@@ -15,6 +16,20 @@ public class DebugPowerCommand {
                 .executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
                     sendRPDebugMessage(player);
+                    return 1;
+                })
+        );
+        dispatcher.register(Commands.literal("debugPowerPositions")
+                .executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    sendRPDebugMessage(player);
+                    PowerTickHandler.blocks.forEach(pos -> {
+                        var level = player.serverLevel();
+                        var blockEntity = level.getBlockEntity(pos);
+                        if (blockEntity == null) return;
+                        if (!(blockEntity instanceof PowerBlockEntity be)) return;
+                        player.displayClientMessage(be.getBlockState().getBlock().getName().append( ": " + be.getBlockPos().toShortString()).withStyle(be.getImpact() > 0 ? ChatFormatting.YELLOW : ChatFormatting.GOLD), false);
+                    });
                     return 1;
                 })
         );

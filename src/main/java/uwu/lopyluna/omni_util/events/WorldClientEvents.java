@@ -2,18 +2,23 @@ package uwu.lopyluna.omni_util.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -67,19 +72,27 @@ public class WorldClientEvents {
     @SubscribeEvent
     public static void onRenderGuiOverlay(RenderGuiEvent.Post pEvent) {
         if (mc.getConnection() != null && mc.player != null && mc.level != null) {
-            renderBlackScreenOfDeath(pEvent.getGuiGraphics());
+            renderBlackScreenOfDeath(pEvent.getGuiGraphics(), pEvent.getPartialTick(), mc.player);
             renderSanityBar(pEvent.getGuiGraphics());
         }
     }
 
-    public static void renderBlackScreenOfDeath(GuiGraphics pGuiGraphics) {
+    public static void renderBlackScreenOfDeath(GuiGraphics pGuiGraphics, DeltaTracker tracker, LocalPlayer player) {
+        var intensity = Mth.lerp(tracker.getGameTimeDeltaPartialTick(false), player.oSpinningEffectIntensity, player.spinningEffectIntensity);
+        if (intensity < 1.0F) {
+            intensity *= intensity;
+            intensity *= intensity;
+            intensity = intensity * 0.8F;
+        }
         float sanity = ClientSanityData.getSanity();
         float darkness = 1f - (sanity / 100f);
-        if (darkness <= 0f) return;
+        if (!(darkness > 0f || intensity > 0f)) return;
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();
 
-        int alpha = (int) (darkness * 255);
+        float both = Math.clamp(Math.max(darkness, intensity), 0f, 1f);
+        float bothTint = Math.clamp(Math.max(darkness, (intensity * 0.75f)), 0f, 1f);
+        int alpha = (int) (Math.clamp(bothTint, 0f, 1f) * 255f);
         int color = (alpha << 24);
 
         pGuiGraphics.pose().pushPose();
@@ -92,7 +105,7 @@ public class WorldClientEvents {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         pGuiGraphics.pose().translate(0, 0, 2000);
-        pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, Mth.clamp(darkness * 1.5f, 0f, 1f));
+        pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, Mth.clamp(both * 1.5f, 0f, 1f));
         pGuiGraphics.blit(OmniUtils.loc("textures/misc/insanity.png"), 0, 0, 0, 0, screenWidth, screenHeight, screenWidth, screenHeight);
         RenderSystem.disableBlend();
         RenderSystem.depthMask(true);
@@ -158,41 +171,46 @@ public class WorldClientEvents {
     }
 
     public static void renderSelectionBoxAngelBlock(RenderLevelStageEvent.Stage pStage, LocalPlayer pPlayer, ClientLevel pLevel, PoseStack pPose, Camera pCamera) {
-        if (pStage == AFTER_TRIPWIRE_BLOCKS) {
-            if (!AllBlocks.ANGEL_BLOCK.is(pPlayer.getMainHandItem()) && !AllBlocks.ANGEL_BLOCK.is(pPlayer.getOffhandItem())) return;
+        if (pStage != AFTER_TRIPWIRE_BLOCKS) return;
+        var main = pPlayer.getMainHandItem();
+        var off = pPlayer.getOffhandItem();
+        if (!(main.is(AllBlocks.ANGEL_BLOCK.asItem()) || off.is(AllBlocks.ANGEL_BLOCK.asItem()))) return;
 
-            var scale = pPlayer.blockInteractionRange() * (pPlayer.isShiftKeyDown() ? 0.5 : 1);
-            Vec3 vec3 = pPlayer.getEyePosition();
-            Vec3 vec31 = vec3.add(pPlayer.calculateViewVector(pPlayer.getXRot(), pPlayer.getYRot()).scale(scale));
-            var rayTrace = pLevel.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, pPlayer));
-
+        HitResult result = mc.hitResult;
+        if (result == null) return;
+        if (!(result instanceof BlockHitResult hit)) return;
+        var scale = pPlayer.blockInteractionRange() * (pPlayer.isShiftKeyDown() ? 0.5 : 1);
+        var eyePos = pPlayer.getEyePosition();
+        var lookVec = eyePos.add(pPlayer.calculateViewVector(pPlayer.getXRot(), pPlayer.getYRot()).scale(scale));
+        var rayTrace = pLevel.clip(new ClipContext(eyePos, lookVec, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, pPlayer));
+        if (hit.getType() == HitResult.Type.MISS) {
             var pos = rayTrace.getBlockPos();
-            if (rayTrace.getType() == HitResult.Type.MISS && mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.MISS) {
-                pPose.pushPose();
-                var buffer = mc.renderBuffers().bufferSource().getBuffer(RenderType.lines());
-                var camPos = pCamera.getPosition();
-
-                var x = (double) pos.getX() - camPos.x();
-                var y = (double) pos.getY() - camPos.y();
-                var z = (double) pos.getZ() - camPos.z();
-                var posStack = pPose.last();
-                Shapes.block().forAllEdges((x1, y1, z1, x2, y2, z2) -> {
-                    float f = (float) (x2 - x1);
-                    float f1 = (float) (y2 - y1);
-                    float f2 = (float) (z2 - z1);
-                    float f3 = Mth.sqrt(f * f + f1 * f1 + f2 * f2);
-                    f /= f3;
-                    f1 /= f3;
-                    f2 /= f3;
-                    buffer.addVertex(posStack, (float) (x1 + x), (float) (y1 + y), (float) (z1 + z))
-                            .setColor(0, 0, 0, 0.4f)
-                            .setNormal(posStack, f, f1, f2);
-                    buffer.addVertex(posStack, (float) (x2 + x), (float) (y2 + y), (float) (z2 + z))
-                            .setColor(0, 0, 0, 0.4f)
-                            .setNormal(posStack, f, f1, f2);
-                });
-                pPose.popPose();
-            }
+            var buffer = mc.renderBuffers().bufferSource();
+            highlightPosition(pos, Shapes.block(), pPose, pCamera, buffer);
         }
+    }
+
+    private static void highlightPosition(BlockPos pos, VoxelShape shape, PoseStack poseStack, Camera pCamera, MultiBufferSource buffer) {
+        var camPos = pCamera.getPosition();
+        renderHitOutline(poseStack, shape, buffer.getBuffer(RenderType.lines()), camPos.x(), camPos.y(), camPos.z(), pos);
+    }
+
+    private static void renderHitOutline(PoseStack poseStack, VoxelShape shape, VertexConsumer consumer, double camX, double camY, double camZ, BlockPos pos) {
+        renderShape(poseStack, consumer, shape, (double)pos.getX() - camX, (double)pos.getY() - camY, (double)pos.getZ() - camZ);
+    }
+
+    private static void renderShape(PoseStack poseStack, VertexConsumer consumer, VoxelShape shape, double x, double y, double z) {
+        PoseStack.Pose pose = poseStack.last();
+        shape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
+            float f = (float)(x2 - x1); float f1 = (float)(y2 - y1); float f2 = (float)(z2 - z1);
+            float f3 = Mth.sqrt(f * f + f1 * f1 + f2 * f2);
+            f /= f3; f1 /= f3; f2 /= f3;
+            consumer.addVertex(pose, (float)(x1 + x), (float)(y1 + y), (float)(z1 + z))
+                    .setColor((float) 0.0, (float) 0.0, (float) 0.0, (float) 0.4)
+                    .setNormal(pose, f, f1, f2);
+            consumer.addVertex(pose, (float)(x2 + x), (float)(y2 + y), (float)(z2 + z))
+                    .setColor((float) 0.0, (float) 0.0, (float) 0.0, (float) 0.4)
+                    .setNormal(pose, f, f1, f2);
+        });
     }
 }

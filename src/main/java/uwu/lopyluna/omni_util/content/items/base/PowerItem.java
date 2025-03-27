@@ -10,12 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import uwu.lopyluna.omni_util.client.ClientRPData;
 import uwu.lopyluna.omni_util.content.managers.PowerManager;
 import uwu.lopyluna.omni_util.register.AllPowerSources;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import static uwu.lopyluna.omni_util.client.ClientRPData.getCachedRP;
 
 @SuppressWarnings("unused")
 public class PowerItem extends OmniItem {
@@ -34,8 +35,8 @@ public class PowerItem extends OmniItem {
         if (pLevel == null || pPlayer == null) return false;
         boolean generator = isGenerator(pLevel, pStack, pPlayer);
         boolean generating = isGenerating(pLevel, pStack, pPlayer);
-        int netRP = PowerManager.getNetRPOmni(pPlayer);
         if (generator) return generating;
+        int netRP = pLevel.isClientSide ? getCachedRP() : PowerManager.getNetRPOmni(pPlayer);
         return netRP >= 0;
     }
 
@@ -73,8 +74,8 @@ public class PowerItem extends OmniItem {
 
     public void onProcessPower(ServerPlayer owner, ServerLevel level, ItemStack stack) {
         int impact = getImpact(level, stack, owner);
-        if (source.genertor) PowerManager.addGeneratedRP(owner, impact);
-        else PowerManager.addConsumedRP(owner, impact);
+        if (source.genertor) PowerManager.adjustGeneratedRP(owner, impact);
+        else PowerManager.adjustConsumedRP(owner, impact);
     }
 
     @Override
@@ -92,13 +93,13 @@ public class PowerItem extends OmniItem {
             var level = context.level();
             var player = Minecraft.getInstance().player;
 
-            boolean bool = level != null && player != null && PowerManager.getNetRPOmni(player) >= 0 && isActivated(level, stack, player);
+            int cachedRP = getCachedRP();
+            boolean bool = level != null && player != null && cachedRP >= 0 && isActivated(level, stack, player);
 
             if (!source.genertor) tooltipComponents.add(Component.literal("⚠ Require: " + source.impact + " RP").withStyle(bool ? ChatFormatting.GREEN : ChatFormatting.RED));
-            else tooltipComponents.add(Component.literal("+ Generating: " + source.impact + " RP").withStyle(ChatFormatting.AQUA));
-            tooltipComponents.add(Component.literal("⚡ Impact: " + source.impact + " RP").withStyle(bool ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
+            else tooltipComponents.add(Component.literal("+ Generating: " + (bool ? source.impact : 0) + " RP").withStyle(ChatFormatting.AQUA));
+            tooltipComponents.add(Component.literal("⚡ Impact: " + (bool ? source.impact : 0) + " RP").withStyle(bool ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
 
-            int cachedRP = ClientRPData.getCachedRP();
             tooltipComponents.add(Component.literal("🔋 Current: " + cachedRP + " RP").withStyle(ChatFormatting.BLUE));
         }
     }

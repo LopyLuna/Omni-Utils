@@ -1,6 +1,28 @@
 {
   "variants": {
-    "": {
+    "glowing=0": [
+      {
+        "model": "omni_util:block/glowrock_dim_1"
+      },
+      {
+        "model": "omni_util:block/glowrock_dim_2"
+      },
+      {
+        "model": "omni_util:block/glowrock_dim_3"
+      }
+    ],
+    "glowing=1": [
+      {
+        "model": "omni_util:block/glowrock_1"
+      },
+      {
+        "model": "omni_util:block/glowrock_2"
+      },
+      {
+        "model": "omni_util:block/glowrock_3"
+      }
+    ],
+    "glowing=2": {
       "model": "omni_util:block/glowrock_bright"
     }
   }

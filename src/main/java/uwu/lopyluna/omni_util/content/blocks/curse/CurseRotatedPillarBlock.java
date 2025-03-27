@@ -29,8 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -65,6 +65,7 @@ public class CurseRotatedPillarBlock extends RotatedPillarBlock implements Curse
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource r) {
         super.randomTick(state, level, pos, r);
+        if (!level.isAreaLoaded(pos, 1)) return;
         if (r.nextInt(20) == 1 && level.isNight()) spreadCurse(level, pos, r, state);
     }
 

@@ -1,5 +1,7 @@
 package uwu.lopyluna.omni_util.content.items;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -8,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.items.base.PowerItem;
+import uwu.lopyluna.omni_util.content.managers.PowerManager;
 import uwu.lopyluna.omni_util.register.AllDataComponents;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,6 +31,10 @@ public class AngelRing extends PowerItem implements Equipable {
     }
 
     @Override
+    public void onPlayerTick(Level pLevel, ItemStack pStack, Player pPlayer, int pSlotId, boolean pInArmorSlot) {
+    }
+
+    @Override
     public @NotNull String getDescriptionId(ItemStack stack) {
         var data = stack.get(AllDataComponents.WING_TYPE.get());
         var path = "item.omni_util.";
@@ -44,7 +51,12 @@ public class AngelRing extends PowerItem implements Equipable {
 
     @Override
     public boolean isActive(Level pLevel, ItemStack pStack, Player pPlayer, boolean pInArmorSlot) {
-        return pInArmorSlot && super.isActive(pLevel, pStack, pPlayer, true);
+        return super.isActive(pLevel, pStack, pPlayer, true);
+    }
+
+    @Override
+    protected boolean isActivated(Level pLevel, ItemStack pStack, Player pPlayer) {
+        return isEquipped(pLevel, pStack, pPlayer);
     }
 
     @Override
@@ -53,20 +65,24 @@ public class AngelRing extends PowerItem implements Equipable {
     }
 
     @Override
+    public void onProcessPower(ServerPlayer owner, ServerLevel level, ItemStack stack) {
+    }
+
+    public static void onProcessPower(int impact, ServerPlayer owner) {
+        PowerManager.adjustConsumedRP(owner, impact);
+    }
+
+    @Override
     public boolean isEquipped(Level pLevel, ItemStack pStack, Player pPlayer) {
         return pStack.equals(pPlayer.getItemBySlot(EquipmentSlot.CHEST));
     }
 
-    @Override
-    public void onActive(Level pLevel, ItemStack pStack, Player pPlayer) {
-        super.onActive(pLevel, pStack, pPlayer);
+    public static void onActive(Player pPlayer) {
         var flight = Objects.requireNonNull(pPlayer.getAttributes().getInstance(CREATIVE_FLIGHT));
         if (!flight.hasModifier(ANGEL_FLIGHT.id)) flight.addTransientModifier(new AttributeModifier(ANGEL_FLIGHT.id, 1, AttributeModifier.Operation.ADD_VALUE));
     }
 
-    @Override
-    public void onFailed(Level pLevel, ItemStack pStack, Player pPlayer) {
-        super.onFailed(pLevel, pStack, pPlayer);
+    public static void onFailed(Player pPlayer) {
         var flight = Objects.requireNonNull(pPlayer.getAttributes().getInstance(CREATIVE_FLIGHT));
         if (flight.hasModifier(ANGEL_FLIGHT.id)) flight.removeModifier(ANGEL_FLIGHT.id);
     }

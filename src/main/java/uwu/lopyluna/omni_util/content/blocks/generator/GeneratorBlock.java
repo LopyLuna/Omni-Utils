@@ -5,9 +5,6 @@ import uwu.lopyluna.omni_util.content.blocks.base.OmniBlockEntity;
 import uwu.lopyluna.omni_util.content.blocks.base.PowerBlockBlock;
 import uwu.lopyluna.omni_util.register.AllBlockEntities;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class GeneratorBlock extends PowerBlockBlock {
     public GeneratorBlock(Properties properties) {
         super(properties);

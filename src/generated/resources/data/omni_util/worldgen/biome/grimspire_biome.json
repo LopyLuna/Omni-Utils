@@ -2,9 +2,20 @@
   "carvers": {},
   "downfall": 0.0,
   "effects": {
+    "additions_sound": {
+      "sound": "minecraft:ambient.warped_forest.additions",
+      "tick_chance": 0.0111
+    },
+    "ambient_sound": "minecraft:ambient.warped_forest.loop",
     "fog_color": 0,
     "foliage_color": 4473924,
     "grass_color": 4473924,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "minecraft:ambient.warped_forest.mood",
+      "tick_delay": 6000
+    },
     "music": {
       "max_delay": 24000,
       "min_delay": 12000,
@@ -61,7 +72,8 @@
       "omni_util:ore_gilded",
       "omni_util:ore_quartz",
       "omni_util:ore_ancient_large",
-      "omni_util:ore_ancient_small"
+      "omni_util:ore_ancient_small",
+      "omni_util:ore_glowrock"
     ],
     [],
     [

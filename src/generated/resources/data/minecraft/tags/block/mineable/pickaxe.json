@@ -14,6 +14,8 @@
     "#c:skulls",
     "omni_util:generator_block",
     "omni_util:consumor_block",
+    "omni_util:solar_panel",
+    "omni_util:lunar_panel",
     "omni_util:hexa_tnt",
     "omni_util:unstable_hexa_block",
     "omni_util:hexa_block",

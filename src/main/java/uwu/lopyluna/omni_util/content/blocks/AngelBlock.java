@@ -18,7 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class AngelBlock extends Block {
     public static final MapCodec<AngelBlock> CODEC = simpleCodec(AngelBlock::new);
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
     public AngelBlock(Properties properties) {
         super(properties.randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
@@ -26,8 +26,14 @@ public class AngelBlock extends Block {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        level.scheduleTick(pos, this, 4);
+        level.scheduleTick(pos, this, 100);
         super.onPlace(state, level, pos, oldState, movedByPiston);
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        level.destroyBlockProgress(pos.hashCode(), pos, -1);
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
@@ -38,7 +44,7 @@ public class AngelBlock extends Block {
         return AGE;
     }
     public int getMaxAge() {
-        return 7;
+        return 15;
     }
     public int getAge(BlockState state) {
         return state.getValue(this.getAgeProperty());
@@ -58,22 +64,21 @@ public class AngelBlock extends Block {
     @Override
     @SuppressWarnings("deprecation")
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        level.scheduleTick(pos, this, 4);
-        if (random.nextBoolean() || random.nextBoolean()) return;
-
-        var id = random.nextInt(999999);
+        level.scheduleTick(pos, this, 8);
+        if (random.nextBoolean()) return;
         if (!level.isAreaLoaded(pos, 1)) return;
+
         int i = this.getAge(state);
         int max = this.getMaxAge();
         if (i >= (max-1)) {
-            level.destroyBlockProgress(id, pos, -1);
+            level.destroyBlockProgress(pos.hashCode(), pos, -1);
             level.destroyBlock(pos, true);
         } else {
             double progress = (double) i / (double) max;
             level.setBlock(pos, this.getStateForAge(i + 1), 2);
-            level.destroyBlockProgress(id, pos, (int) (progress * 10.0));
-            level.playSeededSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    state.getSoundType().getHitSound(), SoundSource.BLOCKS, .25f, 1, level.random.nextLong());
+            level.destroyBlockProgress(pos.hashCode(), pos, (int) (progress * 10.0));
+            level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    state.getSoundType().getHitSound(), SoundSource.BLOCKS, .25f, 1);
         }
     }
 

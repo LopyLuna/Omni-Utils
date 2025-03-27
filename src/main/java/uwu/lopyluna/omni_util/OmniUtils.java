@@ -19,7 +19,6 @@ import uwu.lopyluna.omni_util.network.SyncActivationToClientPacket;
 import uwu.lopyluna.omni_util.network.SyncRPToClientPacket;
 import uwu.lopyluna.omni_util.network.SyncSanityToClientPacket;
 import uwu.lopyluna.omni_util.register.*;
-import uwu.lopyluna.omni_util.register.AllBlocks;
 import uwu.lopyluna.omni_util.register.worldgen.AllFeature;
 
 @SuppressWarnings("unused")
@@ -61,13 +60,11 @@ public class OmniUtils {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(BASE_TAB.getKey())) {
             var item = AllItems.ANGEL_RING.get().getDefaultInstance();
-            event.remove(item, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.accept(item);
             String[] variants = {"feathered", "demon", "gilded", "bat", "invisible"};
             for (String type : variants) {
-                item = item.copy();
-                item.set(AllDataComponents.WING_TYPE.get(), type);
-                event.accept(item);
+                var newItem = item.copy();
+                newItem.set(AllDataComponents.WING_TYPE.get(), type);
+                event.insertAfter(item, newItem, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }
