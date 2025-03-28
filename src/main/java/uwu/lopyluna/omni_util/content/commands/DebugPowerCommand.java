@@ -28,7 +28,7 @@ public class DebugPowerCommand {
                         var blockEntity = level.getBlockEntity(pos);
                         if (blockEntity == null) return;
                         if (!(blockEntity instanceof PowerBlockEntity be)) return;
-                        player.displayClientMessage(be.getBlockState().getBlock().getName().append( ": " + be.getBlockPos().toShortString()).withStyle(be.getImpact() > 0 ? ChatFormatting.YELLOW : ChatFormatting.GOLD), false);
+                        player.displayClientMessage(be.getBlockState().getBlock().getName().append( ": " + be.getBlockPos().toShortString()).withStyle(be.getImpact(level, player, false) > 0 ? ChatFormatting.YELLOW : ChatFormatting.GOLD), false);
                     });
                     return 1;
                 })

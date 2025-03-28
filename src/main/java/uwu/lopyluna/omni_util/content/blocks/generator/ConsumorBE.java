@@ -15,6 +15,7 @@ public class ConsumorBE extends PowerBlockEntity {
     public int delay = 0;
     @Override
     public void onActive(boolean pClient) {
+        super.onActive(pClient);
         assert level != null;
 
         if (delay==0) ParticleUtils.spawnParticleInBlock(level, getBlockPos().above(), 1, ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS);

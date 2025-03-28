@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 @SuppressWarnings("unused")
 public class OmniBlockEntity extends BlockEntity {
     public boolean initialized = false;

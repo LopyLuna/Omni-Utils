@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -22,14 +23,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.ClientSanityData;
 import uwu.lopyluna.omni_util.client.SanityAmbientSoundInstance;
+import uwu.lopyluna.omni_util.content.blocks.base.PowerBlockEntity;
+import uwu.lopyluna.omni_util.content.managers.GoggleOverlayManager;
 import uwu.lopyluna.omni_util.register.AllBlocks;
+import uwu.lopyluna.omni_util.register.AllItems;
 
 import static net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS;
 
@@ -38,14 +40,6 @@ public class WorldClientEvents {
     private static final Minecraft mc = Minecraft.getInstance();
 
     public static SanityAmbientSoundInstance INSTANCE = null;
-
-    @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
-        var player = mc.player;
-        if (player == null) return;
-        SoundManager soundManager = mc.getSoundManager();
-        if (!soundManager.isActive(INSTANCE)) soundManager.play(INSTANCE = new SanityAmbientSoundInstance(player));
-    }
 
 
     @SubscribeEvent
@@ -75,6 +69,37 @@ public class WorldClientEvents {
             renderBlackScreenOfDeath(pEvent.getGuiGraphics(), pEvent.getPartialTick(), mc.player);
             renderSanityBar(pEvent.getGuiGraphics());
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        var player = mc.player;
+        if (player == null) return;
+        SoundManager soundManager = mc.getSoundManager();
+        if (!soundManager.isActive(INSTANCE)) soundManager.play(INSTANCE = new SanityAmbientSoundInstance(player));
+
+        if (mc.getConnection() != null && mc.player != null && mc.level != null && mc.hitResult != null) {
+            var text = renderGogglesOverlay(player, mc.hitResult);
+            GoggleOverlayManager.updateOverlay(text, text.isEmpty() ? 0 : 1);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderGuiOverlay(RenderGuiLayerEvent.Post pEvent) {
+        if (mc.getConnection() != null && mc.player != null && mc.level != null && pEvent.getName().equals(VanillaGuiLayers.CROSSHAIR))
+            GoggleOverlayManager.render(pEvent.getGuiGraphics(), mc);
+    }
+
+    public static String renderGogglesOverlay(LocalPlayer pPlayer, HitResult pHitResult) {
+        if (!pPlayer.getItemBySlot(EquipmentSlot.HEAD).is(AllItems.GOGGLES)) return "";
+        if (!(pHitResult.getType() == HitResult.Type.BLOCK && pHitResult instanceof BlockHitResult pRaytrace)) return "";
+        if (pRaytrace.getType() == HitResult.Type.MISS) return "";
+        if (!(pPlayer.level().getBlockEntity(pRaytrace.getBlockPos()) instanceof PowerBlockEntity pBlockEntity)) return "";
+        var level = pPlayer.level();
+        var isGenerator = pBlockEntity.isGenerator(level, pPlayer, true);
+        var getImpact = pBlockEntity.getImpact(level, pPlayer, true);
+
+        return isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP";
     }
 
     public static void renderBlackScreenOfDeath(GuiGraphics pGuiGraphics, DeltaTracker tracker, LocalPlayer player) {

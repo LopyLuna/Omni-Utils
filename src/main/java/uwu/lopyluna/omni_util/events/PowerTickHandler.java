@@ -16,7 +16,10 @@ import uwu.lopyluna.omni_util.content.managers.PowerManager;
 import uwu.lopyluna.omni_util.register.AllItems;
 import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static uwu.lopyluna.omni_util.OmniUtils.MOD_ID;
 import static uwu.lopyluna.omni_util.events.ServerEvents.containsItem;
@@ -25,20 +28,34 @@ import static uwu.lopyluna.omni_util.register.AllPowerSources.ANGEL_FLIGHT;
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class PowerTickHandler {
     public static final Set<BlockPos> blocks = new HashSet<>();
+    public static final Set<BlockPos> blocksToRemove = new HashSet<>();
+    public static final Set<BlockPos> blocksToAdd = new HashSet<>();
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         Player p = event.getEntity();
         if (!(p instanceof ServerPlayer pPlayer)) return;
         PowerManager.resetRP(pPlayer);
+
         ServerLevel serverLevel = pPlayer.serverLevel();
         List<BlockPos> remove = new ArrayList<>();
-        if (!blocks.isEmpty()) for (var pos : blocks) {
-            var be = serverLevel.getBlockEntity(pos);
-            if (be instanceof PowerBlockEntity powerBlockEntity && PowerBlockEntity.isLoaded(serverLevel, pos)) powerBlockEntity.onProcessPower(pPlayer);
-            else remove.add(pos);
+        if (!serverLevel.isClientSide) {
+            if (!blocksToRemove.isEmpty()) {
+                blocksToRemove.forEach(blocks::remove);
+                blocksToRemove.clear();
+            }
+            if (!blocksToAdd.isEmpty()) {
+                blocks.addAll(blocksToAdd);
+                blocksToAdd.clear();
+            }
+            if (!blocks.isEmpty()) for (var pos : blocks) {
+                if (pos == null) continue;
+                var be = serverLevel.getBlockEntity(pos);
+                if (be instanceof PowerBlockEntity powerBlockEntity && PowerBlockEntity.isLoaded(serverLevel, pos)) powerBlockEntity.onProcessPower(pPlayer);
+                else remove.add(pos);
+            }
+            remove.forEach(blocks::remove);
         }
-        remove.forEach(blocks::remove);
 
         List<ItemStack> ignoreStacks = new ArrayList<>();
 
