@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"2": "omni_util:block/clock_0",
+		"3": "omni_util:block/clock_back",
+		"4": "omni_util:block/clock_front",
+		"5": "omni_util:block/clock_side",
+		"particle": "omni_util:block/clock_back"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#4", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#5", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#3", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#5", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#5", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#5", "cullface": "down"}
+			}
+		},
+		{
+			"from": [-0.5, -0.5, 0.25],
+			"to": [15.5, 15.5, 0.25],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0.5, -0.5, 0.25]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "north"}
+			}
+		}
+	],
+	"gui_light": "front"
+}

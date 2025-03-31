@@ -4,6 +4,7 @@ import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.content.blocks.*;
@@ -50,6 +53,60 @@ import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 
 @SuppressWarnings({"unused", "removal"})
 public class AllBlocks {
+
+    public static final BlockEntry<ClockBlock> CLOCK = REG.block("clock", ClockBlock::new)
+            .lang("Clock")
+            .properties(p -> p.sound(SoundType.WOOD).strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe())
+            .addLayer(() -> RenderType::cutoutMipped)
+            .blockstate((c, p) -> {
+                p.getVariantBuilder(c.get()).forAllStates(state -> {
+                    Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    int hour = state.getValue(ClockBlock.HOUR);
+                    var model = p.models().withExistingParent("clock_" + hour, OmniUtils.loc("block/clock")).texture("2", OmniUtils.loc("block/clock_" + hour));
+
+                    var builder = ConfiguredModel.builder();
+                    builder.modelFile(model);
+                    switch (dir) {
+                        case NORTH -> {}
+                        case SOUTH -> builder.rotationY(180);
+                        case WEST -> builder.rotationY(270);
+                        case EAST -> builder.rotationY(90);
+                    }
+                    return builder.build();
+                });
+                p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/clock")));
+            })
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<InteractorBlock> INTERACTOR = REG.block("interactor", InteractorBlock::new)
+            .lang("Interactor")
+            .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needStoneTools())
+            .blockstate((c, p) -> {
+                var model = p.models().getExistingFile(OmniUtils.loc("block/interactor"));
+                var modelOn = p.models().getExistingFile(OmniUtils.loc("block/interactor_on"));
+
+                p.getVariantBuilder(c.get()).forAllStates(state -> {
+                    Direction dir = state.getValue(BlockStateProperties.FACING);
+                    boolean enabled = state.getValue(BlockStateProperties.ENABLED);
+                    var builder = ConfiguredModel.builder();
+                    builder.modelFile(enabled ? modelOn : model);
+                    switch (dir) {
+                        case DOWN -> builder.rotationX(90);
+                        case UP -> builder.rotationX(270);
+                        case NORTH -> {}
+                        case SOUTH -> builder.rotationY(180);
+                        case WEST -> builder.rotationY(270);
+                        case EAST -> builder.rotationY(90);
+                    }
+                    return builder.build();
+                });
+                p.simpleBlockItem(c.get(), model);
+            })
+            .simpleItem()
+            .register();
 
     public static final BlockEntry<GeneratorBlock> GENERATOR = REG.block("generator_block", GeneratorBlock::new)
             .lang("Generator")

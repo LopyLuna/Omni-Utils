@@ -1,0 +1,364 @@
+{
+  "variants": {
+    "facing=east,hour=0,locked=false": {
+      "model": "omni_util:block/clock_0",
+      "y": 90
+    },
+    "facing=east,hour=0,locked=true": {
+      "model": "omni_util:block/clock_0",
+      "y": 90
+    },
+    "facing=east,hour=1,locked=false": {
+      "model": "omni_util:block/clock_1",
+      "y": 90
+    },
+    "facing=east,hour=1,locked=true": {
+      "model": "omni_util:block/clock_1",
+      "y": 90
+    },
+    "facing=east,hour=10,locked=false": {
+      "model": "omni_util:block/clock_10",
+      "y": 90
+    },
+    "facing=east,hour=10,locked=true": {
+      "model": "omni_util:block/clock_10",
+      "y": 90
+    },
+    "facing=east,hour=11,locked=false": {
+      "model": "omni_util:block/clock_11",
+      "y": 90
+    },
+    "facing=east,hour=11,locked=true": {
+      "model": "omni_util:block/clock_11",
+      "y": 90
+    },
+    "facing=east,hour=2,locked=false": {
+      "model": "omni_util:block/clock_2",
+      "y": 90
+    },
+    "facing=east,hour=2,locked=true": {
+      "model": "omni_util:block/clock_2",
+      "y": 90
+    },
+    "facing=east,hour=3,locked=false": {
+      "model": "omni_util:block/clock_3",
+      "y": 90
+    },
+    "facing=east,hour=3,locked=true": {
+      "model": "omni_util:block/clock_3",
+      "y": 90
+    },
+    "facing=east,hour=4,locked=false": {
+      "model": "omni_util:block/clock_4",
+      "y": 90
+    },
+    "facing=east,hour=4,locked=true": {
+      "model": "omni_util:block/clock_4",
+      "y": 90
+    },
+    "facing=east,hour=5,locked=false": {
+      "model": "omni_util:block/clock_5",
+      "y": 90
+    },
+    "facing=east,hour=5,locked=true": {
+      "model": "omni_util:block/clock_5",
+      "y": 90
+    },
+    "facing=east,hour=6,locked=false": {
+      "model": "omni_util:block/clock_6",
+      "y": 90
+    },
+    "facing=east,hour=6,locked=true": {
+      "model": "omni_util:block/clock_6",
+      "y": 90
+    },
+    "facing=east,hour=7,locked=false": {
+      "model": "omni_util:block/clock_7",
+      "y": 90
+    },
+    "facing=east,hour=7,locked=true": {
+      "model": "omni_util:block/clock_7",
+      "y": 90
+    },
+    "facing=east,hour=8,locked=false": {
+      "model": "omni_util:block/clock_8",
+      "y": 90
+    },
+    "facing=east,hour=8,locked=true": {
+      "model": "omni_util:block/clock_8",
+      "y": 90
+    },
+    "facing=east,hour=9,locked=false": {
+      "model": "omni_util:block/clock_9",
+      "y": 90
+    },
+    "facing=east,hour=9,locked=true": {
+      "model": "omni_util:block/clock_9",
+      "y": 90
+    },
+    "facing=north,hour=0,locked=false": {
+      "model": "omni_util:block/clock_0"
+    },
+    "facing=north,hour=0,locked=true": {
+      "model": "omni_util:block/clock_0"
+    },
+    "facing=north,hour=1,locked=false": {
+      "model": "omni_util:block/clock_1"
+    },
+    "facing=north,hour=1,locked=true": {
+      "model": "omni_util:block/clock_1"
+    },
+    "facing=north,hour=10,locked=false": {
+      "model": "omni_util:block/clock_10"
+    },
+    "facing=north,hour=10,locked=true": {
+      "model": "omni_util:block/clock_10"
+    },
+    "facing=north,hour=11,locked=false": {
+      "model": "omni_util:block/clock_11"
+    },
+    "facing=north,hour=11,locked=true": {
+      "model": "omni_util:block/clock_11"
+    },
+    "facing=north,hour=2,locked=false": {
+      "model": "omni_util:block/clock_2"
+    },
+    "facing=north,hour=2,locked=true": {
+      "model": "omni_util:block/clock_2"
+    },
+    "facing=north,hour=3,locked=false": {
+      "model": "omni_util:block/clock_3"
+    },
+    "facing=north,hour=3,locked=true": {
+      "model": "omni_util:block/clock_3"
+    },
+    "facing=north,hour=4,locked=false": {
+      "model": "omni_util:block/clock_4"
+    },
+    "facing=north,hour=4,locked=true": {
+      "model": "omni_util:block/clock_4"
+    },
+    "facing=north,hour=5,locked=false": {
+      "model": "omni_util:block/clock_5"
+    },
+    "facing=north,hour=5,locked=true": {
+      "model": "omni_util:block/clock_5"
+    },
+    "facing=north,hour=6,locked=false": {
+      "model": "omni_util:block/clock_6"
+    },
+    "facing=north,hour=6,locked=true": {
+      "model": "omni_util:block/clock_6"
+    },
+    "facing=north,hour=7,locked=false": {
+      "model": "omni_util:block/clock_7"
+    },
+    "facing=north,hour=7,locked=true": {
+      "model": "omni_util:block/clock_7"
+    },
+    "facing=north,hour=8,locked=false": {
+      "model": "omni_util:block/clock_8"
+    },
+    "facing=north,hour=8,locked=true": {
+      "model": "omni_util:block/clock_8"
+    },
+    "facing=north,hour=9,locked=false": {
+      "model": "omni_util:block/clock_9"
+    },
+    "facing=north,hour=9,locked=true": {
+      "model": "omni_util:block/clock_9"
+    },
+    "facing=south,hour=0,locked=false": {
+      "model": "omni_util:block/clock_0",
+      "y": 180
+    },
+    "facing=south,hour=0,locked=true": {
+      "model": "omni_util:block/clock_0",
+      "y": 180
+    },
+    "facing=south,hour=1,locked=false": {
+      "model": "omni_util:block/clock_1",
+      "y": 180
+    },
+    "facing=south,hour=1,locked=true": {
+      "model": "omni_util:block/clock_1",
+      "y": 180
+    },
+    "facing=south,hour=10,locked=false": {
+      "model": "omni_util:block/clock_10",
+      "y": 180
+    },
+    "facing=south,hour=10,locked=true": {
+      "model": "omni_util:block/clock_10",
+      "y": 180
+    },
+    "facing=south,hour=11,locked=false": {
+      "model": "omni_util:block/clock_11",
+      "y": 180
+    },
+    "facing=south,hour=11,locked=true": {
+      "model": "omni_util:block/clock_11",
+      "y": 180
+    },
+    "facing=south,hour=2,locked=false": {
+      "model": "omni_util:block/clock_2",
+      "y": 180
+    },
+    "facing=south,hour=2,locked=true": {
+      "model": "omni_util:block/clock_2",
+      "y": 180
+    },
+    "facing=south,hour=3,locked=false": {
+      "model": "omni_util:block/clock_3",
+      "y": 180
+    },
+    "facing=south,hour=3,locked=true": {
+      "model": "omni_util:block/clock_3",
+      "y": 180
+    },
+    "facing=south,hour=4,locked=false": {
+      "model": "omni_util:block/clock_4",
+      "y": 180
+    },
+    "facing=south,hour=4,locked=true": {
+      "model": "omni_util:block/clock_4",
+      "y": 180
+    },
+    "facing=south,hour=5,locked=false": {
+      "model": "omni_util:block/clock_5",
+      "y": 180
+    },
+    "facing=south,hour=5,locked=true": {
+      "model": "omni_util:block/clock_5",
+      "y": 180
+    },
+    "facing=south,hour=6,locked=false": {
+      "model": "omni_util:block/clock_6",
+      "y": 180
+    },
+    "facing=south,hour=6,locked=true": {
+      "model": "omni_util:block/clock_6",
+      "y": 180
+    },
+    "facing=south,hour=7,locked=false": {
+      "model": "omni_util:block/clock_7",
+      "y": 180
+    },
+    "facing=south,hour=7,locked=true": {
+      "model": "omni_util:block/clock_7",
+      "y": 180
+    },
+    "facing=south,hour=8,locked=false": {
+      "model": "omni_util:block/clock_8",
+      "y": 180
+    },
+    "facing=south,hour=8,locked=true": {
+      "model": "omni_util:block/clock_8",
+      "y": 180
+    },
+    "facing=south,hour=9,locked=false": {
+      "model": "omni_util:block/clock_9",
+      "y": 180
+    },
+    "facing=south,hour=9,locked=true": {
+      "model": "omni_util:block/clock_9",
+      "y": 180
+    },
+    "facing=west,hour=0,locked=false": {
+      "model": "omni_util:block/clock_0",
+      "y": 270
+    },
+    "facing=west,hour=0,locked=true": {
+      "model": "omni_util:block/clock_0",
+      "y": 270
+    },
+    "facing=west,hour=1,locked=false": {
+      "model": "omni_util:block/clock_1",
+      "y": 270
+    },
+    "facing=west,hour=1,locked=true": {
+      "model": "omni_util:block/clock_1",
+      "y": 270
+    },
+    "facing=west,hour=10,locked=false": {
+      "model": "omni_util:block/clock_10",
+      "y": 270
+    },
+    "facing=west,hour=10,locked=true": {
+      "model": "omni_util:block/clock_10",
+      "y": 270
+    },
+    "facing=west,hour=11,locked=false": {
+      "model": "omni_util:block/clock_11",
+      "y": 270
+    },
+    "facing=west,hour=11,locked=true": {
+      "model": "omni_util:block/clock_11",
+      "y": 270
+    },
+    "facing=west,hour=2,locked=false": {
+      "model": "omni_util:block/clock_2",
+      "y": 270
+    },
+    "facing=west,hour=2,locked=true": {
+      "model": "omni_util:block/clock_2",
+      "y": 270
+    },
+    "facing=west,hour=3,locked=false": {
+      "model": "omni_util:block/clock_3",
+      "y": 270
+    },
+    "facing=west,hour=3,locked=true": {
+      "model": "omni_util:block/clock_3",
+      "y": 270
+    },
+    "facing=west,hour=4,locked=false": {
+      "model": "omni_util:block/clock_4",
+      "y": 270
+    },
+    "facing=west,hour=4,locked=true": {
+      "model": "omni_util:block/clock_4",
+      "y": 270
+    },
+    "facing=west,hour=5,locked=false": {
+      "model": "omni_util:block/clock_5",
+      "y": 270
+    },
+    "facing=west,hour=5,locked=true": {
+      "model": "omni_util:block/clock_5",
+      "y": 270
+    },
+    "facing=west,hour=6,locked=false": {
+      "model": "omni_util:block/clock_6",
+      "y": 270
+    },
+    "facing=west,hour=6,locked=true": {
+      "model": "omni_util:block/clock_6",
+      "y": 270
+    },
+    "facing=west,hour=7,locked=false": {
+      "model": "omni_util:block/clock_7",
+      "y": 270
+    },
+    "facing=west,hour=7,locked=true": {
+      "model": "omni_util:block/clock_7",
+      "y": 270
+    },
+    "facing=west,hour=8,locked=false": {
+      "model": "omni_util:block/clock_8",
+      "y": 270
+    },
+    "facing=west,hour=8,locked=true": {
+      "model": "omni_util:block/clock_8",
+      "y": 270
+    },
+    "facing=west,hour=9,locked=false": {
+      "model": "omni_util:block/clock_9",
+      "y": 270
+    },
+    "facing=west,hour=9,locked=true": {
+      "model": "omni_util:block/clock_9",
+      "y": 270
+    }
+  }
+}

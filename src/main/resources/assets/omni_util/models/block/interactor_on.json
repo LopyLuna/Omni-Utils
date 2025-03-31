@@ -1,0 +1,7 @@
+{
+    "parent": "omni_util:block/interactor",
+    "textures": {
+        "bottom": "omni_util:block/interactor_front_on",
+        "front": "omni_util:block/interactor_back_on"
+    }
+}

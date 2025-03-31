@@ -12,6 +12,8 @@
     "#c:glass_blocks",
     "#c:glass_panes",
     "#c:skulls",
+    "omni_util:clock",
+    "omni_util:interactor",
     "omni_util:generator_block",
     "omni_util:consumor_block",
     "omni_util:solar_panel",

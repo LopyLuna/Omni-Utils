@@ -180,6 +180,10 @@ public class AllItems {
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
 
+    public static final ItemEntry<MagicMirror> MAGIC_MIRROR = REG.item("magic_mirror", MagicMirror::new)
+            .lang("Magic Mirror")
+            .register();
+
     public static final ItemEntry<UnstableHexaIngot> UNSTABLE_HEXA_INGOT = REG.item("unstable_hexa_ingot", UnstableHexaIngot::new)
             .lang("Unstable Hexa Ingot")
             .register();

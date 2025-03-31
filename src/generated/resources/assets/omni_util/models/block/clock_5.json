@@ -1,0 +1,6 @@
+{
+  "parent": "omni_util:block/clock",
+  "textures": {
+    "2": "omni_util:block/clock_5"
+  }
+}

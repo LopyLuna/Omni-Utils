@@ -1,5 +1,6 @@
 {
   "values": [
+    "omni_util:interactor",
     "omni_util:generator_block",
     "omni_util:consumor_block",
     "omni_util:border_stone",

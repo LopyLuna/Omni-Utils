@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "enabled=false,facing=down": {
+      "model": "omni_util:block/interactor",
+      "x": 90
+    },
+    "enabled=false,facing=east": {
+      "model": "omni_util:block/interactor",
+      "y": 90
+    },
+    "enabled=false,facing=north": {
+      "model": "omni_util:block/interactor"
+    },
+    "enabled=false,facing=south": {
+      "model": "omni_util:block/interactor",
+      "y": 180
+    },
+    "enabled=false,facing=up": {
+      "model": "omni_util:block/interactor",
+      "x": 270
+    },
+    "enabled=false,facing=west": {
+      "model": "omni_util:block/interactor",
+      "y": 270
+    },
+    "enabled=true,facing=down": {
+      "model": "omni_util:block/interactor_on",
+      "x": 90
+    },
+    "enabled=true,facing=east": {
+      "model": "omni_util:block/interactor_on",
+      "y": 90
+    },
+    "enabled=true,facing=north": {
+      "model": "omni_util:block/interactor_on"
+    },
+    "enabled=true,facing=south": {
+      "model": "omni_util:block/interactor_on",
+      "y": 180
+    },
+    "enabled=true,facing=up": {
+      "model": "omni_util:block/interactor_on",
+      "x": 270
+    },
+    "enabled=true,facing=west": {
+      "model": "omni_util:block/interactor_on",
+      "y": 270
+    }
+  }
+}
