@@ -26,7 +26,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class MagicMirror extends Item {
     public MagicMirror(Properties properties) {
-        super(properties);
+        super(properties.stacksTo(1));
     }
 
     @Override

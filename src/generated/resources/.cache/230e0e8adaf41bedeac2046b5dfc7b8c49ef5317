@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-30T19:11:06.6495685	Registrate Provider for omni_util [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (enchantments), Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2025-04-01T23:20:03.7812867	Registrate Provider for omni_util [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (enchantments), Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 4faefce72ba3ab3d30d42e13cc79106615112aba assets/omni_util/blockstates/angel_block.json
 41de8a84879d726fdab9e1d5becf43858838fb2e assets/omni_util/blockstates/border_stone.json
 6ffa6b2c145557283f1b329f4b45492d21e1f6eb assets/omni_util/blockstates/chiseled_grimrock_bricks.json
@@ -54,8 +54,8 @@ aa8cf0f1e86fc58acb8f96dd70197df65bd91ba3 assets/omni_util/blockstates/polished_s
 6334b568af46b3c4e6174cfbafa5949794142887 assets/omni_util/blockstates/solar_panel.json
 a33dc8bc6a74a06af4dc7e089f1b7bdd8edf2ab5 assets/omni_util/blockstates/stone_spike.json
 22158cc9337776a84b735e3f34e4d6fa38382bf3 assets/omni_util/blockstates/unstable_hexa_block.json
-36c13935bfc691dc26544099e26113d0f2ed620c assets/omni_util/lang/en_ud.json
-6a92e006e24c2081cf8ad10ea33409fe1ecd9cfc assets/omni_util/lang/en_us.json
+8ec5c1cc26a4096acaece95f0cd9c221474c6b11 assets/omni_util/lang/en_ud.json
+fb8e356852167874fb3b5efbbb16ec5dc17ff8af assets/omni_util/lang/en_us.json
 fbd82ed6de96473f191128bfd850d29d055a7c58 assets/omni_util/models/block/chiseled_grimrock_bricks.json
 ef6e2d25da07cba6d65eba7b44c9f53e472a1f82 assets/omni_util/models/block/clock_0.json
 403d1eb1fbc851f2523990bf5d8521d1a3f34751 assets/omni_util/models/block/clock_1.json
@@ -149,6 +149,7 @@ a4ede406086d8c6c6e61cc644dabf7f041f292a9 assets/omni_util/models/item/blank_tabl
 71e61d06ac8d8577a8e8bb8d1a8ae3ab87e65549 assets/omni_util/models/item/border_stone.json
 888dccddb3678af0bd09353000d4b73253117335 assets/omni_util/models/item/bundle_of_holding.json
 76a117d64a442aa0376f4ac63dde8c33b9969c4e assets/omni_util/models/item/bundle_of_holding_open.json
+e060b08830f61f98982f259e30670c07bdfa0345 assets/omni_util/models/item/cataclysm_sigil.json
 240298fb8581a04c61f147a459a17d5345dc75ed assets/omni_util/models/item/chiseled_grimrock_bricks.json
 927d0810d4bb8465ecdbcd14ba3a68c90ae8c03a assets/omni_util/models/item/clock.json
 bff66b1bce21aa3432298772997eeb5ee6b2c134 assets/omni_util/models/item/cobbled_grimrock.json
@@ -179,6 +180,7 @@ fd3eb65051e7bf33bdbbc7a35aa3fc4bf3af1aea assets/omni_util/models/item/diamond_sp
 061385c4429c9ef2ab2e841efae4b4860899e6ff assets/omni_util/models/item/emerald_scythe.json
 d0d282e3121362b37a8d9c67346ac4446b6f4c8a assets/omni_util/models/item/empty_watering_can.json
 c5e142c74a81536b2620f7c1e2a000b2c240f99d assets/omni_util/models/item/feathered_angel_ring.json
+1e0f3565356223018e9faf0607cb8b2d195a9219 assets/omni_util/models/item/garnet.json
 0349d3862305e2ca5994b6282e98a8de19549fdf assets/omni_util/models/item/generator_block.json
 0178f22316c3c6d42431453821a9610c3d3b89ab assets/omni_util/models/item/gilded_angel_ring.json
 2bb194cd565fd7e17a48729552a8f6967fda310e assets/omni_util/models/item/glowrock.json
@@ -229,6 +231,8 @@ cfd8758866f3759900e5090e52ab4d1e2855743b assets/omni_util/models/item/polished_g
 b66d93f7786fba4c6860dc303f846ee685d60803 assets/omni_util/models/item/smooth_grimrock.json
 8a7be2a7aa38a2065e0ebc906bba086c0283d2d3 assets/omni_util/models/item/solar_panel.json
 211c8a574b5b7b3e61e653144d05a924dc65e5e4 assets/omni_util/models/item/sonar_goggles.json
+181757c6c0e25251b3792a81271da02939e8be57 assets/omni_util/models/item/soul_lasso.json
+1fa7e61192799c10bce4232d4da906f9f1157888 assets/omni_util/models/item/soul_lasso_mob.json
 158808e7be647ce55d10ce7dd05a889e45cca874 assets/omni_util/models/item/stone_hammer.json
 6663c9c222be1b68f1b92be9f5bb9e4bfc890c6b assets/omni_util/models/item/stone_paxel.json
 2aed2ab9dbb8dfb87469dbb01a2bbad6a30d16d7 assets/omni_util/models/item/stone_scythe.json
@@ -237,11 +241,21 @@ e4da065f857b2715288f8d63998bf7fd9b8d06bb assets/omni_util/models/item/stone_spik
 6ea4cec8d3538f0f2a467d96d287cfed434aabee assets/omni_util/models/item/unstable_hexa_ingot.json
 4b545fb91c02593c43bcb43aa321cb6b939b05e9 assets/omni_util/models/item/unstable_hexa_nugget.json
 df87ac40c5d7c6b4fbd54bd2a734cd4d9cfeec8d assets/omni_util/models/item/watering_can.json
+0c67a6d69d82cbf0d473f61753ffe965119ef2db assets/omni_util/models/item/withered_soul_lasso.json
+c3bc232e206090840cc8ea586f3bdae50c252651 assets/omni_util/models/item/withered_soul_lasso_mob.json
 f6cc4831fea69d2bbe377b9068a02d8468e7eda2 assets/omni_util/models/item/withered_tear.json
 99eba675b1116f04b51c1f0ea9673b7a89e9d247 assets/omni_util/models/item/wooden_hammer.json
 a507c9c98a7b66af8d8268c4de535805bc959e69 assets/omni_util/models/item/wooden_paxel.json
 050b8534d22874b5bbf9eddd6e117497ea663830 assets/omni_util/models/item/wooden_scythe.json
 93dd1af6d3a632132ed1ef954abf185984c6b01d data/c/tags/item/enchantables.json
+87195bb55a7a47a3d4a34a2826d5e0c9eed1e62b data/c/tags/item/gems.json
+87195bb55a7a47a3d4a34a2826d5e0c9eed1e62b data/c/tags/item/gems/garnet.json
+6b53af9b87fd4572f78b2c089cf378ca71929a40 data/c/tags/item/goggles.json
+363968e52e57282e0d206d1896d5931567ab22a3 data/c/tags/item/ingots.json
+363968e52e57282e0d206d1896d5931567ab22a3 data/c/tags/item/ingots/hexa.json
+fb8c80f0e1f9afb703e212408ebc365bd33c9750 data/c/tags/item/nuggets.json
+fb8c80f0e1f9afb703e212408ebc365bd33c9750 data/c/tags/item/nuggets/hexa.json
+f453b0193307700e8bbb7a7db64e129e60db4adc data/c/tags/item/sigils.json
 93dd1af6d3a632132ed1ef954abf185984c6b01d data/c/tags/item/tools/melee_weapon.json
 93dd1af6d3a632132ed1ef954abf185984c6b01d data/c/tags/item/tools/mining_tool.json
 7436f90fa231f97cd18ceb0fc413afd28d5ad6fa data/minecraft/tags/block/dirt.json

@@ -1,0 +1,145 @@
+package uwu.lopyluna.omni_util.content.items;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Unit;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.extensions.IPlayerExtension;
+import org.jetbrains.annotations.NotNull;
+import uwu.lopyluna.omni_util.register.AllDataComponents;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
+
+@ParametersAreNonnullByDefault
+public class SoulLassoItem extends Item {
+    public SoulLassoItem(Properties properties) {
+        super(properties.stacksTo(1));
+    }
+
+    @Override
+    public @NotNull InteractionResult useOn(UseOnContext pContext) {
+        var pStack = pContext.getItemInHand();
+        var pPlayer = pContext.getPlayer();
+        var pClickedPos = pContext.getClickedPos();
+        var pLevel = pContext.getLevel();
+        if (pContext.getClickedFace() != Direction.UP || !pStack.has(AllDataComponents.HAS_ENTITY)) return InteractionResult.PASS;
+        var entity = pStack.get(AllDataComponents.ENTITY);
+        var name = pStack.get(AllDataComponents.ENTITY_CUSTOM_NAME);
+        var data = pStack.get(AllDataComponents.ENTITY_DATA);
+        var addData = pStack.get(AllDataComponents.ADD_ENTITY_DATA);
+        var perData = pStack.get(AllDataComponents.PER_ENTITY_DATA);
+        var has = pStack.get(AllDataComponents.HAS_ENTITY);
+        if (entity == null || data == null || addData == null || perData == null || has == null) return InteractionResult.PASS;
+        var loadEntity = EntityType.loadEntityRecursive(entity.copyTag(), pLevel, e -> e);
+        if (!(loadEntity instanceof LivingEntity pTarget)) return InteractionResult.PASS;
+        pTarget.load(data.copyTag());
+        pTarget.readAdditionalSaveData(addData.copyTag());
+        pTarget.getPersistentData().merge(perData.copyTag());
+        pTarget.resetFallDistance();
+        pTarget.moveTo(Vec3.atBottomCenterOf(pClickedPos.above()));
+        if (name != null) pTarget.setCustomName(name);
+        pLevel.addFreshEntity(pTarget);
+        pStack.remove(AllDataComponents.ENTITY);
+        pStack.remove(AllDataComponents.ENTITY_CUSTOM_NAME);
+        pStack.remove(AllDataComponents.ENTITY_DATA);
+        pStack.remove(AllDataComponents.ADD_ENTITY_DATA);
+        pStack.remove(AllDataComponents.PER_ENTITY_DATA);
+        pStack.remove(AllDataComponents.HAS_ENTITY);
+        if (pPlayer != null) pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+    }
+
+    public boolean flagMob(LivingEntity pTarget) {
+        return pTarget instanceof Enemy || !pTarget.getType().getCategory().isFriendly();
+    }
+
+    public boolean flagHealth(LivingEntity pTarget) {
+        return pTarget.getHealth() > (pTarget.getMaxHealth() * 0.5f);
+    }
+
+    public Component getTargetName(ItemStack pStack, LivingEntity pTarget) {
+        var custom = pStack.get(AllDataComponents.ENTITY_CUSTOM_NAME);
+        var name = custom != null ? custom : pTarget.getName();
+        var type = pTarget.getType().getDescription();
+        var component = Component.empty();
+        if (type != name) component.append(name).append(" ");
+        return component.append(type);
+    }
+
+    public Component invalidMob(ItemStack pStack, LivingEntity pTarget) {
+        return Component.empty().append(getTargetName(pStack, pTarget)).append(" is not Friendly").withStyle(ChatFormatting.RED);
+    }
+    public Component invalidHealth(ItemStack pStack, LivingEntity pTarget) {
+        return Component.empty().append(getTargetName(pStack, pTarget)).append(" have too much Health").withStyle(ChatFormatting.RED);
+    }
+
+    @Override
+    public @NotNull InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pTarget, InteractionHand pHand) {
+        if (pStack.has(AllDataComponents.HAS_ENTITY) || pTarget instanceof Player || pTarget instanceof IPlayerExtension || pTarget.isMultipartEntity() || pTarget.isDeadOrDying() || pTarget.getMaxHealth() > 100) return InteractionResult.PASS;
+        if (flagMob(pTarget)) {
+            pPlayer.displayClientMessage(invalidMob(pStack, pTarget), true);
+            pPlayer.playNotifySound(SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 0.8f, 0.7f);
+            return InteractionResult.PASS;
+        } else if (flagHealth(pTarget)) {
+            pPlayer.displayClientMessage(invalidHealth(pStack, pTarget), true);
+            pPlayer.playNotifySound(SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 0.8f, 0.7f);
+            return InteractionResult.PASS;
+        }
+        var dataTag = new CompoundTag();
+        var addDataTag = new CompoundTag();
+        var entityID = new CompoundTag();
+        var entity = CustomData.EMPTY;
+        var data = CustomData.EMPTY;
+        var addData = CustomData.EMPTY;
+        var perData = CustomData.EMPTY;
+
+        perData = CustomData.of(pTarget.getPersistentData());
+        pTarget.saveWithoutId(dataTag);
+        pTarget.addAdditionalSaveData(addDataTag);
+        addData = CustomData.of(addDataTag);
+        entityID.putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(pTarget.getType()).toString());
+        entity = CustomData.of(entityID);
+        if (pTarget.hasCustomName()) pStack.set(AllDataComponents.ENTITY_CUSTOM_NAME, pTarget.getCustomName());
+        pStack.set(AllDataComponents.ENTITY, entity);
+        pStack.set(AllDataComponents.ENTITY_DATA, data);
+        pStack.set(AllDataComponents.ADD_ENTITY_DATA, addData);
+        pStack.set(AllDataComponents.PER_ENTITY_DATA, perData);
+        pStack.set(AllDataComponents.HAS_ENTITY, Unit.INSTANCE);
+        pTarget.discard();
+        pPlayer.playNotifySound(SoundEvents.SOUL_ESCAPE.value(), SoundSource.PLAYERS, 1.5f, 1.0f);
+        return InteractionResult.sidedSuccess(pTarget.level().isClientSide());
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltip, TooltipFlag pFlag) {
+        var pLevel = pContext.level();
+        if (!pStack.has(AllDataComponents.HAS_ENTITY) || pLevel == null) return;
+        var data = pStack.get(AllDataComponents.ENTITY);
+        if (data == null) return;
+        var entity = EntityType.loadEntityRecursive(data.copyTag(), pLevel, e -> e);
+        if (entity == null) return;
+        pTooltip.add(Component.empty().append(Component.literal("Mob: ").withStyle(ChatFormatting.GRAY)));
+        var custom = pStack.get(AllDataComponents.ENTITY_CUSTOM_NAME);
+        var name = custom != null ? custom : entity.getName();
+        var type = entity.getType().getDescription();
+        if (name != type) pTooltip.add(Component.empty().append(name).withStyle(ChatFormatting.BLUE));
+        pTooltip.add(Component.empty().append(entity.getType().getDescription()).withStyle(ChatFormatting.BLUE));
+    }
+}

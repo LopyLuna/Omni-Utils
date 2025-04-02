@@ -66,9 +66,11 @@ public class ClockBlock extends HorizontalDirectionalBlock {
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         var level = context.getLevel();
+        var player = context.getPlayer();
+        var dir = player != null ? player.getDirection().getOpposite() : Direction.NORTH;
         var hour = AllUtils.getHourOfTime(level);
         hour = hour == 12 ? 0 : hour;
-        return this.defaultBlockState().setValue(HOUR, hour).setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(LOCKED, false);
+        return this.defaultBlockState().setValue(HOUR, hour).setValue(FACING, dir).setValue(LOCKED, false);
     }
 
     @Override

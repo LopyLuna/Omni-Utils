@@ -22,6 +22,7 @@ import uwu.lopyluna.omni_util.content.container.ContainerTooltipComponent;
 import uwu.lopyluna.omni_util.content.container.bundle_of_holding.BundleOfHoldingContainer;
 import uwu.lopyluna.omni_util.content.items.AngelRing;
 import uwu.lopyluna.omni_util.content.items.BundleOfHoldingItem;
+import uwu.lopyluna.omni_util.register.AllDataComponents;
 import uwu.lopyluna.omni_util.register.AllItems;
 import uwu.lopyluna.omni_util.register.worldgen.AllDimensions;
 
@@ -56,6 +57,8 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            ItemProperties.register(AllItems.SOUL_LASSO.get(), OmniUtils.loc("entity"), (stack, level, entity, seed) -> stack.has(AllDataComponents.HAS_ENTITY) ? 1f : 0f);
+            ItemProperties.register(AllItems.WITHERED_SOUL_LASSO.get(), OmniUtils.loc("entity"), (stack, level, entity, seed) -> stack.has(AllDataComponents.HAS_ENTITY) ? 1f : 0f);
             ItemProperties.register(AllItems.BUNDLE_OF_HOLDING.get(), OmniUtils.loc("open"), (stack, level, entity, seed) -> {
                 if (!(stack.getItem() instanceof BundleOfHoldingItem) || !(entity instanceof Player)) return 0.0F;
                 var contents = new BundleOfHoldingContainer(stack);

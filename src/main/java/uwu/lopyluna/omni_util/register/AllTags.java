@@ -115,11 +115,12 @@ public class AllTags {
 
     }
 
-
-    private static TagKey<Block> block(String name) { return TagKey.create(Registries.BLOCK, OmniUtils.loc(name)); }
-    private static TagKey<Block> blockMC(String name) { return TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace(name)); }
-    private static TagKey<Item> item(String name) { return TagKey.create(Registries.ITEM, OmniUtils.loc(name)); }
-    private static TagKey<Item> itemMC(String name) { return TagKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace(name)); }
+    public static TagKey<Block> block(String name) { return TagKey.create(Registries.BLOCK, OmniUtils.loc(name)); }
+    public static TagKey<Block> blockC(String name) { return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", name)); }
+    public static TagKey<Block> blockMC(String name) { return TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace(name)); }
+    public static TagKey<Item> item(String name) { return TagKey.create(Registries.ITEM, OmniUtils.loc(name)); }
+    public static TagKey<Item> itemC(String name) { return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name)); }
+    public static TagKey<Item> itemMC(String name) { return TagKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace(name)); }
 
     public static class TagsProvider<T> {
 

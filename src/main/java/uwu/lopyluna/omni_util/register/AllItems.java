@@ -6,9 +6,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
+import uwu.lopyluna.omni_util.content.blocks.WitheredSoulLassoItem;
 import uwu.lopyluna.omni_util.content.items.*;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
 import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaNugget;
+import uwu.lopyluna.omni_util.content.items.sigils.CataclysmSigilItem;
+import uwu.lopyluna.omni_util.content.items.sigils.HexSigilItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
 import static net.minecraft.world.item.Tiers.*;
@@ -180,24 +183,43 @@ public class AllItems {
             .model((c, p) -> p.handheldItem(c.get()))
             .register();
 
+    public static final ItemEntry<WitheredSoulLassoItem> WITHERED_SOUL_LASSO = REG.item("withered_soul_lasso", WitheredSoulLassoItem::new)
+            .lang("Withered Soul Lasso")
+            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("withered_soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
+            .register();
+
+    public static final ItemEntry<SoulLassoItem> SOUL_LASSO = REG.item("soul_lasso", SoulLassoItem::new)
+            .lang("Soul Lasso")
+            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
+            .register();
+
     public static final ItemEntry<MagicMirror> MAGIC_MIRROR = REG.item("magic_mirror", MagicMirror::new)
             .lang("Magic Mirror")
             .register();
 
+    public static final ItemEntry<Item> GARNET = REG.item("garnet", Item::new)
+            .lang("Garnet")
+            .tag(AllTags.itemC("gems/garnet"), AllTags.itemC("gems"))
+            .register();
+
     public static final ItemEntry<UnstableHexaIngot> UNSTABLE_HEXA_INGOT = REG.item("unstable_hexa_ingot", UnstableHexaIngot::new)
             .lang("Unstable Hexa Ingot")
+            .tag(AllTags.itemC("ingots/hexa"), AllTags.itemC("ingots"))
             .register();
 
     public static final ItemEntry<UnstableHexaNugget> UNSTABLE_HEXA_NUGGET = REG.item("unstable_hexa_nugget", UnstableHexaNugget::new)
             .lang("Unstable Hexa Nugget")
+            .tag(AllTags.itemC("nuggets/hexa"), AllTags.itemC("nuggets"))
             .register();
 
     public static final ItemEntry<Item> HEXA_INGOT = REG.item("hexa_ingot", Item::new)
             .lang("Hexa Ingot")
+            .tag(AllTags.itemC("ingots/hexa"), AllTags.itemC("ingots"))
             .register();
 
     public static final ItemEntry<Item> HEXA_NUGGET = REG.item("hexa_nugget", Item::new)
             .lang("Hexa Nugget")
+            .tag(AllTags.itemC("nuggets/hexa"), AllTags.itemC("nuggets"))
             .register();
 
     public static final ItemEntry<Item> BLANK_TABLET = REG.item("blank_tablet", Item::new)
@@ -208,6 +230,13 @@ public class AllItems {
     public static final ItemEntry<HexSigilItem> HEX_SIGIL = REG.item("hex_sigil", HexSigilItem::new)
             .lang("Hex Sigil")
             .model(ModelHelper::forwardItem)
+            .tag(AllTags.itemC("sigils"))
+            .register();
+
+    public static final ItemEntry<CataclysmSigilItem> CATACLYSM_SIGIL = REG.item("cataclysm_sigil", CataclysmSigilItem::new)
+            .lang("Cataclysm Sigil")
+            .model(ModelHelper::forwardItem)
+            .tag(AllTags.itemC("sigils"))
             .register();
 
     public static final ItemEntry<Item> WITHERED_TEAR = REG.item("withered_tear", Item::new)
@@ -216,9 +245,12 @@ public class AllItems {
 
     public static final ItemEntry<GogglesItem> GOGGLES = REG.item("goggles", GogglesItem::new)
             .lang("Goggles")
+            .tag(AllTags.itemC("goggles"))
             .register();
+
     public static final ItemEntry<SonarGogglesItem> SONAR_GOGGLES = REG.item("sonar_goggles", SonarGogglesItem::new)
             .lang("Sonar Goggles")
+            .tag(AllTags.itemC("goggles"))
             .register();
 
     public static final ItemEntry<WateringCanItem> WATERING_CAN = REG.item("watering_can", WateringCanItem::new)
@@ -231,7 +263,6 @@ public class AllItems {
             .lang("Empty Watering Can")
             .model(ModelHelper::forwardItem)
             .register();
-
 
     public static final ItemEntry<BundleOfHoldingItem> BUNDLE_OF_HOLDING = REG.item("bundle_of_holding", BundleOfHoldingItem::new)
             .properties(p -> p.fireResistant().rarity(Rarity.UNCOMMON))

@@ -1,4 +1,4 @@
-package uwu.lopyluna.omni_util.content.items;
+package uwu.lopyluna.omni_util.content.items.sigils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -19,6 +19,6 @@ public class HexSigilItem extends Item {
 
     @Override
     public @NotNull Component getDescription() {
-        return ((MutableComponent) super.getDescription()).withStyle(ChatFormatting.RED);
+        return Component.translatable(this.getDescriptionId()).withStyle(ChatFormatting.GOLD);
     }
 }
