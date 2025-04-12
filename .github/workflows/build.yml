@@ -32,11 +32,17 @@ jobs:
         with:
           arguments: build
 
+      - name: Get mod version from Gradle properties
+        uses: madhead/read-java-properties@v1
+        id: props
+        with:
+          file: gradle.properties
+          property: mod_version
+
       - name: Publish mod to GitHub Releases
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
           github-generate-changelog: true
           github-draft: false
           github-prerelease: false
@@ -45,7 +51,7 @@ jobs:
             build/libs/!(*-@(dev|sources|javadoc)).jar
 
           name: Omni-Utils Release
-          version: ${{ github.ref_name }}
+          version: ${{ steps.props.outputs.value }}
           version-type: release
 
           loaders: |
@@ -58,6 +64,6 @@ jobs:
         uses: fateyan/action-discord-notifier@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message-title: |
-            Omni-Utils ${{ github.ref_name }} has been built!
-            [Download Jar](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ github.ref_name }}/omni_util-${{ github.ref_name }}.jar)
+          message-title: "Omni-Utils on branch ${{ steps.props.outputs.value }} has been built!"
+          message-body: |
+            [__Download__](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ steps.props.outputs.value }}/omni_util-${{ steps.props.outputs.value }}.jar)
