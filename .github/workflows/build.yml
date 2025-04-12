@@ -59,4 +59,3 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message-title: "Omni-Utils v${{ github.ref_name }} has been built and published!"
-          color: 65280
