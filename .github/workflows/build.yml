@@ -58,4 +58,6 @@ jobs:
         uses: fateyan/action-discord-notifier@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message-title: "Omni-Utils v${{ github.ref_name }} has been built and published!"
+          message-title: |
+            Omni-Utils ${{ github.ref_name }} has been built!
+            [Download Jar](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ github.ref_name }}/omni_util-${{ github.ref_name }}.jar)
