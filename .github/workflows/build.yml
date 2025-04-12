@@ -32,12 +32,9 @@ jobs:
         with:
           arguments: build
 
-      - name: Get mod version from Gradle properties
-        uses: madhead/read-java-properties@v1
+      - name: Read mod version
         id: props
-        with:
-          file: gradle.properties
-          property: mod_version
+        run: echo "value=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
 
       - name: Publish mod to GitHub Releases
         uses: Kir-Antipov/mc-publish@v3.3
@@ -59,7 +56,7 @@ jobs:
           game-versions: |
             1.21.1
 
-      - name: Notify Discord on success
+      - name: Notify Discord on Success
         if: success()
         uses: fateyan/action-discord-notifier@v1
         with:
