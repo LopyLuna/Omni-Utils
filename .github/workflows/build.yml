@@ -58,5 +58,5 @@ jobs:
         uses: fateyan/action-discord-notifier@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message-title: "✅ Omni-Utils v${{ github.ref_name }} has been built and published!"
-          color: 65280  # Green
+          message-title: "Omni-Utils v${{ github.ref_name }} has been built and published!"
+          color: 65280
