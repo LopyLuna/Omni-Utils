@@ -1,5 +1,4 @@
 name: Build
-
 on: [push, pull_request]
 
 jobs:
@@ -22,3 +21,20 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build
+
+      - name: Get branch name
+        id: get_branch
+        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+
+      - name: Send building message to discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: github.event_name == 'push' && env.DISCORD_WEBHOOK != ''
+        uses: fateyan/action-discord-notifier@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message-title: Building mod from branch ${{ steps.get_branch.outputs.branch }}
+      - run: ./gradlew build publish
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
