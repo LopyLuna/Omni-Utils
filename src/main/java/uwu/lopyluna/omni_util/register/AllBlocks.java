@@ -54,6 +54,20 @@ import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 @SuppressWarnings({"unused", "removal"})
 public class AllBlocks {
 
+    public static final BlockEntry<LightForceBlock> LIGHT_FORCE = REG.block("light_force", LightForceBlock::new)
+            .lang("Force of Light")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<DarkForceBlock> DARK_FORCE = REG.block("dark_force", DarkForceBlock::new)
+            .lang("Force of Dark")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<ClockBlock> CLOCK = REG.block("clock", ClockBlock::new)
             .lang("Clock")
             .properties(p -> p.sound(SoundType.WOOD).strength(2.0F, 3.0F).requiresCorrectToolForDrops())
