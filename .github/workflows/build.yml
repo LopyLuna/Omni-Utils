@@ -63,5 +63,6 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: |
-            ## Omni-Utils ${{ steps.props.outputs.value }} has been built and published!
-            [Download](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ steps.props.outputs.value }}/omni_util-${{ steps.props.outputs.value }}.jar)
+            ||<@&1119816316560359515><@&1179960869807988747><@&1203776983167803482><@&1203776907770859630>||
+            # New Build of Omni-Utils ${{ steps.props.outputs.value }} to be Balance/Bug Tested!
+            ## [**__Download__**](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ steps.props.outputs.value }}/omni_util-${{ steps.props.outputs.value }}.jar)
