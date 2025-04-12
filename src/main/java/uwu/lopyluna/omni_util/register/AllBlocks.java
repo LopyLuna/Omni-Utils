@@ -4,7 +4,6 @@ import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -42,13 +41,14 @@ import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBlock;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBlock;
+import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
 import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.LootTableHelper;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
-import static uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper.modelSpike;
+import static uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper.*;
 import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 
 @SuppressWarnings({"unused", "removal"})
@@ -61,21 +61,35 @@ public class AllBlocks {
             .addLayer(() -> RenderType::cutoutMipped)
             .blockstate((c, p) -> {
                 p.getVariantBuilder(c.get()).forAllStates(state -> {
-                    Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
                     int hour = state.getValue(ClockBlock.HOUR);
                     var model = p.models().withExistingParent("clock_" + hour, OmniUtils.loc("block/clock")).texture("2", OmniUtils.loc("block/clock_" + hour));
 
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(model);
-                    switch (dir) {
-                        case NORTH -> {}
-                        case SOUTH -> builder.rotationY(180);
-                        case WEST -> builder.rotationY(270);
-                        case EAST -> builder.rotationY(90);
-                    }
+                    generateHoriztonalDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/clock")));
+            })
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<BreakerBlock> BREAKER = REG.block("breaker", BreakerBlock::new)
+            .lang("Breaker")
+            .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needStoneTools())
+            .blockstate((c, p) -> {
+                var model = p.models().getExistingFile(OmniUtils.loc("block/breaker"));
+                var modelOn = p.models().getExistingFile(OmniUtils.loc("block/breaker_on"));
+
+                p.getVariantBuilder(c.get()).forAllStates(state -> {
+                    boolean triggered = state.getValue(BlockStateProperties.TRIGGERED);
+                    var builder = ConfiguredModel.builder();
+                    builder.modelFile(triggered ? modelOn : model);
+                    generateDirectional(builder, state);
+                    return builder.build();
+                });
+                p.simpleBlockItem(c.get(), model);
             })
             .simpleItem()
             .register();
@@ -89,21 +103,49 @@ public class AllBlocks {
                 var modelOn = p.models().getExistingFile(OmniUtils.loc("block/interactor_on"));
 
                 p.getVariantBuilder(c.get()).forAllStates(state -> {
-                    Direction dir = state.getValue(BlockStateProperties.FACING);
                     boolean enabled = state.getValue(BlockStateProperties.ENABLED);
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(enabled ? modelOn : model);
-                    switch (dir) {
-                        case DOWN -> builder.rotationX(90);
-                        case UP -> builder.rotationX(270);
-                        case NORTH -> {}
-                        case SOUTH -> builder.rotationY(180);
-                        case WEST -> builder.rotationY(270);
-                        case EAST -> builder.rotationY(90);
-                    }
+                    generateDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), model);
+            })
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<MagmaExtruderBlock> MAGMA_EXTRUDER = REG.block("magma_extruder", MagmaExtruderBlock::new)
+            .lang("Magma Extruder")
+            .properties(p -> p.sound(SoundType.STONE).strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe())
+            .blockstate((c, p) -> {
+                p.getVariantBuilder(c.get()).forAllStates(state -> {
+                    var string = "magma_extruder";
+                    if (state.getValue(MagmaExtruderBlock.HAS_COBBLE)) string = string + "_cobble";
+                    if (state.getValue(MagmaExtruderBlock.ENABLED)) string = string + "_on";
+
+                    var model = p.models().getExistingFile(OmniUtils.loc("block/" + string));
+
+                    var builder = ConfiguredModel.builder();
+                    builder.modelFile(model);
+                    generateHoriztonalDirectional(builder, state);
+                    return builder.build();
+                });
+                p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/magma_extruder")));
+            })
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<AlteredSpawnerBlock> SPAWNER = REG.block("altered_spawner", AlteredSpawnerBlock::new)
+            .lang("Altered Spawner")
+            .properties(p -> p.noOcclusion().sound(SoundType.TRIAL_SPAWNER).strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needStoneTools())
+            .addLayer(() -> RenderType::cutoutMipped)
+            .blockstate((c, p) -> {
+                var modelOff = p.models().cubeColumn("altered_spawner", OmniUtils.loc("block/altered_spawner"), OmniUtils.loc("block/altered_spawner_top"));
+                var modelActive = p.models().cubeColumn("altered_spawner_active", OmniUtils.loc("block/altered_spawner_active"), OmniUtils.loc("block/altered_spawner_active_top"));
+                p.getVariantBuilder(c.get()).forAllStates(state -> ConfiguredModel.builder().modelFile(state.getValue(AlteredSpawnerBlock.ENABLED) ? modelActive : modelOff).build());
+                p.simpleBlockItem(c.get(), modelActive);
             })
             .simpleItem()
             .register();

@@ -38,14 +38,14 @@ public class InteractorBlock extends DirectionalBlock {
 
     public InteractorBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.SOUTH).setValue(ENABLED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ENABLED, false));
     }
 
     public void interact(BlockState state, Level level, BlockPos pos, @Nullable Player player, boolean activate) {
         if (state.getValue(ENABLED) == activate) return;
         level.setBlock(pos, state.setValue(ENABLED, activate), 3);
         this.updateNeighbours(state, level, pos);
-        if (activate) level.scheduleTick(pos, this, 40);
+        if (activate) level.scheduleTick(pos, this, 10);
         level.playSound(player, pos, activate ? SoundEvents.COPPER_BULB_TURN_OFF : SoundEvents.COPPER_BULB_TURN_ON, SoundSource.BLOCKS, 1f, activate ? 0.7f : 0.9f);
     }
 
@@ -60,13 +60,14 @@ public class InteractorBlock extends DirectionalBlock {
         var instance = super.useItemOn(stack, state, level, pos, player, hand, hitResult);
         if (player.getItemInHand(hand).is(AllBlocks.INTERACTOR.asItem())) return instance;
         if (!level.isAreaLoaded(pos, 1)) return instance;
-        var facing = state.getValue(FACING);
+        var facing = state.getValue(FACING).getOpposite();
         if (!hitResult.getDirection().equals(facing)) return instance;
         var newPos = pos.relative(facing);
         if (!player.canInteractWithBlock(newPos, 1.0)) return instance;
         if (!level.isAreaLoaded(newPos, 1)) return instance;
-        interact(state, level, pos, player, true);
         var newState = level.getBlockState(newPos);
+        if (newState.getBlock() instanceof InteractorBlock && newState.getValue(ENABLED)) return instance;
+        interact(state, level, pos, player, true);
         var newLoc = hitResult.getLocation();
         newLoc = newLoc.subtract(Vec3.atLowerCornerOf(pos));
         newLoc = newLoc.add(Vec3.atLowerCornerOf(newPos));
@@ -81,13 +82,14 @@ public class InteractorBlock extends DirectionalBlock {
                                                         Player player, BlockHitResult hitResult) {
         var instance = super.useWithoutItem(state, level, pos, player, hitResult);
         if (player.getMainHandItem().is(AllBlocks.INTERACTOR.asItem()) || player.getOffhandItem().is(AllBlocks.INTERACTOR.asItem())) return instance;
-        var facing = state.getValue(FACING);
+        var facing = state.getValue(FACING).getOpposite();
         if (!level.isAreaLoaded(pos, 1)) return instance;
         var newPos = pos.relative(facing);
         if (!player.canInteractWithBlock(newPos, 1.0)) return instance;
         if (!level.isAreaLoaded(newPos, 1)) return instance;
-        interact(state, level, pos, player, true);
         var newState = level.getBlockState(newPos);
+        if (newState.getBlock() instanceof InteractorBlock && newState.getValue(ENABLED)) return instance;
+        interact(state, level, pos, player, true);
         var newLoc = hitResult.getLocation();
         newLoc = newLoc.subtract(Vec3.atLowerCornerOf(pos));
         newLoc = newLoc.add(Vec3.atLowerCornerOf(newPos));
@@ -116,12 +118,12 @@ public class InteractorBlock extends DirectionalBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     private void updateNeighbours(BlockState state, Level level, BlockPos pos) {
         level.updateNeighborsAt(pos, this);
-        level.updateNeighborsAt(pos.relative(state.getValue(FACING)), this);
+        level.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
     }
 
     @Override

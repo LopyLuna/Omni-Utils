@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "omni_util:block/altered_spawner_top",
+    "side": "omni_util:block/altered_spawner"
+  }
+}

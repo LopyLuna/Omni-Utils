@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "omni_util:garnet"
+    },
+    "H": {
+      "item": "omni_util:hex_sigil"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "RGR",
+    "RNR",
+    "RHR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:unstable_hexa_ingot"
+  }
+}

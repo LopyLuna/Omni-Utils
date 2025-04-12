@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hexa_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:hexa_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/nugget_from_ingot_hexa"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hexa_nugget"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/nugget_from_ingot_hexa"
+    ]
+  }
+}

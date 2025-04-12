@@ -29,7 +29,7 @@ public class ClockBlock extends HorizontalDirectionalBlock {
     public static final BooleanProperty LOCKED = BlockStateProperties.LOCKED;
     public static final IntegerProperty HOUR = IntegerProperty.create("hour", 0, 11);
     public ClockBlock(Properties properties) {
-        super(properties);
+        super(properties.randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(HOUR, 0).setValue(LOCKED, true).setValue(FACING, Direction.NORTH));
     }
     @Override

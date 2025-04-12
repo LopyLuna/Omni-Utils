@@ -1,0 +1,8 @@
+{
+    "parent": "omni_util:block/breaker",
+    "textures": {
+        "bottom": "omni_util:block/breaker_back_on",
+        "side": "omni_util:block/breaker_side_on",
+        "front": "omni_util:block/breaker_front_on"
+    }
+}

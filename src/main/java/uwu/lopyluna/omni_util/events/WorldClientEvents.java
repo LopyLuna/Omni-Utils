@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.ClipContext;
@@ -28,10 +29,12 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.ClientSanityData;
 import uwu.lopyluna.omni_util.client.SanityAmbientSoundInstance;
-import uwu.lopyluna.omni_util.content.blocks.base.PowerBlockEntity;
+import uwu.lopyluna.omni_util.content.blocks.base.OmniBlockEntity;
 import uwu.lopyluna.omni_util.content.managers.GoggleOverlayManager;
 import uwu.lopyluna.omni_util.register.AllBlocks;
 import uwu.lopyluna.omni_util.register.AllItems;
+
+import java.util.List;
 
 import static net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS;
 
@@ -90,16 +93,12 @@ public class WorldClientEvents {
             GoggleOverlayManager.render(pEvent.getGuiGraphics(), mc);
     }
 
-    public static String renderGogglesOverlay(LocalPlayer pPlayer, HitResult pHitResult) {
-        if (!pPlayer.getItemBySlot(EquipmentSlot.HEAD).is(AllItems.GOGGLES)) return "";
-        if (!(pHitResult.getType() == HitResult.Type.BLOCK && pHitResult instanceof BlockHitResult pRaytrace)) return "";
-        if (pRaytrace.getType() == HitResult.Type.MISS) return "";
-        if (!(pPlayer.level().getBlockEntity(pRaytrace.getBlockPos()) instanceof PowerBlockEntity pBlockEntity)) return "";
-        var level = pPlayer.level();
-        var isGenerator = pBlockEntity.isGenerator(level, pPlayer, true);
-        var getImpact = pBlockEntity.getImpact(level, pPlayer, true);
-
-        return isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP";
+    public static List<Component> renderGogglesOverlay(LocalPlayer pPlayer, HitResult pHitResult) {
+        if (!pPlayer.getItemBySlot(EquipmentSlot.HEAD).is(AllItems.GOGGLES)) return List.of();
+        if (!(pHitResult.getType() == HitResult.Type.BLOCK && pHitResult instanceof BlockHitResult pRaytrace)) return List.of();
+        if (pRaytrace.getType() == HitResult.Type.MISS) return List.of();
+        if (!(pPlayer.level().getBlockEntity(pRaytrace.getBlockPos()) instanceof OmniBlockEntity pBlockEntity)) return List.of();
+        return pBlockEntity.getGoggleTooltipLines(pPlayer.level(), pPlayer);
     }
 
     public static void renderBlackScreenOfDeath(GuiGraphics pGuiGraphics, DeltaTracker tracker, LocalPlayer player) {

@@ -1,8 +1,70 @@
 package uwu.lopyluna.omni_util.content;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class AllUtils {
+
+    public static void playSound(Level level, BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
+        var v = Vec3.atCenterOf(pos);
+        level.playSound(null, v.x, v.y, v.z, sound, category, volume, pitch);
+    }
+
+    public static void addParticles(ServerLevel level, BlockPos pos, double distance, ParticleOptions particle) {
+        addParticles(level, pos, distance, false, 1, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, BlockPos pos, double distance, boolean force, ParticleOptions particle) {
+        addParticles(level, pos, distance, force, 1, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, BlockPos pos, double distance, int count, ParticleOptions particle) {
+        addParticles(level, pos, distance, false, count, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, BlockPos pos, double distance, boolean force, int count, ParticleOptions particle) {
+        addParticles(level, pos, distance, force, count, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, Vec3 pos, double distance, ParticleOptions particle) {
+        addParticles(level, pos, distance, false, 1, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, Vec3 pos, double distance, boolean force, ParticleOptions particle) {
+        addParticles(level, pos, distance, force, 1, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, Vec3 pos, double distance, int count, ParticleOptions particle) {
+        addParticles(level, pos, distance, false, count, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, Vec3 pos, double distance, boolean force, int count, ParticleOptions particle) {
+        addParticles(level, pos, distance, force, count, 0, new Vec3(0,0,0), particle);
+    }
+
+    public static void addParticles(ServerLevel level, BlockPos pos, double distance, boolean force, int count, float speed, Vec3 delta, ParticleOptions particle) {
+        var random = level.random;
+        double d0 = (double)(2.0F * random.nextFloat() - 1.0F) * 0.65;
+        double d1 = (double)(2.0F * random.nextFloat() - 1.0F) * 0.65;
+        double d2 = (double)pos.getX() + 0.5 + d0;
+        double d3 = (double)pos.getY() + 0.1 + (double)random.nextFloat() * 0.8;
+        double d4 = (double)pos.getZ() + 0.5 + d1;
+        addParticles(level, new Vec3(d2, d3, d4), distance, force, count, speed, delta, particle);
+    }
+
+    public static void addParticles(ServerLevel level, Vec3 pos, double distance, boolean force, int count, float speed, Vec3 delta, ParticleOptions particle) {
+        for (ServerPlayer player : level.players()) if (EntitySelector.NO_SPECTATORS.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player)) {
+            double d0 = player.distanceToSqr(pos.x, pos.y, pos.z);
+            if (distance < 0.0 || d0 < distance * distance) level.sendParticles(player, particle, force, pos.x, pos.y, pos.z, count, delta.x, delta.y, delta.z, speed);
+        }
+    }
 
     public static int getHourOfTime(Level level) {
         var time = (level.dayTime() + 6000f) % 12000f;
@@ -16,6 +78,7 @@ public class AllUtils {
         return ((level.dayTime() + 6000f) % 24000f) < 12000f;
     }
 
+    @SuppressWarnings("unused")
     public enum TimeCycle {
         SUNRISE("Sunrise", 5, true),
         DAY_PRE("Day", 6, true),

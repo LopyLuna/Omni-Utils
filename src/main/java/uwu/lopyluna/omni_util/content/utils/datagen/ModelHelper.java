@@ -13,6 +13,7 @@ import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -31,12 +32,33 @@ import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class ModelHelper {
+    public static void generateDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
+        switch (state.getValue(BlockStateProperties.FACING)) {
+            case DOWN -> builder.rotationX(90);
+            case UP -> builder.rotationX(270);
+            case NORTH -> {}
+            case SOUTH -> builder.rotationY(180);
+            case WEST -> builder.rotationY(270);
+            case EAST -> builder.rotationY(90);
+        }
+    }
+
+    public static void generateHoriztonalDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
+        switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
+            case NORTH -> {}
+            case SOUTH -> builder.rotationY(180);
+            case WEST -> builder.rotationY(270);
+            case EAST -> builder.rotationY(90);
+        }
+    }
+
     public static void forwardItem(DataGenContext<Item, ? extends Item> c, RegistrateItemModelProvider p) {
         var item = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(c.get()));
         p.getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/goat_horn"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
+
     public static void simpleBlockWithCT(DataGenContext<Block, ? extends Block> c, RegistrateBlockstateProvider p) {
         var model = p.models().singleTexture(c.getName(), OmniUtils.loc("block/cube_all_ct"), "all", p.blockTexture(c.get()));
         p.simpleBlock(c.get(), model);
@@ -54,7 +76,12 @@ public class ModelHelper {
             var model = p.models().withExistingParent("block/" + type + "_spike", OmniUtils.loc("block/base_spike"))
                     .texture("1", OmniUtils.loc("block/" + type + "_spike"))
                     .renderType(RenderType.CUTOUT.name);
-            p.directionalBlock(c.get(), model);
+            p.getVariantBuilder(c.get()).forAllStates(state -> {
+                var builder = ConfiguredModel.builder();
+                builder.modelFile(model);
+                generateDirectional(builder, state);
+                return builder.build();
+            });
             p.itemModels().basicItem(c.get().asItem());
         };
     }

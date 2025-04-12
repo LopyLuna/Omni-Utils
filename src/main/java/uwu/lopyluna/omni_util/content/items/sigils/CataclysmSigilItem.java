@@ -69,7 +69,7 @@ public class CataclysmSigilItem extends Item {
         entity.noPhysics = true;
         entity.setPos(pos);
         entity.setCustomName(getDescription());
-        ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(strength);
+        ((CreeperAccessor) entity).setExplosionRadius$OmniUtils(strength);
         ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
     }
 }

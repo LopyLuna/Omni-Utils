@@ -1,0 +1,8 @@
+{
+    "parent": "omni_util:block/placer",
+    "textures": {
+        "bottom": "omni_util:block/placer_back_on",
+        "side": "omni_util:block/placer_side_on",
+        "front": "omni_util:block/placer_front_on"
+    }
+}

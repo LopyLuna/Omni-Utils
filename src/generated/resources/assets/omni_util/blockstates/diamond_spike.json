@@ -2,28 +2,25 @@
   "variants": {
     "facing=down": {
       "model": "omni_util:block/diamond_spike",
-      "x": 180
+      "x": 90
     },
     "facing=east": {
       "model": "omni_util:block/diamond_spike",
-      "x": 90,
       "y": 90
     },
     "facing=north": {
-      "model": "omni_util:block/diamond_spike",
-      "x": 90
+      "model": "omni_util:block/diamond_spike"
     },
     "facing=south": {
       "model": "omni_util:block/diamond_spike",
-      "x": 90,
       "y": 180
     },
     "facing=up": {
-      "model": "omni_util:block/diamond_spike"
+      "model": "omni_util:block/diamond_spike",
+      "x": 270
     },
     "facing=west": {
       "model": "omni_util:block/diamond_spike",
-      "x": 90,
       "y": 270
     }
   }

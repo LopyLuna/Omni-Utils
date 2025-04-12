@@ -65,7 +65,7 @@ public class UnstableHexaBlock extends Block {
         entity.noPhysics = true;
         entity.setPos(pos);
         entity.setCustomName(getName());
-        ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(24);
+        ((CreeperAccessor) entity).setExplosionRadius$OmniUtils(24);
         ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
     }
 }

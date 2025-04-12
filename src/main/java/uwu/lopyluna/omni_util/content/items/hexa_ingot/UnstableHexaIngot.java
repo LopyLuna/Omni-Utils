@@ -56,7 +56,7 @@ public class UnstableHexaIngot extends Item {
             entity.noPhysics = true;
             entity.setPos(pos);
             entity.setCustomName(getDescription());
-            ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(8);
+            ((CreeperAccessor) entity).setExplosionRadius$OmniUtils(8);
             ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
             stack.set(DataComponents.BASE_COLOR, DyeColor.RED);
         }

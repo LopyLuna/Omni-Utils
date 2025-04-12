@@ -56,7 +56,7 @@ public class UnstableHexaNugget extends Item {
             entity.noPhysics = true;
             entity.setPos(pos);
             entity.setCustomName(getDescription());
-            ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(1);
+            ((CreeperAccessor) entity).setExplosionRadius$OmniUtils(1);
             ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
             stack.set(DataComponents.BASE_COLOR, DyeColor.RED);
         }

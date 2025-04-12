@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "omni_util:unstable_hexa_ingot"
+    },
+    {
+      "item": "omni_util:unstable_hexa_ingot"
+    },
+    {
+      "item": "omni_util:onyx"
+    },
+    {
+      "item": "minecraft:prismarine_crystals"
+    },
+    {
+      "item": "minecraft:ghast_tear"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "omni_util:hexa_ingot"
+  }
+}

@@ -2,21 +2,27 @@ package uwu.lopyluna.omni_util.content.blocks.base;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import uwu.lopyluna.omni_util.content.managers.PowerManager;
+import uwu.lopyluna.omni_util.content.utils.GoggleOverlay;
 import uwu.lopyluna.omni_util.events.PowerTickHandler;
 import uwu.lopyluna.omni_util.register.AllPowerSources;
 
+import java.util.List;
 import java.util.UUID;
 
 import static uwu.lopyluna.omni_util.client.ClientRPData.getCachedRP;
 
 @SuppressWarnings("unused")
-public class PowerBlockEntity extends OmniBlockEntity {
+public class PowerBlockEntity extends OmniBlockEntity implements GoggleOverlay {
     protected final AllPowerSources.PowerSource source;
     public UUID ownerUUID;
     public boolean isActive;
@@ -133,5 +139,16 @@ public class PowerBlockEntity extends OmniBlockEntity {
         if (level.isClientSide) return false;
         if (!level.isInWorldBounds(pos)) return false;
         return level.isLoaded(pos);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void appendHoverText(BlockEntity blockEntity, Level level, BlockPos pos, BlockState state, Player player, List<Component> tooltipComponents) {
+        GoggleOverlay.super.appendHoverText(blockEntity, level, pos, state, player, tooltipComponents);
+        if (!(blockEntity instanceof PowerBlockEntity be)) return;
+        var isGenerator = be.isGenerator(level, player, true);
+        var getImpact = be.getImpact(level, player, true);
+        tooltipComponents.add(Component.literal(isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP"));
+        tooltipComponents.add(Component.literal("Net: " + getCachedRP() + " RP"));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "omni_util:hexa_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "omni_util:hexa_ingot"
+  }
+}

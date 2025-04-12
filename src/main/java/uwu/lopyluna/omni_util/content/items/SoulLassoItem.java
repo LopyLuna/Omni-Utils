@@ -1,10 +1,12 @@
 package uwu.lopyluna.omni_util.content.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Unit;
@@ -19,9 +21,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.extensions.IPlayerExtension;
 import org.jetbrains.annotations.NotNull;
+import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBE;
 import uwu.lopyluna.omni_util.register.AllDataComponents;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -39,31 +44,71 @@ public class SoulLassoItem extends Item {
         var pPlayer = pContext.getPlayer();
         var pClickedPos = pContext.getClickedPos();
         var pLevel = pContext.getLevel();
-        if (pContext.getClickedFace() != Direction.UP || !pStack.has(AllDataComponents.HAS_ENTITY)) return InteractionResult.PASS;
+        var pState = pLevel.getBlockState(pClickedPos);
+
+        if (pLevel.getBlockEntity(pClickedPos) instanceof AlteredSpawnerBE pSpawner) {
+            var pTarget = getEntity(pStack, pLevel, pClickedPos, 3);
+            if (pTarget == null) return InteractionResult.PASS;
+            if (!pLevel.isClientSide) {
+                var pType = pTarget.getType();
+                var chance = pType.getCategory().isFriendly() ? pLevel.random.nextBoolean() || pLevel.random.nextBoolean() : pLevel.random.nextBoolean() && pLevel.random.nextBoolean();
+                if (chance) {
+                    pSpawner.setEntityId(pType, pLevel.getRandom());
+                    pLevel.sendBlockUpdated(pClickedPos, pState, pState, 3);
+                    pLevel.gameEvent(pPlayer, GameEvent.BLOCK_CHANGE, pClickedPos);
+                    clearEntity(pStack);
+                    if (pPlayer != null)
+                        pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
+                } else {
+                    if (pLevel instanceof ServerLevel pServer)
+                        pState.getBlock().popExperience(pServer, pClickedPos, 15 + pLevel.random.nextInt(15) + pLevel.random.nextInt(15));
+                    clearEntity(pStack);
+                    if (pPlayer != null)
+                        pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_ITEM, SoundSource.PLAYERS, 0.8f, 0.85f);
+                }
+            }
+            return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        } else if (pContext.getClickedFace() == Direction.UP) {
+            var pTarget = getEntity(pStack, pLevel, pClickedPos, 0);
+            if (pTarget == null) return InteractionResult.PASS;
+            pLevel.addFreshEntity(pTarget);
+            clearEntity(pStack);
+            if (pPlayer != null) pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
+            return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        }
+        return InteractionResult.PASS;
+    }
+
+    public LivingEntity getEntity(ItemStack pStack, Level pLevel, BlockPos pPos, int i) {
+        if (!pStack.has(AllDataComponents.HAS_ENTITY)) return null;
         var entity = pStack.get(AllDataComponents.ENTITY);
-        var name = pStack.get(AllDataComponents.ENTITY_CUSTOM_NAME);
-        var data = pStack.get(AllDataComponents.ENTITY_DATA);
-        var addData = pStack.get(AllDataComponents.ADD_ENTITY_DATA);
-        var perData = pStack.get(AllDataComponents.PER_ENTITY_DATA);
+        var name = pStack.get(AllDataComponents.ENTITY_CUSTOM_NAME); // 1
+        var data = pStack.get(AllDataComponents.ENTITY_DATA); // 2
+        var addData = pStack.get(AllDataComponents.ADD_ENTITY_DATA); // 3
+        var perData = pStack.get(AllDataComponents.PER_ENTITY_DATA); // 4
         var has = pStack.get(AllDataComponents.HAS_ENTITY);
-        if (entity == null || data == null || addData == null || perData == null || has == null) return InteractionResult.PASS;
+        var bData = data == null && i!=2;
+        var bAddData = addData == null && i!=3;
+        var bPerData = perData == null && i!=4;
+        if (entity == null || bData || bAddData || bPerData || has == null) return null;
         var loadEntity = EntityType.loadEntityRecursive(entity.copyTag(), pLevel, e -> e);
-        if (!(loadEntity instanceof LivingEntity pTarget)) return InteractionResult.PASS;
-        pTarget.load(data.copyTag());
-        pTarget.readAdditionalSaveData(addData.copyTag());
-        pTarget.getPersistentData().merge(perData.copyTag());
+        if (!(loadEntity instanceof LivingEntity pTarget)) return null;
+        if (i!=2) pTarget.load(data.copyTag());
+        if (i!=3) pTarget.readAdditionalSaveData(addData.copyTag());
+        if (i!=4) pTarget.getPersistentData().merge(perData.copyTag());
         pTarget.resetFallDistance();
-        pTarget.moveTo(Vec3.atBottomCenterOf(pClickedPos.above()));
+        pTarget.moveTo(Vec3.atBottomCenterOf(pPos.above()));
         if (name != null) pTarget.setCustomName(name);
-        pLevel.addFreshEntity(pTarget);
+        return pTarget;
+    }
+
+    public void clearEntity(ItemStack pStack) {
         pStack.remove(AllDataComponents.ENTITY);
         pStack.remove(AllDataComponents.ENTITY_CUSTOM_NAME);
         pStack.remove(AllDataComponents.ENTITY_DATA);
         pStack.remove(AllDataComponents.ADD_ENTITY_DATA);
         pStack.remove(AllDataComponents.PER_ENTITY_DATA);
         pStack.remove(AllDataComponents.HAS_ENTITY);
-        if (pPlayer != null) pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     public boolean flagMob(LivingEntity pTarget) {

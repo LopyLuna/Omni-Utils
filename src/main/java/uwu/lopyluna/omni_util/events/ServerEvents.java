@@ -254,7 +254,7 @@ public class ServerEvents {
         entity.noPhysics = true;
         entity.setPos(pos);
         entity.setCustomName(stack.getDisplayName());
-        ((CreeperAccessor) entity).sexExplosionRadius$OmniUtils(radius);
+        ((CreeperAccessor) entity).setExplosionRadius$OmniUtils(radius);
         ((CreeperAccessor) entity).explodeCreeper$OmniUtils();
     }
 

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "enabled=false": {
+      "model": "omni_util:block/altered_spawner"
+    },
+    "enabled=true": {
+      "model": "omni_util:block/altered_spawner_active"
+    }
+  }
+}

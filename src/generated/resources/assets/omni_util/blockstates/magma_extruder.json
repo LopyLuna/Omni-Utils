@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "enabled=false,facing=east,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 90
+    },
+    "enabled=false,facing=east,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 90
+    },
+    "enabled=false,facing=east,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 90
+    },
+    "enabled=false,facing=east,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 90
+    },
+    "enabled=false,facing=north,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder"
+    },
+    "enabled=false,facing=north,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder"
+    },
+    "enabled=false,facing=north,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble"
+    },
+    "enabled=false,facing=north,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble"
+    },
+    "enabled=false,facing=south,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 180
+    },
+    "enabled=false,facing=south,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 180
+    },
+    "enabled=false,facing=south,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 180
+    },
+    "enabled=false,facing=south,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 180
+    },
+    "enabled=false,facing=west,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 270
+    },
+    "enabled=false,facing=west,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder",
+      "y": 270
+    },
+    "enabled=false,facing=west,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 270
+    },
+    "enabled=false,facing=west,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble",
+      "y": 270
+    },
+    "enabled=true,facing=east,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 90
+    },
+    "enabled=true,facing=east,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 90
+    },
+    "enabled=true,facing=east,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 90
+    },
+    "enabled=true,facing=east,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 90
+    },
+    "enabled=true,facing=north,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder_on"
+    },
+    "enabled=true,facing=north,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder_on"
+    },
+    "enabled=true,facing=north,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble_on"
+    },
+    "enabled=true,facing=north,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble_on"
+    },
+    "enabled=true,facing=south,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 180
+    },
+    "enabled=true,facing=south,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 180
+    },
+    "enabled=true,facing=south,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 180
+    },
+    "enabled=true,facing=south,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 180
+    },
+    "enabled=true,facing=west,has_cobble=false,locked=false": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 270
+    },
+    "enabled=true,facing=west,has_cobble=false,locked=true": {
+      "model": "omni_util:block/magma_extruder_on",
+      "y": 270
+    },
+    "enabled=true,facing=west,has_cobble=true,locked=false": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 270
+    },
+    "enabled=true,facing=west,has_cobble=true,locked=true": {
+      "model": "omni_util:block/magma_extruder_cobble_on",
+      "y": 270
+    }
+  }
+}

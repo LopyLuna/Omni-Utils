@@ -1,0 +1,7 @@
+{
+	"parent": "omni_util:block/magma_extruder",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"4": "omni_util:block/magma_extruder_top_cobble"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"parent": "block/block",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"0": "omni_util:block/magma_extruder_back",
+		"1": "omni_util:block/magma_extruder_bottom",
+		"2": "omni_util:block/magma_extruder_front",
+		"3": "omni_util:block/magma_extruder_lava",
+		"4": "omni_util:block/magma_extruder_top",
+		"5": "omni_util:block/magma_extruder_water",
+		"particle": "omni_util:block/magma_extruder_top"
+	},
+	"elements": [{
+		"from": [0, 0, 0], "to": [16, 16, 16],
+		"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]}, "faces": {
+			"north": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "north"}, "east": {"uv": [0, 0, 16, 16], "texture": "#5", "cullface": "east"},
+			"south": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "south"}, "west": {"uv": [0, 0, 16, 16], "texture": "#3", "cullface": "west"},
+			"up": {"uv": [0, 0, 16, 16], "texture": "#4", "cullface": "up"}, "down": {"uv": [0, 0, 16, 16], "texture": "#1", "cullface": "down"}
+		}
+	}]
+}

@@ -1,10 +1,10 @@
 {
     "parent": "block/block",
     "textures": {
-        "bottom": "omni_util:block/interactor_front",
+        "bottom": "omni_util:block/interactor_back",
         "side": "omni_util:block/interactor_side",
         "top": "omni_util:block/interactor_top",
-        "front": "omni_util:block/interactor_back",
+        "front": "omni_util:block/interactor_front",
         "particle": "omni_util:block/interactor_front"
     },
     "elements": [

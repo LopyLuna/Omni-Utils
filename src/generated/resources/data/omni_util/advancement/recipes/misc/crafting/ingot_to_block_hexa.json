@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hexa_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:hexa_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/ingot_to_block_hexa"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hexa_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/ingot_to_block_hexa"
+    ]
+  }
+}

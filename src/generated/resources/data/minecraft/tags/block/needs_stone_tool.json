@@ -1,6 +1,8 @@
 {
   "values": [
+    "omni_util:breaker",
     "omni_util:interactor",
+    "omni_util:altered_spawner",
     "omni_util:generator_block",
     "omni_util:consumor_block",
     "omni_util:border_stone",
