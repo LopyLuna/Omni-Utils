@@ -7,6 +7,8 @@ import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBE;
+import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBlockRenderer;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBE;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBE;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBE;
@@ -18,6 +20,9 @@ import static uwu.lopyluna.omni_util.OmniUtils.REG;
 
 @SuppressWarnings("unused")
 public class AllBlockEntities {
+
+    public static final BlockEntityEntry<ColoredBE> COLORED_BLOCK =
+            simpleBE("colored_block", AllBlocks.COLORED_BLOCK, ColoredBlockRenderer::new, ColoredBE::new);
 
     public static final BlockEntityEntry<AlteredSpawnerBE> SPAWNER = simpleBE("altered_spawner", AllBlocks.SPAWNER, AlteredSpawnerRenderer::new, AlteredSpawnerBE::new);
     public static final BlockEntityEntry<GeneratorBE> GENERATOR = simpleBE("generator", AllBlocks.GENERATOR, GeneratorBE::new);

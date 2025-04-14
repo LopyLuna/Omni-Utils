@@ -1,4 +1,4 @@
-package uwu.lopyluna.omni_util.client.render;
+package uwu.lopyluna.omni_util.client.render.angel_ring;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ElytraModel;

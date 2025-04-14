@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "I": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "P": {
+      "item": "omni_util:polished_stone"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IBI",
+    "PPP"
+  ],
+  "result": {
+    "count": 2,
+    "id": "omni_util:netherite_spike"
+  }
+}

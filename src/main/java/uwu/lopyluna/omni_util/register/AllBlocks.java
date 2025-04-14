@@ -31,12 +31,14 @@ import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.Tags;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.content.blocks.*;
+import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseLeavesBlock;
 import uwu.lopyluna.omni_util.content.blocks.curse.CurseRotatedPillarBlock;
 import uwu.lopyluna.omni_util.content.blocks.dead.DeadBlock;
 import uwu.lopyluna.omni_util.content.blocks.dead.DeadLeavesBlock;
 import uwu.lopyluna.omni_util.content.blocks.dead.DeadRotatedPillarBlock;
+import uwu.lopyluna.omni_util.content.blocks.forces.*;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBlock;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
@@ -49,22 +51,62 @@ import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 import static uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper.*;
+import static uwu.lopyluna.omni_util.content.utils.datagen.RecipeHelper.spikeRecipe;
 import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 
 @SuppressWarnings({"unused", "removal"})
 public class AllBlocks {
 
-    public static final BlockEntry<LightForceBlock> LIGHT_FORCE = REG.block("light_force", LightForceBlock::new)
-            .lang("Force of Light")
+    public static final BlockEntry<ColoredBlock> COLORED_BLOCK = REG.block("colored_block", ColoredBlock::new)
+            .lang("Colored Block")
             .properties(p -> p.strength(2.0F, 6.0F))
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().cubeAll(c.getName(), p.modLoc("block/" + c.getName()))))
             .tag(mineablePickaxe(), needWoodTools())
             .simpleItem()
             .register();
 
-    public static final BlockEntry<DarkForceBlock> DARK_FORCE = REG.block("dark_force", DarkForceBlock::new)
+    public static final BlockEntry<LightForceBlock> LIGHT_FORCE = REG.block("force_light", LightForceBlock::new)
+            .lang("Force of Light")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<DarkForceBlock> DARK_FORCE = REG.block("force_dark", DarkForceBlock::new)
             .lang("Force of Dark")
             .properties(p -> p.strength(2.0F, 6.0F))
             .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<HeatForceBlock> HEAT_FORCE = REG.block("force_heat", HeatForceBlock::new)
+            .lang("Force of Heat")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<ColdForceBlock> COLD_FORCE = REG.block("force_cold", ColdForceBlock::new)
+            .lang("Force of Cold")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<WarmForceBlock> WARM_FORCE = REG.block("force_warm", WarmForceBlock::new)
+            .lang("Force of Warm")
+            .properties(p -> p.strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
             .simpleItem()
             .register();
 
@@ -591,6 +633,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.COPPER).mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(1.5F, 5.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("copper"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.COPPER_INGOT, Items.COPPER_BLOCK))
             .simpleItem()
             .register();
     public static final BlockEntry<SpikeBlock> STONE_SPIKE = REG.block("stone_spike", p -> new SpikeBlock(p, 1.0f, false, false, false, false))
@@ -598,6 +641,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.STONE).mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(1.5F, 5.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("stone"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.COBBLESTONE, Items.SMOOTH_STONE))
             .simpleItem()
             .register();
     public static final BlockEntry<SpikeBlock> GOLD_SPIKE = REG.block("gold_spike", p -> new SpikeBlock(p, 2.5f, true, false, true, false))
@@ -605,6 +649,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.METAL).mapColor(MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("gold"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.GOLD_INGOT, Items.GOLD_BLOCK))
             .simpleItem()
             .register();
     public static final BlockEntry<SpikeBlock> IRON_SPIKE = REG.block("iron_spike", p -> new SpikeBlock(p, 2.5f, false, false, true, false))
@@ -612,6 +657,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.METAL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5.0F, 7.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("iron"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.IRON_INGOT, Items.IRON_BLOCK))
             .simpleItem()
             .register();
     public static final BlockEntry<SpikeBlock> DIAMOND_SPIKE = REG.block("diamond_spike", p -> new SpikeBlock(p, 5.0f, false, true, true, false))
@@ -619,6 +665,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.METAL).mapColor(MapColor.DIAMOND).requiresCorrectToolForDrops().strength(5.0F, 8.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("diamond"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.DIAMOND, Items.DIAMOND_BLOCK))
             .simpleItem()
             .register();
     public static final BlockEntry<SpikeBlock> NETHERITE_SPIKE = REG.block("netherite_spike", p -> new SpikeBlock(p, 7.5f, false, true, true, true))
@@ -626,6 +673,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.NETHERITE_BLOCK).mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(20.0F, 600.0F).noOcclusion())
             .tag(mineablePickaxe(), needStoneTools())
             .blockstate(modelSpike("netherite"))
+            .recipe((c, p) -> spikeRecipe(c, p, Items.NETHERITE_SCRAP, Items.NETHERITE_INGOT))
             .item()
             .properties(Item.Properties::fireResistant)
             .build()

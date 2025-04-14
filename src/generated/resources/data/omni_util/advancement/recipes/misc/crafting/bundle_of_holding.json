@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bundle_of_holding": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:bundle_of_holding"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/bundle_of_holding"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bundle_of_holding"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/bundle_of_holding"
+    ]
+  }
+}

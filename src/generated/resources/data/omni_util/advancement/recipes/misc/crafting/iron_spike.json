@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron_spike": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:iron_spike"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/iron_spike"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_iron_spike"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/iron_spike"
+    ]
+  }
+}

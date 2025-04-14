@@ -1,5 +1,6 @@
 package uwu.lopyluna.omni_util.content.utils.datagen;
 
+import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -25,10 +27,10 @@ import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.content.blocks.GlowrockBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
+import uwu.lopyluna.omni_util.mixin.PartialBlockstateAccessor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class ModelHelper {
@@ -50,6 +52,16 @@ public class ModelHelper {
             case WEST -> builder.rotationY(270);
             case EAST -> builder.rotationY(90);
         }
+    }
+
+    @SuppressWarnings("all")
+    public static VariantBlockStateBuilder forAllStatesExcept(VariantBlockStateBuilder builder, Function<BlockState, ConfiguredModel[]> mapper, Property<?>... ignored) {
+        Map<Property<?>, Comparable<?>> fixedProperties = Maps.newLinkedHashMap();
+
+        for (Property<?> property : builder.getOwner().getStateDefinition().getProperties()) if (!Set.of(ignored).contains(property))
+            fixedProperties.put(property, property.getPossibleValues().iterator().next());
+
+        return builder.setModels(PartialBlockstateAccessor.omniUtil$create(builder.getOwner(), fixedProperties, builder), mapper.apply(builder.getOwner().defaultBlockState()));
     }
 
     public static void forwardItem(DataGenContext<Item, ? extends Item> c, RegistrateItemModelProvider p) {

@@ -31,7 +31,7 @@ import java.util.Optional;
 @ParametersAreNonnullByDefault
 public class BundleOfHoldingItem extends ItemWithContents {
     public BundleOfHoldingItem(Properties properties) {
-        super(properties, 9*6);
+        super(properties.stacksTo(1), 9*6);
     }
 
     @Override

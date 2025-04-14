@@ -5,7 +5,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.items.SoulLassoItem;
+import uwu.lopyluna.omni_util.register.AllItems;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -13,6 +15,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class WitheredSoulLassoItem extends SoulLassoItem {
     public WitheredSoulLassoItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public @NotNull ItemStack getCraftingRemainingItem(ItemStack stack) {
+        return new ItemStack(AllItems.WITHERED_SOUL_LASSO.get());
     }
 
     @Override

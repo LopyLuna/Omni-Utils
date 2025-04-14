@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:bundle"
+    },
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "N": {
+      "tag": "c:nuggets/hexa"
+    }
+  },
+  "pattern": [
+    "NIN",
+    "IBI",
+    "NIN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:bundle_of_holding"
+  }
+}

@@ -1,5 +1,11 @@
 {
   "values": [
+    "omni_util:colored_block",
+    "omni_util:force_light",
+    "omni_util:force_dark",
+    "omni_util:force_heat",
+    "omni_util:force_cold",
+    "omni_util:force_warm",
     "omni_util:solar_panel",
     "omni_util:lunar_panel"
   ]

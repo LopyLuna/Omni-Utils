@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond_spike": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:diamond_spike"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/diamond_spike"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_diamond_spike"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/diamond_spike"
+    ]
+  }
+}

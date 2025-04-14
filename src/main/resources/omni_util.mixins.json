@@ -10,6 +10,7 @@
     "BaseSpawnerAccessor",
     "CreeperAccessor",
     "MobMixin",
+    "PartialBlockstateAccessor",
     "PrimedTntMixin",
     "ServerPlayerGameModeAccessor"
   ],

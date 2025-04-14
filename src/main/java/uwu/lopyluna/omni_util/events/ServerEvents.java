@@ -250,6 +250,7 @@ public class ServerEvents {
     public static void explode(ItemStack stack, Level level, Vec3 pos, int radius) {
         var entity = EntityType.CREEPER.create(level);
         if (entity == null) return;
+        entity.getActiveEffects().clear();
         entity.setInvisible(true);
         entity.noPhysics = true;
         entity.setPos(pos);

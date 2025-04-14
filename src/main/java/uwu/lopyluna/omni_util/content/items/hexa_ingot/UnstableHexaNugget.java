@@ -52,6 +52,7 @@ public class UnstableHexaNugget extends Item {
         if (!stack.has(DataComponents.BASE_COLOR)) {
             var entity = EntityType.CREEPER.create(level);
             if (entity == null) return;
+            entity.getActiveEffects().clear();
             entity.setInvisible(true);
             entity.noPhysics = true;
             entity.setPos(pos);

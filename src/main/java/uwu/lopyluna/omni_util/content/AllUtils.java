@@ -1,16 +1,23 @@
 package uwu.lopyluna.omni_util.content;
 
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 
 public class AllUtils {
+
+    public static int getClientLight(Level level, BlockPos pos) {
+        return Mth.clamp(LightTexture.pack(level.getBrightness(LightLayer.BLOCK, pos), level.getBrightness(LightLayer.SKY, pos)), 0, 15728880);
+    }
 
     public static void playSound(Level level, BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
         var v = Vec3.atCenterOf(pos);

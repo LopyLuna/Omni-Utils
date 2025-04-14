@@ -28,6 +28,7 @@ import net.neoforged.neoforge.common.extensions.IPlayerExtension;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBE;
 import uwu.lopyluna.omni_util.register.AllDataComponents;
+import uwu.lopyluna.omni_util.register.AllItems;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -36,6 +37,11 @@ import java.util.List;
 public class SoulLassoItem extends Item {
     public SoulLassoItem(Properties properties) {
         super(properties.stacksTo(1));
+    }
+
+    @Override
+    public @NotNull ItemStack getCraftingRemainingItem(ItemStack stack) {
+        return new ItemStack(AllItems.SOUL_LASSO.get());
     }
 
     @Override

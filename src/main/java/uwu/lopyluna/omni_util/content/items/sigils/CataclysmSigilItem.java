@@ -65,6 +65,7 @@ public class CataclysmSigilItem extends Item {
     public void explode(Level level, Vec3 pos, int strength) {
         var entity = EntityType.CREEPER.create(level);
         if (entity == null) return;
+        entity.getActiveEffects().clear();
         entity.setInvisible(true);
         entity.noPhysics = true;
         entity.setPos(pos);

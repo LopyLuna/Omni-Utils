@@ -1,0 +1,13 @@
+{
+  "loader": "fusion:model",
+  "type": "connecting",
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "omni_util:block/force_light"
+  },
+  "connections": [
+    {
+      "type": "is_same_block"
+    }
+  ]
+}

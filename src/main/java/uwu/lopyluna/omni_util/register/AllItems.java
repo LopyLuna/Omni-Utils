@@ -24,21 +24,6 @@ import static uwu.lopyluna.omni_util.OmniUtils.REG;
 
 @SuppressWarnings("unused")
 public class AllItems {
-
-    public static final ItemEntry<WitheredSoulLassoItem> WITHERED_SOUL_LASSO = REG.item("withered_soul_lasso", WitheredSoulLassoItem::new)
-            .lang("Withered Soul Lasso")
-            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("withered_soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
-            .register();
-
-    public static final ItemEntry<SoulLassoItem> SOUL_LASSO = REG.item("soul_lasso", SoulLassoItem::new)
-            .lang("Soul Lasso")
-            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
-            .register();
-
-    public static final ItemEntry<MagicMirror> MAGIC_MIRROR = REG.item("magic_mirror", MagicMirror::new)
-            .lang("Magic Mirror")
-            .register();
-
     public static final ItemEntry<Item> BLANK_TABLET = REG.item("blank_tablet", Item::new)
             .lang("Blank Tablet")
             .model(ModelHelper::forwardItem)
@@ -153,15 +138,44 @@ public class AllItems {
             .register();
 
     public static final ItemEntry<EmptyWateringCanItem> EMPTY_WATERING_CAN = REG.item("empty_watering_can", EmptyWateringCanItem::new)
-            .properties(p -> p.stacksTo(1))
             .lang("Empty Watering Can")
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("NBI")
+                    .pattern(" I ")
+                    .define('B', Items.BUCKET)
+                    .define('I', Items.IRON_INGOT)
+                    .define('N', Items.IRON_NUGGET)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .model(ModelHelper::forwardItem)
+            .register();
+
+    public static final ItemEntry<WitheredSoulLassoItem> WITHERED_SOUL_LASSO = REG.item("withered_soul_lasso", WitheredSoulLassoItem::new)
+            .lang("Withered Soul Lasso")
+            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("withered_soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
+            .register();
+
+    public static final ItemEntry<SoulLassoItem> SOUL_LASSO = REG.item("soul_lasso", SoulLassoItem::new)
+            .lang("Soul Lasso")
+            .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("soul_lasso_mob"))).predicate(OmniUtils.loc("entity"), 1.0f).end())
+            .register();
+
+    public static final ItemEntry<MagicMirror> MAGIC_MIRROR = REG.item("magic_mirror", MagicMirror::new)
+            .lang("Magic Mirror")
             .register();
 
     public static final ItemEntry<BundleOfHoldingItem> BUNDLE_OF_HOLDING = REG.item("bundle_of_holding", BundleOfHoldingItem::new)
             .properties(p -> p.fireResistant().rarity(Rarity.UNCOMMON))
             .lang("Bundle of Holding")
-            .properties(p -> p.stacksTo(1))
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("NIN")
+                    .pattern("IBI")
+                    .pattern("NIN")
+                    .define('B', Items.BUNDLE)
+                    .define('I', Items.GOLD_INGOT)
+                    .define('N', AllTags.itemC("nuggets/hexa"))
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .model((c, p) -> p.basicItem(c.get()).override().model(p.basicItem(OmniUtils.loc("bundle_of_holding_open"))).predicate(OmniUtils.loc("open"), 1.0f).end())
             .register();
 

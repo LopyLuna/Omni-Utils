@@ -49,11 +49,6 @@ public class UnstableHexaBlock extends Block {
     }
 
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        if (!level.isClientSide) explode(level, pos.getCenter());
-    }
-
-    @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (random.nextBoolean() && random.nextBoolean() && random.nextBoolean()) explode(level, pos.getCenter());
     }
@@ -61,6 +56,7 @@ public class UnstableHexaBlock extends Block {
     public void explode(Level level, Vec3 pos) {
         var entity = EntityType.CREEPER.create(level);
         if (entity == null) return;
+        entity.getActiveEffects().clear();
         entity.setInvisible(true);
         entity.noPhysics = true;
         entity.setPos(pos);

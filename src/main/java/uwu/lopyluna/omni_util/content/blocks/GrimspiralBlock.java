@@ -38,7 +38,7 @@ public class GrimspiralBlock extends Block implements Portal {
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        if (entity.canUsePortal(false)) entity.setAsInsidePortal(this, pos);
+        if (entity instanceof LivingEntity && entity.canUsePortal(false)) entity.setAsInsidePortal(this, pos);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GrimspiralBlock extends Block implements Portal {
     public DimensionTransition getPortalDestination(ServerLevel level, Entity entity, BlockPos blockpos) {
         ResourceKey<Level> resourcekey = level.dimension() == AllDimensions.GRIMSPIRE ? Level.OVERWORLD : AllDimensions.GRIMSPIRE;
         ServerLevel serverlevel = level.getServer().getLevel(resourcekey);
-        if (serverlevel != null) {
+        if (serverlevel != null && entity instanceof LivingEntity livingEntity) {
             boolean flag = resourcekey == AllDimensions.GRIMSPIRE;
             WorldBorder worldborder = serverlevel.getWorldBorder();
             double d0 = DimensionType.getTeleportationScale(level.dimensionType(), serverlevel.dimensionType());
@@ -67,7 +67,7 @@ public class GrimspiralBlock extends Block implements Portal {
                 for (var offset : BlockPos.betweenClosed(pos.offset(2, 3, 2), pos.offset(-2, 0, -2))) serverlevel.setBlock(offset, Blocks.AIR.defaultBlockState(), 3);
                 for (var direction : Direction.values()) if (!direction.getAxis().isVertical()) serverlevel.setBlock(pos.relative(direction), Blocks.TORCH.defaultBlockState(), 18);
             }
-            if (entity instanceof LivingEntity livingEntity) livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0, true, false, false));
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0, true, false, false));
 
             serverlevel.setBlock(pos, this.defaultBlockState(), 18);
             Vec3 vec3 = pos.above().getBottomCenter();
