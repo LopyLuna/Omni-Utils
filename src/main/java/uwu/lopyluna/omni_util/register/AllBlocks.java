@@ -5,8 +5,11 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
@@ -41,6 +44,7 @@ import uwu.lopyluna.omni_util.content.blocks.dead.DeadRotatedPillarBlock;
 import uwu.lopyluna.omni_util.content.blocks.forces.*;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBlock;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
+import uwu.lopyluna.omni_util.content.blocks.grim_devour.GrimDevourBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBlock;
@@ -49,6 +53,7 @@ import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.LootTableHelper;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
 
+import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
 import static uwu.lopyluna.omni_util.OmniUtils.REG;
 import static uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper.*;
 import static uwu.lopyluna.omni_util.content.utils.datagen.RecipeHelper.spikeRecipe;
@@ -57,8 +62,41 @@ import static uwu.lopyluna.omni_util.content.utils.datagen.TagHelper.*;
 @SuppressWarnings({"unused", "removal"})
 public class AllBlocks {
 
+    public static final BlockEntry<Block> BORDER_STONE = REG.block("border_stone", Block::new)
+            .lang("Border Stone")
+            .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needStoneTools())
+            .blockstate((c, p) -> {
+                var model = p.models().getExistingFile(OmniUtils.loc(c.getName()));
+                p.simpleBlock(c.get(), model);
+                p.simpleBlockItem(c.get(), model);
+            })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 2)
+                    .pattern("CCC")
+                    .pattern("CSC")
+                    .pattern("CCC")
+                    .define('S', Items.STONE)
+                    .define('C', Items.COBBLESTONE)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> POLISHED_STONE = REG.block("polished_stone", Block::new)
+            .lang("Polished Stone")
+            .properties(p -> p.mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F))
+            .tag(mineablePickaxe(), needStoneTools())
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
+                    .pattern("SS")
+                    .pattern("SS")
+                    .define('S', Items.STONE)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<ColoredBlock> COLORED_BLOCK = REG.block("colored_block", ColoredBlock::new)
-            .lang("Colored Block")
+            .lang("Colorable Block")
             .properties(p -> p.strength(2.0F, 6.0F))
             .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().cubeAll(c.getName(), p.modLoc("block/" + c.getName()))))
             .tag(mineablePickaxe(), needWoodTools())
@@ -75,7 +113,7 @@ public class AllBlocks {
             .register();
 
     public static final BlockEntry<DarkForceBlock> DARK_FORCE = REG.block("force_dark", DarkForceBlock::new)
-            .lang("Force of Dark")
+            .lang("Force of Darkness")
             .properties(p -> p.strength(2.0F, 6.0F))
             .tag(mineablePickaxe(), needWoodTools())
             .addLayer(() -> RenderType::translucent)
@@ -102,7 +140,7 @@ public class AllBlocks {
             .register();
 
     public static final BlockEntry<WarmForceBlock> WARM_FORCE = REG.block("force_warm", WarmForceBlock::new)
-            .lang("Force of Warm")
+            .lang("Force of Warmth")
             .properties(p -> p.strength(2.0F, 6.0F))
             .tag(mineablePickaxe(), needWoodTools())
             .addLayer(() -> RenderType::translucent)
@@ -127,6 +165,16 @@ public class AllBlocks {
                 });
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/clock")));
             })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("WWW")
+                    .pattern("CQG")
+                    .pattern("WWW")
+                    .define('W', ItemTags.PLANKS)
+                    .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                    .define('Q', Items.QUARTZ)
+                    .define('C', Items.CLOCK)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -167,6 +215,15 @@ public class AllBlocks {
                 });
                 p.simpleBlockItem(c.get(), model);
             })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("CCC")
+                    .pattern("IIQ")
+                    .pattern("CCC")
+                    .define('Q', Items.QUARTZ)
+                    .define('I', Items.IRON_INGOT)
+                    .define('C', Items.COBBLESTONE)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -189,6 +246,18 @@ public class AllBlocks {
                 });
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/magma_extruder")));
             })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("III")
+                    .pattern("WDL")
+                    .pattern("PRP")
+                    .define('P', POLISHED_STONE)
+                    .define('W', Items.WATER_BUCKET)
+                    .define('L', Items.LAVA_BUCKET)
+                    .define('R', Items.REDSTONE)
+                    .define('I', Items.IRON_INGOT)
+                    .define('D', Items.DROPPER)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -214,7 +283,7 @@ public class AllBlocks {
             .register();
 
     public static final BlockEntry<ConsumorBlock> CONSUMOR = REG.block("consumor_block", ConsumorBlock::new)
-            .lang("Consumor")
+            .lang("Consumer")
             .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needStoneTools())
             .simpleItem()
@@ -225,6 +294,17 @@ public class AllBlocks {
             .properties(p -> p.strength(0.5F, 2.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needWoodTools())
             .blockstate(ModelHelper::getExistingModel)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("GGG")
+                    .pattern("AQA")
+                    .pattern("PIP")
+                    .define('P', POLISHED_STONE)
+                    .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                    .define('A', Items.AMETHYST_SHARD)
+                    .define('Q', Items.QUARTZ)
+                    .define('I', Items.GOLD_INGOT)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -233,6 +313,17 @@ public class AllBlocks {
             .properties(p -> p.strength(0.5F, 2.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needWoodTools())
             .blockstate(ModelHelper::getExistingModel)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("GGG")
+                    .pattern("AQA")
+                    .pattern("PIP")
+                    .define('P', POLISHED_STONE)
+                    .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                    .define('A', Items.AMETHYST_SHARD)
+                    .define('Q', Items.QUARTZ)
+                    .define('I', Items.IRON_INGOT)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -248,6 +339,14 @@ public class AllBlocks {
                 p.simpleBlock(c.get(), model);
                 p.simpleBlockItem(c.get(), model);
             })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
+                    .pattern("HTH")
+                    .pattern("THT")
+                    .pattern("HTH")
+                    .define('T', Items.TNT)
+                    .define('H', AllItems.UNSTABLE_HEXA_INGOT)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -265,18 +364,6 @@ public class AllBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> BORDER_STONE = REG.block("border_stone", Block::new)
-            .lang("Border Stone")
-            .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
-            .tag(mineablePickaxe(), needStoneTools())
-            .blockstate((c, p) -> {
-                var model = p.models().getExistingFile(OmniUtils.loc(c.getName()));
-                p.simpleBlock(c.get(), model);
-                p.simpleBlockItem(c.get(), model);
-            })
-            .simpleItem()
-            .register();
-
     public static final BlockEntry<AngelBlock> ANGEL_BLOCK = REG.block("angel_block", AngelBlock::new)
             .lang("Angel Block")
             .properties(p -> p.emissiveRendering(AllBlocks::always).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(25.0F, 1200.0F))
@@ -286,15 +373,33 @@ public class AllBlocks {
                 p.simpleBlock(c.get(), model);
                 p.simpleBlockItem(c.get(), model);
             })
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("GOG")
+                    .pattern("OCO")
+                    .pattern("GOG")
+                    .define('O', Tags.Items.OBSIDIANS)
+                    .define('C', Items.END_CRYSTAL)
+                    .define('G', Items.GOLD_INGOT)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .item(AngelBlockItem::new)
             .properties(p -> p.fireResistant().rarity(Rarity.UNCOMMON))
             .build()
             .register();
 
-    public static final BlockEntry<Block> POLISHED_STONE = REG.block("polished_stone", Block::new)
-            .lang("Polished Stone")
-            .properties(p -> p.mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F))
-            .tag(mineablePickaxe(), needStoneTools())
+    public static final BlockEntry<GrimDevourBlock> GRIM_DEVOUR = REG.block("grim_devour", GrimDevourBlock::new)
+            .lang("Grim Devour")
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(37.5F, 5000.0F))
+            .tag(mineablePickaxe(), needIronTools())
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 1)
+                    .pattern("GOG")
+                    .pattern("OCO")
+                    .pattern("GOG")
+                    .define('O', AllTags.itemC("ingots/hexa"))
+                    .define('C', Items.SCULK_CATALYST)
+                    .define('G', BORDER_STONE)
+                    .unlockedBy("has_" + c.getName(), has(c.get()))
+                    .save(p, OmniUtils.loc("crafting/" + c.getName())))
             .simpleItem()
             .register();
 
@@ -683,7 +788,7 @@ public class AllBlocks {
 
     public static final BlockEntry<CurseBlock> CURSE_NYLIUM = REG.block("curse_nylium", p -> new CurseBlock(p, 1))
             .properties(p -> p.mapColor(DyeColor.BLACK).strength(0.8F).sound(AllSoundTypes.CURSED_NYLIUM))
-            .lang("Curse Nylium")
+            .lang("Cursed Nylium")
             .blockstate((c, p) -> {
                 var model = p.models()
                         .withExistingParent("block/curse_nylium", ResourceLocation.withDefaultNamespace("block/podzol"))
@@ -699,7 +804,7 @@ public class AllBlocks {
 
     public static final BlockEntry<CurseBlock> CURSE_COARSE = REG.block("curse_coarse", CurseBlock::new)
             .properties(p -> p.mapColor(MapColor.TERRACOTTA_GRAY).strength(0.8F).sound(AllSoundTypes.CURSED_SOIL))
-            .lang("Curse Coarse")
+            .lang("Cursed Coarse Soil")
             .loot((p, c) -> p.add(c, p.createSingleItemTableWithSilkTouch(c, Items.COARSE_DIRT)))
             .tag(BlockTags.DIRT, mineableShovel())
             .simpleItem()
@@ -707,14 +812,14 @@ public class AllBlocks {
 
     public static final BlockEntry<CurseBlock> CURSE_STONE = REG.block("curse_stone", CurseBlock::new)
             .properties(p -> p.mapColor(DyeColor.BLACK).instrument(NoteBlockInstrument.BASEDRUM).sound(AllSoundTypes.CURSED_STONE).requiresCorrectToolForDrops().strength(2.0F, 8.0F))
-            .lang("Curse Stone")
+            .lang("Cursed Stone")
             .tag(mineablePickaxe())
             .simpleItem()
             .register();
 
     public static final BlockEntry<CurseBlock> CURSE_ROOTS = REG.block("curse_roots", p -> new CurseBlock(p, 2))
             .properties(p -> p.mapColor(DyeColor.BLACK).replaceable().noCollission().instabreak().sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY))
-            .lang("Curse Roots")
+            .lang("Cursed Roots")
             .blockstate((c, p) -> {
                 p.simpleBlock(c.get(), p.models().cross("block/curse_roots", OmniUtils.loc("block/curse_roots")).renderType(RenderType.CUTOUT.name));
                 p.itemModels().basicItem(OmniUtils.loc("curse_roots"));
@@ -726,7 +831,7 @@ public class AllBlocks {
 
     public static final BlockEntry<CurseLeavesBlock> CURSE_LEAVES = REG.block("curse_leaves", CurseLeavesBlock::new)
             .properties(p -> p.mapColor(DyeColor.BLACK).strength(0.4F).noOcclusion().sound(AllSoundTypes.CURSED_LEAVES).isValidSpawn(Blocks::ocelotOrParrot).isSuffocating(AllBlocks::never).isViewBlocking(AllBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(AllBlocks::never))
-            .lang("Curse Leaves")
+            .lang("Cursed Leaves")
             .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
             .blockstate((c, p) -> {
                 var model = p.models().leaves("block/curse_leaves", OmniUtils.loc("block/curse_leaves")).renderType(RenderType.CUTOUT.name);
@@ -739,7 +844,7 @@ public class AllBlocks {
 
     public static final BlockEntry<CurseRotatedPillarBlock> CURSE_LOG = REG.block("curse_log", CurseRotatedPillarBlock::new)
             .properties(p -> p.mapColor(DyeColor.BLACK).instrument(NoteBlockInstrument.BASS).sound(AllSoundTypes.CURSED_LOG).strength(2.5F).ignitedByLava())
-            .lang("Curse Log")
+            .lang("Cursed Log")
             .blockstate((c, p) -> {
                 p.logBlock(c.get());
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/curse_log")));
@@ -766,7 +871,7 @@ public class AllBlocks {
 
     public static final BlockEntry<DeadBlock> DEAD_COARSE = REG.block("dead_coarse", DeadBlock::new)
             .properties(p -> p.mapColor(MapColor.TERRACOTTA_BROWN).strength(0.8F).sound(AllSoundTypes.CURSED_SOIL))
-            .lang("Dead Coarse")
+            .lang("Dead Coarse Soil")
             .loot((p, c) -> p.add(c, p.createSingleItemTableWithSilkTouch(c, Items.COARSE_DIRT)))
             .tag(BlockTags.DIRT, mineableShovel())
             .simpleItem()

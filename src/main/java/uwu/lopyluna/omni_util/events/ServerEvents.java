@@ -33,8 +33,9 @@ import uwu.lopyluna.omni_util.content.commands.DebugSanityCommand;
 import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.items.base.BlockBreakingDiggerItem;
 import uwu.lopyluna.omni_util.content.items.base.BlockBreakingItem;
-import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaIngot;
-import uwu.lopyluna.omni_util.content.items.hexa_ingot.UnstableHexaNugget;
+import uwu.lopyluna.omni_util.content.items.extensions.IOpenContainerTick;
+import uwu.lopyluna.omni_util.content.items.unstable_hexa.UnstableHexaIngot;
+import uwu.lopyluna.omni_util.content.items.unstable_hexa.UnstableHexaNugget;
 import uwu.lopyluna.omni_util.mixin.CreeperAccessor;
 import uwu.lopyluna.omni_util.register.AllBlocks;
 import uwu.lopyluna.omni_util.register.worldgen.AllBiomes;
@@ -130,6 +131,16 @@ public class ServerEvents {
         var level = player.level();
 
         if (level.isClientSide) return;
+        if (player.hasContainerOpen()) {
+            var slots = player.containerMenu.slots;
+            if (!slots.isEmpty()) for (var slot : slots) {
+                if (slot.isFake()) continue;
+                if (slot.getItem().isEmpty()) continue;
+                if (!(slot.getItem().getItem() instanceof IOpenContainerTick tick)) continue;
+                tick.containerTick(slot.getItem(), level, player, slot, slot.container, player.containerMenu);
+            }
+        }
+
         AngelBlockItem.angelBlockTick(level, player);
         if (!(player instanceof ServerPlayer pPlayer)) return;
         var pos = pPlayer.blockPosition();
@@ -244,7 +255,7 @@ public class ServerEvents {
                 });
             });
         }
-        delay = ++delay % 5;
+        delay = ++delay % 3;
     }
 
     public static void explode(ItemStack stack, Level level, Vec3 pos, int radius) {

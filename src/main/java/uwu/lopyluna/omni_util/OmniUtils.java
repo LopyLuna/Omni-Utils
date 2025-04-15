@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -60,7 +59,7 @@ public class OmniUtils {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(BASE_TAB.getKey())) {
             var item = AllItems.ANGEL_RING.get().getDefaultInstance();
-            String[] variants = {"feathered", "demon", "gilded", "bat", "invisible"};
+            String[] variants = {"feathered", "demon", "gilded", "bat", "invisible", "allay", "vexxed"};
             for (String type : variants) {
                 var newItem = item.copy();
                 newItem.set(AllDataComponents.WING_TYPE.get(), type);
@@ -71,8 +70,8 @@ public class OmniUtils {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> BASE_TAB = REGISTER.creativeTab().register("base_tab", () -> CreativeModeTab.builder()
             .title(Component.translatableWithFallback("itemGroup." + MOD_ID + ".base", NAME))
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(Items.DIAMOND::getDefaultInstance)
+            .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+            .icon(AllItems.ANGEL_RING.get()::getDefaultInstance)
             .build());
 
     public static ResourceLocation loc(String loc) {

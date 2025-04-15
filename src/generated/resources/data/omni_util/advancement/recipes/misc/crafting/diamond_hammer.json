@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond_hammer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:diamond_hammer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/diamond_hammer"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_diamond_hammer"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/diamond_hammer"
+    ]
+  }
+}

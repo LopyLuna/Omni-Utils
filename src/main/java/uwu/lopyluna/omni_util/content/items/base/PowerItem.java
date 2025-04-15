@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import uwu.lopyluna.omni_util.content.managers.PowerManager;
 import uwu.lopyluna.omni_util.register.AllPowerSources;
+import uwu.lopyluna.omni_util.register.AllTags;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -82,25 +84,30 @@ public class PowerItem extends OmniItem {
     @ParametersAreNonnullByDefault
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-        boolean shift = tooltipFlag.hasShiftDown();
-        tooltipComponents.add(Component.empty()
-                .append(Component.literal("Hold [").withStyle(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("Shift").withStyle(shift ? ChatFormatting.WHITE : ChatFormatting.GRAY))
-                .append(Component.literal("] for ").withStyle(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("Radiant Power").withStyle(ChatFormatting.GRAY))
-                .append(Component.literal(" Info").withStyle(ChatFormatting.DARK_GRAY)));
-        if (shift) {
-            var level = context.level();
-            var player = Minecraft.getInstance().player;
+        var player = Minecraft.getInstance().player;
+        if (player == null) return;
+        if (player.getItemBySlot(EquipmentSlot.HEAD).is(AllTags.itemC("goggles"))) {
+            boolean shift = tooltipFlag.hasShiftDown();
+            tooltipComponents.add(Component.empty()
+                    .append(Component.literal("Hold [").withStyle(ChatFormatting.DARK_GRAY))
+                    .append(Component.literal("Shift").withStyle(shift ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+                    .append(Component.literal("] for ").withStyle(ChatFormatting.DARK_GRAY))
+                    .append(Component.literal("Radiant Power").withStyle(ChatFormatting.GRAY))
+                    .append(Component.literal(" Info").withStyle(ChatFormatting.DARK_GRAY)));
+            if (shift) {
+                var level = context.level();
 
-            int cachedRP = getCachedRP();
-            boolean bool = level != null && player != null && cachedRP >= 0 && isActivated(level, stack, player);
+                int cachedRP = getCachedRP();
+                boolean bool = level != null && cachedRP >= 0 && isActivated(level, stack, player);
 
-            if (!source.genertor) tooltipComponents.add(Component.literal("⚠ Require: " + source.impact + " RP").withStyle(bool ? ChatFormatting.GREEN : ChatFormatting.RED));
-            else tooltipComponents.add(Component.literal("+ Generating: " + (bool ? source.impact : 0) + " RP").withStyle(ChatFormatting.AQUA));
-            tooltipComponents.add(Component.literal("⚡ Impact: " + (bool ? source.impact : 0) + " RP").withStyle(bool ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
+                if (!source.genertor)
+                    tooltipComponents.add(Component.literal("⚠ Require: " + source.impact + " RP").withStyle(bool ? ChatFormatting.GREEN : ChatFormatting.RED));
+                else
+                    tooltipComponents.add(Component.literal("+ Generating: " + (bool ? source.impact : 0) + " RP").withStyle(ChatFormatting.AQUA));
+                tooltipComponents.add(Component.literal("⚡ Impact: " + (bool ? source.impact : 0) + " RP").withStyle(bool ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
 
-            tooltipComponents.add(Component.literal("🔋 Current: " + cachedRP + " RP").withStyle(ChatFormatting.BLUE));
+                tooltipComponents.add(Component.literal("🔋 Current: " + cachedRP + " RP").withStyle(ChatFormatting.BLUE));
+            }
         }
     }
 }

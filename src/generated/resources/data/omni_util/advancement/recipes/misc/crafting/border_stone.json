@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_border_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:border_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/border_stone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_border_stone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/border_stone"
+    ]
+  }
+}

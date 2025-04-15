@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "omni_util:border_stone"
+    },
+    "I": {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "BIB",
+    " S ",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:stone_hammer"
+  }
+}

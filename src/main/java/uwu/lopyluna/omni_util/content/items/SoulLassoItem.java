@@ -63,14 +63,12 @@ public class SoulLassoItem extends Item {
                     pLevel.sendBlockUpdated(pClickedPos, pState, pState, 3);
                     pLevel.gameEvent(pPlayer, GameEvent.BLOCK_CHANGE, pClickedPos);
                     clearEntity(pStack);
-                    if (pPlayer != null)
-                        pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
+                    if (pPlayer != null) pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_MOB, SoundSource.PLAYERS, 0.8f, 1.0f);
                 } else {
                     if (pLevel instanceof ServerLevel pServer)
                         pState.getBlock().popExperience(pServer, pClickedPos, 15 + pLevel.random.nextInt(15) + pLevel.random.nextInt(15));
                     clearEntity(pStack);
-                    if (pPlayer != null)
-                        pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_ITEM, SoundSource.PLAYERS, 0.8f, 0.85f);
+                    if (pPlayer != null) pPlayer.playNotifySound(SoundEvents.TRIAL_SPAWNER_SPAWN_ITEM, SoundSource.PLAYERS, 0.8f, 0.85f);
                 }
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide());
@@ -138,7 +136,7 @@ public class SoulLassoItem extends Item {
         return Component.empty().append(getTargetName(pStack, pTarget)).append(" is not Friendly").withStyle(ChatFormatting.RED);
     }
     public Component invalidHealth(ItemStack pStack, LivingEntity pTarget) {
-        return Component.empty().append(getTargetName(pStack, pTarget)).append(" have too much Health").withStyle(ChatFormatting.RED);
+        return Component.empty().append(getTargetName(pStack, pTarget)).append(" has too much Health").withStyle(ChatFormatting.RED);
     }
 
     @Override

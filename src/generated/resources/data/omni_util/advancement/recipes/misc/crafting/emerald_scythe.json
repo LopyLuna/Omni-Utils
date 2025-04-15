@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_emerald_scythe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:emerald_scythe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/emerald_scythe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_emerald_scythe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/emerald_scythe"
+    ]
+  }
+}

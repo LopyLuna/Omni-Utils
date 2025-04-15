@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lunar_panel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:lunar_panel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/lunar_panel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lunar_panel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/lunar_panel"
+    ]
+  }
+}

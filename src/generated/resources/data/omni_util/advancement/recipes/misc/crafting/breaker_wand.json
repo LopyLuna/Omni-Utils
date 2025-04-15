@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_breaker_wand": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:breaker_wand"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/breaker_wand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_breaker_wand"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/breaker_wand"
+    ]
+  }
+}

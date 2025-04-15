@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "FRF"
+  ],
+  "key": {
+    "R": {
+      "item": "omni_util:angel_ring"
+    },
+    "F": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "omni_util:angel_ring",
+    "components": {
+      "omni_util:wing_type": "vexxed"
+    }
+  }
+}

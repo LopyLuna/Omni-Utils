@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "tag": "c:ingots/hexa"
+    },
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:blaze_rod"
+    },
+    "T": {
+      "item": "omni_util:netherite_paxel"
+    }
+  },
+  "pattern": [
+    " IH",
+    " TI",
+    "R  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:placer_wand"
+  }
+}

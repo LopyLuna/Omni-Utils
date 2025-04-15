@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "omni_util:unstable_hexa_ingot"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    "HTH",
+    "THT",
+    "HTH"
+  ],
+  "result": {
+    "count": 4,
+    "id": "omni_util:hexa_tnt"
+  }
+}

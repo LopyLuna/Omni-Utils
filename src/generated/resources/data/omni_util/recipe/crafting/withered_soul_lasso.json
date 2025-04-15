@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "omni_util:soul_lasso"
+    },
+    "W": {
+      "item": "omni_util:withered_tear"
+    }
+  },
+  "pattern": [
+    " W ",
+    "WSW",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:withered_soul_lasso"
+  }
+}

@@ -30,6 +30,18 @@
       "predicate": {
         "omni_util:wing_type": 5.0
       }
+    },
+    {
+      "model": "omni_util:item/allay_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 6.0
+      }
+    },
+    {
+      "model": "omni_util:item/vexxed_angel_ring",
+      "predicate": {
+        "omni_util:wing_type": 7.0
+      }
     }
   ],
   "textures": {

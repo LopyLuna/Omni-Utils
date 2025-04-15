@@ -45,6 +45,8 @@ public class AngelRing extends PowerItem implements Equipable {
             case "demon" -> path + "demon" + pathEnd;
             case "gilded" -> path + "gilded" + pathEnd;
             case "bat" -> path + "bat" + pathEnd;
+            case "allay" -> path + "allay" + pathEnd;
+            case "vexxed" -> path + "vexxed" + pathEnd;
             default -> def;
         } : def;
     }

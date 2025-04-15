@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "N": {
+      "tag": "c:ingots/hexa"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "GS ",
+    "SN ",
+    "  G"
+  ],
+  "result": {
+    "count": 1,
+    "id": "omni_util:soul_lasso"
+  }
+}

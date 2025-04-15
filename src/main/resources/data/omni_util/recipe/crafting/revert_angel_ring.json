@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "R"
+  ],
+  "key": {
+    "R": {
+      "item": "omni_util:angel_ring"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "omni_util:angel_ring"
+  }
+}

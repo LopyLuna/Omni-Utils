@@ -11,6 +11,7 @@ import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBE;
 import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBlockRenderer;
 import uwu.lopyluna.omni_util.content.blocks.generator.ConsumorBE;
 import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBE;
+import uwu.lopyluna.omni_util.content.blocks.grim_devour.GrimDevourBE;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBE;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBE;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBE;
@@ -21,9 +22,8 @@ import static uwu.lopyluna.omni_util.OmniUtils.REG;
 @SuppressWarnings("unused")
 public class AllBlockEntities {
 
-    public static final BlockEntityEntry<ColoredBE> COLORED_BLOCK =
-            simpleBE("colored_block", AllBlocks.COLORED_BLOCK, ColoredBlockRenderer::new, ColoredBE::new);
-
+    public static final BlockEntityEntry<ColoredBE> COLORED_BLOCK = simpleBE("colored_block", AllBlocks.COLORED_BLOCK, ColoredBlockRenderer::new, ColoredBE::new);
+    public static final BlockEntityEntry<GrimDevourBE> GRIM_DEVOUR = simpleBE("grim_devour", AllBlocks.GRIM_DEVOUR, GrimDevourBE::new);
     public static final BlockEntityEntry<AlteredSpawnerBE> SPAWNER = simpleBE("altered_spawner", AllBlocks.SPAWNER, AlteredSpawnerRenderer::new, AlteredSpawnerBE::new);
     public static final BlockEntityEntry<GeneratorBE> GENERATOR = simpleBE("generator", AllBlocks.GENERATOR, GeneratorBE::new);
     public static final BlockEntityEntry<ConsumorBE> CONSUMOR = simpleBE("consumor", AllBlocks.CONSUMOR, ConsumorBE::new);

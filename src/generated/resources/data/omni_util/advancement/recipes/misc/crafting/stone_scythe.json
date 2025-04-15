@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stone_scythe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "omni_util:stone_scythe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "omni_util:crafting/stone_scythe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_stone_scythe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "omni_util:crafting/stone_scythe"
+    ]
+  }
+}

@@ -25,6 +25,8 @@ public class AngelRingWingsRenderer extends RenderLayer<AbstractClientPlayer, Pl
     private static final ResourceLocation DEMON_WINGS = OmniUtils.loc("textures/entity/wings/demon.png");
     private static final ResourceLocation GILDED_WINGS = OmniUtils.loc("textures/entity/wings/gilded.png");
     private static final ResourceLocation BAT_WINGS = OmniUtils.loc("textures/entity/wings/bat.png");
+    private static final ResourceLocation ALLAY_WINGS = OmniUtils.loc("textures/entity/wings/allay.png");
+    private static final ResourceLocation VEXXED_WINGS = OmniUtils.loc("textures/entity/wings/vexxed.png");
 
     public AngelRingWingsRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, EntityModelSet modelSet) {
         super(renderer);
@@ -92,6 +94,8 @@ public class AngelRingWingsRenderer extends RenderLayer<AbstractClientPlayer, Pl
             case "demon" -> DEMON_WINGS;
             case "gilded" -> GILDED_WINGS;
             case "bat" -> BAT_WINGS;
+            case "allay" -> ALLAY_WINGS;
+            case "vexxed" -> VEXXED_WINGS;
             default -> null;
         };
     }

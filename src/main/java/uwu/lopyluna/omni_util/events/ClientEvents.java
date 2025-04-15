@@ -88,6 +88,8 @@ public class ClientEvents {
                     case "feathered" -> 3.0F;
                     case "gilded" -> 4.0F;
                     case "invisible" -> 5.0F;
+                    case "allay" -> 6.0F;
+                    case "vexxed" -> 7.0F;
                     default -> 0.0F;
                 };
             });

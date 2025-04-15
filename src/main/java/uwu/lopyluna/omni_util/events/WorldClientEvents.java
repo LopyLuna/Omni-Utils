@@ -16,6 +16,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -30,9 +32,10 @@ import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.ClientSanityData;
 import uwu.lopyluna.omni_util.client.SanityAmbientSoundInstance;
 import uwu.lopyluna.omni_util.content.blocks.base.OmniBlockEntity;
+import uwu.lopyluna.omni_util.content.items.wands.WandItem;
 import uwu.lopyluna.omni_util.content.managers.GoggleOverlayManager;
 import uwu.lopyluna.omni_util.register.AllBlocks;
-import uwu.lopyluna.omni_util.register.AllItems;
+import uwu.lopyluna.omni_util.register.AllTags;
 
 import java.util.List;
 
@@ -94,7 +97,7 @@ public class WorldClientEvents {
     }
 
     public static List<Component> renderGogglesOverlay(LocalPlayer pPlayer, HitResult pHitResult) {
-        if (!pPlayer.getItemBySlot(EquipmentSlot.HEAD).is(AllItems.GOGGLES)) return List.of();
+        if (!pPlayer.getItemBySlot(EquipmentSlot.HEAD).is(AllTags.itemC("goggles"))) return List.of();
         if (!(pHitResult.getType() == HitResult.Type.BLOCK && pHitResult instanceof BlockHitResult pRaytrace)) return List.of();
         if (pRaytrace.getType() == HitResult.Type.MISS) return List.of();
         if (!(pPlayer.level().getBlockEntity(pRaytrace.getBlockPos()) instanceof OmniBlockEntity pBlockEntity)) return List.of();
@@ -190,19 +193,39 @@ public class WorldClientEvents {
         if (mc.getConnection() != null && mc.player != null && mc.level != null) {
             var player = mc.player;
             var level = mc.level;
-            renderSelectionBoxAngelBlock(pEvent.getStage(), player, level, pEvent.getPoseStack(), pEvent.getCamera());
+            var stage = pEvent.getStage();
+            var pose = pEvent.getPoseStack();
+            var cam = pEvent.getCamera();
+            if (stage != AFTER_TRIPWIRE_BLOCKS) return;
+            var main = player.getMainHandItem();
+            var off = player.getOffhandItem();
+            renderSelectionBoxAngelBlock(main, off, player, level, pose, cam);
+            renderWandBlockSelection(main, off, player, level, pose, cam);
         }
     }
 
-    public static void renderSelectionBoxAngelBlock(RenderLevelStageEvent.Stage pStage, LocalPlayer pPlayer, ClientLevel pLevel, PoseStack pPose, Camera pCamera) {
-        if (pStage != AFTER_TRIPWIRE_BLOCKS) return;
-        var main = pPlayer.getMainHandItem();
-        var off = pPlayer.getOffhandItem();
-        if (!(main.is(AllBlocks.ANGEL_BLOCK.asItem()) || off.is(AllBlocks.ANGEL_BLOCK.asItem()))) return;
+    public static void renderWandBlockSelection(ItemStack main, ItemStack off, LocalPlayer pPlayer, ClientLevel pLevel, PoseStack pPose, Camera pCamera) {
+        if (pPlayer.isSpectator()) return;
+        var hand = main.getItem() instanceof WandItem ? main : off.getItem() instanceof WandItem ? off : ItemStack.EMPTY;
+        if (!(hand.getItem() instanceof WandItem wand) || hand.isEmpty()) return;
+        var hit = Item.getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.NONE);
+        var origin = hit.getBlockPos();
+        var positions = WandItem.getConnectedBlocks(pLevel, hit.getDirection(), pPlayer, pLevel.getBlockState(origin), origin, wand);
+        if (positions == null || positions.isEmpty()) return;
+        if (!wand.outsideBlocks()) positions.add(origin);
+        var buffer = mc.renderBuffers().bufferSource();
+        if (hit.getType() != HitResult.Type.MISS) for (var pos : positions) {
+            var state = pLevel.getBlockState(pos);
+            var shape = state.isAir() ? Shapes.block() : state.getShape(pLevel, pos);
+            highlightPosition(pos, shape, pPose, pCamera, buffer, 1f, 0.8f);
+        }
+    }
 
-        HitResult result = mc.hitResult;
-        if (result == null) return;
-        if (!(result instanceof BlockHitResult hit)) return;
+    public static void renderSelectionBoxAngelBlock(ItemStack main, ItemStack off, LocalPlayer pPlayer, ClientLevel pLevel, PoseStack pPose, Camera pCamera) {
+        if (!(main.is(AllBlocks.ANGEL_BLOCK.asItem()) || off.is(AllBlocks.ANGEL_BLOCK.asItem()))) return;
+        var hitResult = mc.hitResult;
+        if (hitResult == null) return;
+        if (!(hitResult instanceof BlockHitResult hit)) return;
         var scale = pPlayer.blockInteractionRange() * (pPlayer.isShiftKeyDown() ? 0.5 : 1);
         var eyePos = pPlayer.getEyePosition();
         var lookVec = eyePos.add(pPlayer.calculateViewVector(pPlayer.getXRot(), pPlayer.getYRot()).scale(scale));
@@ -210,30 +233,30 @@ public class WorldClientEvents {
         if (hit.getType() == HitResult.Type.MISS) {
             var pos = rayTrace.getBlockPos();
             var buffer = mc.renderBuffers().bufferSource();
-            highlightPosition(pos, Shapes.block(), pPose, pCamera, buffer);
+            highlightPosition(pos, Shapes.block(), pPose, pCamera, buffer, 0f, 0.4f);
         }
     }
 
-    private static void highlightPosition(BlockPos pos, VoxelShape shape, PoseStack poseStack, Camera pCamera, MultiBufferSource buffer) {
+    private static void highlightPosition(BlockPos pos, VoxelShape shape, PoseStack poseStack, Camera pCamera, MultiBufferSource buffer, float shade, float alpha) {
         var camPos = pCamera.getPosition();
-        renderHitOutline(poseStack, shape, buffer.getBuffer(RenderType.lines()), camPos.x(), camPos.y(), camPos.z(), pos);
+        renderHitOutline(poseStack, shape, buffer.getBuffer(RenderType.lines()), camPos.x(), camPos.y(), camPos.z(), pos, shade, alpha);
     }
 
-    private static void renderHitOutline(PoseStack poseStack, VoxelShape shape, VertexConsumer consumer, double camX, double camY, double camZ, BlockPos pos) {
-        renderShape(poseStack, consumer, shape, (double)pos.getX() - camX, (double)pos.getY() - camY, (double)pos.getZ() - camZ);
+    private static void renderHitOutline(PoseStack poseStack, VoxelShape shape, VertexConsumer consumer, double camX, double camY, double camZ, BlockPos pos, float shade, float alpha) {
+        renderShape(poseStack, consumer, shape, (double)pos.getX() - camX, (double)pos.getY() - camY, (double)pos.getZ() - camZ, shade, alpha);
     }
 
-    private static void renderShape(PoseStack poseStack, VertexConsumer consumer, VoxelShape shape, double x, double y, double z) {
+    private static void renderShape(PoseStack poseStack, VertexConsumer consumer, VoxelShape shape, double x, double y, double z, float shade, float alpha) {
         PoseStack.Pose pose = poseStack.last();
         shape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
             float f = (float)(x2 - x1); float f1 = (float)(y2 - y1); float f2 = (float)(z2 - z1);
             float f3 = Mth.sqrt(f * f + f1 * f1 + f2 * f2);
             f /= f3; f1 /= f3; f2 /= f3;
             consumer.addVertex(pose, (float)(x1 + x), (float)(y1 + y), (float)(z1 + z))
-                    .setColor((float) 0.0, (float) 0.0, (float) 0.0, (float) 0.4)
+                    .setColor(shade, shade, shade, alpha)
                     .setNormal(pose, f, f1, f2);
             consumer.addVertex(pose, (float)(x2 + x), (float)(y2 + y), (float)(z2 + z))
-                    .setColor((float) 0.0, (float) 0.0, (float) 0.0, (float) 0.4)
+                    .setColor(shade, shade, shade, alpha)
                     .setNormal(pose, f, f1, f2);
         });
     }
