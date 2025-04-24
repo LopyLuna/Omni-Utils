@@ -4,6 +4,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.neoforged.neoforge.common.util.DeferredSoundType;
 
 public class AllSoundTypes {
+    public static final DeferredSoundType TRASH_CAN = new DeferredSoundType(
+            1.0F,
+            0.9F,
+            () -> SoundEvents.LANTERN_BREAK,
+            () -> SoundEvents.LANTERN_STEP,
+            () -> SoundEvents.LANTERN_PLACE,
+            () -> SoundEvents.LANTERN_HIT,
+            () -> SoundEvents.LANTERN_FALL
+    );
     public static final DeferredSoundType GRIMROCK = new DeferredSoundType(
             1.0F,
             0.75F,

@@ -5,6 +5,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
@@ -13,6 +15,7 @@ public abstract class OmniBlock extends BaseOmniBlock {
         super(properties);
     }
 
+    @Nonnull
     public abstract BlockEntityType<? extends OmniBlockEntity> getBlockEntityType();
 
     @Override

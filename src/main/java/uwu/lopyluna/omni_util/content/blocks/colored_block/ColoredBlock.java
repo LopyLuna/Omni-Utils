@@ -30,7 +30,7 @@ public class ColoredBlock extends OmniBlock {
     }
 
     @Override
-    public BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
+    public @NotNull BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
         return AllBlockEntities.COLORED_BLOCK.get();
     }
 

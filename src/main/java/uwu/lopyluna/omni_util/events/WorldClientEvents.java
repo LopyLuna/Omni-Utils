@@ -15,7 +15,9 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -32,6 +34,7 @@ import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.ClientSanityData;
 import uwu.lopyluna.omni_util.client.SanityAmbientSoundInstance;
 import uwu.lopyluna.omni_util.content.blocks.base.OmniBlockEntity;
+import uwu.lopyluna.omni_util.content.items.wands.PlacerWandItem;
 import uwu.lopyluna.omni_util.content.items.wands.WandItem;
 import uwu.lopyluna.omni_util.content.managers.GoggleOverlayManager;
 import uwu.lopyluna.omni_util.register.AllBlocks;
@@ -40,6 +43,7 @@ import uwu.lopyluna.omni_util.register.AllTags;
 import java.util.List;
 
 import static net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS;
+import static uwu.lopyluna.omni_util.content.AllUtils.fixStateByContext;
 
 @EventBusSubscriber(modid = OmniUtils.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class WorldClientEvents {
@@ -211,12 +215,24 @@ public class WorldClientEvents {
         var hit = Item.getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.NONE);
         var origin = hit.getBlockPos();
         var positions = WandItem.getConnectedBlocks(pLevel, hit.getDirection(), pPlayer, pLevel.getBlockState(origin), origin, wand);
-        if (positions == null || positions.isEmpty()) return;
+        if (positions == null) return;
         if (!wand.outsideBlocks()) positions.add(origin);
+        if (positions.isEmpty()) return;
         var buffer = mc.renderBuffers().bufferSource();
+        var stackOff = pPlayer.getItemInHand(InteractionHand.OFF_HAND);
+        var paintState = pLevel.getBlockState(hit.getBlockPos());
+        var offItem = stackOff.getItem();
+        var result = PlacerWandItem.getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.NONE);
         if (hit.getType() != HitResult.Type.MISS) for (var pos : positions) {
+            if (offItem instanceof BlockItem block) paintState = fixStateByContext(block.getBlock().defaultBlockState(), pPlayer, result.withPosition(pos));
+            else paintState = fixStateByContext(paintState, pPlayer, result.withPosition(pos));
+
             var state = pLevel.getBlockState(pos);
-            var shape = state.isAir() ? Shapes.block() : state.getShape(pLevel, pos);
+            var shape = Shapes.block();
+            if (state.isAir() && paintState != null && !paintState.isAir()) shape = paintState.getShape(pLevel, pos);
+            if (state.isAir() && paintState == null) shape = Shapes.empty();
+            if (!state.isAir()) shape = state.getShape(pLevel, pos);
+
             highlightPosition(pos, shape, pPose, pCamera, buffer, 1f, 0.8f);
         }
     }

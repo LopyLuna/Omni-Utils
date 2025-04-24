@@ -58,7 +58,10 @@ jobs:
 
       - name: Get last commit message
         id: commit
-        run: echo "message=$(git log -1 --pretty=format:%s%n%b)" >> $GITHUB_OUTPUT
+        run: |
+          echo 'message<<EOF' >> $GITHUB_OUTPUT
+          git log -1 --pretty=format:%s%n%b >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Notify Discord on Success
         if: success()
@@ -69,6 +72,8 @@ jobs:
           args: |
             ||<@&1119816316560359515><@&1179960869807988747><@&1203776983167803482><@&1203776907770859630>||
             # New Build of Omni-Utils ${{ steps.props.outputs.value }} for Neoforge 1.21.1 to be Balance/Bug Tested!
-            **Changes:**  
+            **Changes:**
+            ```
             ${{ steps.commit.outputs.message }}
+            ```
             ## [**__Download__**](https://github.com/LopyLuna/Omni-Utils/releases/download/${{ steps.props.outputs.value }}/omni_util-${{ steps.props.outputs.value }}.jar)

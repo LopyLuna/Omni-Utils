@@ -13,13 +13,11 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.client.event.*;
 import uwu.lopyluna.omni_util.OmniUtils;
 import uwu.lopyluna.omni_util.client.AllModelLayers;
 import uwu.lopyluna.omni_util.client.render.angel_ring.AngelRingWingsRenderer;
+import uwu.lopyluna.omni_util.client.screens.TrashCanScreen;
 import uwu.lopyluna.omni_util.content.blocks.colored_block.ColoredBE;
 import uwu.lopyluna.omni_util.content.container.ContainerTooltip;
 import uwu.lopyluna.omni_util.content.container.ContainerTooltipComponent;
@@ -29,10 +27,16 @@ import uwu.lopyluna.omni_util.content.items.BundleOfHoldingItem;
 import uwu.lopyluna.omni_util.register.AllBlocks;
 import uwu.lopyluna.omni_util.register.AllDataComponents;
 import uwu.lopyluna.omni_util.register.AllItems;
+import uwu.lopyluna.omni_util.register.AllMenuTypes;
 import uwu.lopyluna.omni_util.register.worldgen.AllDimensions;
 
 @EventBusSubscriber(modid = OmniUtils.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
+
+    @SubscribeEvent
+    public static void onRegisterScreens(final RegisterMenuScreensEvent event) {
+        event.register(AllMenuTypes.TRASH_CAN.get(), TrashCanScreen::new);
+    }
 
     @SubscribeEvent
     public static void onRegisterTooltipComponent(RegisterClientTooltipComponentFactoriesEvent event) {

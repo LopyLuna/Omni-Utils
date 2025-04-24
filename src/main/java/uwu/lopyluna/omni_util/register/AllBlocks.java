@@ -49,6 +49,7 @@ import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
+import uwu.lopyluna.omni_util.content.blocks.trash_can.TrashCanBlock;
 import uwu.lopyluna.omni_util.content.items.AngelBlockItem;
 import uwu.lopyluna.omni_util.content.utils.datagen.LootTableHelper;
 import uwu.lopyluna.omni_util.content.utils.datagen.ModelHelper;
@@ -144,6 +145,15 @@ public class AllBlocks {
             .properties(p -> p.strength(2.0F, 6.0F))
             .tag(mineablePickaxe(), needWoodTools())
             .addLayer(() -> RenderType::translucent)
+            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<TrashCanBlock> TRASH_CAN = REG.block("trash_can", TrashCanBlock::new)
+            .lang("Trash Can")
+            .properties(p -> p.sound(AllSoundTypes.TRASH_CAN).strength(2.0F, 6.0F))
+            .tag(mineablePickaxe(), needWoodTools())
+            .addLayer(() -> RenderType::cutoutMipped)
             .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
             .simpleItem()
             .register();

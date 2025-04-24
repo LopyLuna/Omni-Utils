@@ -8,15 +8,40 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class AllUtils {
 
+    public static BlockState fixStateByContext(BlockState toState, Player player, BlockHitResult result) {
+        return toState == null ? null : toState.getBlock().getStateForPlacement(new BlockPlaceContext(player, InteractionHand.MAIN_HAND, new ItemStack(toState.getBlock()), result));
+    }
+
+    public static <T extends Comparable<T>> BlockState copyProperty(Property<T> property, BlockState fromState, BlockState toState) {
+        if (fromState.hasProperty(property) && toState.hasProperty(property)) return toState.setValue(property, fromState.getValue(property));
+        return toState;
+    }
+
+    public static boolean canMergeStacks(ItemStack stack1, ItemStack stack2) {
+        return stack1.getCount() <= stack1.getMaxStackSize() && ItemStack.isSameItemSameComponents(stack1, stack2);
+    }
+
     public static int getClientLight(Level level, BlockPos pos) {
         return Mth.clamp(LightTexture.pack(level.getBrightness(LightLayer.BLOCK, pos), level.getBrightness(LightLayer.SKY, pos)), 0, 15728880);
+    }
+
+    public static void playSound(Level level, BlockPos pos, SoundEvent sound, SoundSource category) {
+        var v = Vec3.atCenterOf(pos);
+        level.playSound(null, v.x, v.y, v.z, sound, category, 1, 1);
     }
 
     public static void playSound(Level level, BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {

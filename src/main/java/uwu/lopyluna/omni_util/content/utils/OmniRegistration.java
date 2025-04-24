@@ -9,7 +9,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -20,7 +19,6 @@ import static uwu.lopyluna.omni_util.OmniUtils.MOD_ID;
 public record OmniRegistration(String modID) {
 
     public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(MOD_ID);
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(FLUID, MOD_ID);
     public static final DeferredRegister<DamageType> DAMAGES = DeferredRegister.create(DAMAGE_TYPE, MOD_ID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(MOB_EFFECT, MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(PARTICLE_TYPE, MOD_ID);
@@ -32,7 +30,6 @@ public record OmniRegistration(String modID) {
     public static final DeferredRegister<Level> DIMENSIONS = DeferredRegister.create(DIMENSION, MOD_ID);
 
     public DeferredRegister.DataComponents components() {return DATA_COMPONENTS;}
-    public DeferredRegister<? extends Fluid> fluids() {return FLUIDS;}
     public DeferredRegister<CreativeModeTab> creativeTab() {return CREATIVE_MODE_TABS;}
     public DeferredRegister<DamageType> damages() {return DAMAGES;}
     public DeferredRegister<MobEffect> mobEffects() {return MOB_EFFECTS;}
@@ -46,9 +43,7 @@ public record OmniRegistration(String modID) {
     public void register(IEventBus bus) {
         System.out.println("Registering Omni Utils Data Components...");
         DATA_COMPONENTS.register(bus);
-        System.out.println("Registering Omni Utils Fluids...");
-        FLUIDS.register(bus);
-        System.out.println("Registering Omni Utils Blocks...");
+        System.out.println("Registering Omni Utils Creative Tabs...");
         CREATIVE_MODE_TABS.register(bus);
         System.out.println("Registering Omni Utils Damage Types...");
         DAMAGES.register(bus);

@@ -33,6 +33,7 @@ public class OmniUtils {
         REG.registerEventListeners(modEventBus);
         REG.defaultCreativeTab(BASE_TAB, "base_tab");
 
+        AllMenuTypes.register();
         AllLangProvider.addTranslations();
         AllTags.addGenerators();
         AllArmorMaterials.register(modEventBus);

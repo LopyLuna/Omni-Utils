@@ -112,10 +112,10 @@ public class AlteredSpawnerBE extends OmniBlockEntity implements Spawner, Goggle
         if (!(blockEntity instanceof AlteredSpawnerBE be)) return;
         var s = be.spawner;
         var component = getSpawnEntityDisplayName(s);
-        tooltip.add(Component.literal("Mob: ").append(Objects.requireNonNullElseGet(component, () -> Component.literal("Empty").withStyle(ChatFormatting.BLUE))));
-        tooltip.add(Component.literal("Delay Min: " + s.getMinSpawnDelay() + " | Delay Max: " + s.getMaxSpawnDelay()));
-        tooltip.add(Component.literal("Spawn Count: " + s.getSpawnCount() + " | Max Count: " + s.getMaxNearbyEntities()));
-        tooltip.add(Component.literal("Active Range: " + s.getRequiredPlayerRange() + " | Spawn Range: " + s.getSpawnRange()));
+        tooltip.add(Component.translatableWithFallback("", "Mob: ").append(Objects.requireNonNullElseGet(component, () -> Component.translatableWithFallback("", "Empty").withStyle(ChatFormatting.BLUE))));
+        tooltip.add(Component.translatableWithFallback("", "Delay Min: " + s.getMinSpawnDelay() + " | Delay Max: " + s.getMaxSpawnDelay()));
+        tooltip.add(Component.translatableWithFallback("", "Spawn Count: " + s.getSpawnCount() + " | Max Count: " + s.getMaxNearbyEntities()));
+        tooltip.add(Component.translatableWithFallback("", "Active Range: " + s.getRequiredPlayerRange() + " | Spawn Range: " + s.getSpawnRange()));
     }
 
     static Component getSpawnEntityDisplayName(AlteredSpawner spawner) {

@@ -47,13 +47,25 @@ public class WandItem extends Item {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
+    public int getMaxCount(Level level, Direction face, Player player, BlockState state, BlockPos pos) {
+        var shifting = player.isShiftKeyDown();
+        var creative = player.isCreative() && !player.isBlocking();
+        var spectator = player.isSpectator();
+        return creative ? shifting ? 128 : 256 : spectator ? 0 : shifting ? 64 : 128;
+    }
+
+    public int getMaxRange(Level level, Direction face, Player player, BlockState state, BlockPos pos) {
+        var shifting = player.isShiftKeyDown();
+        var creative = player.isCreative() && !player.isBlocking();
+        var spectator = player.isSpectator();
+        return creative ? shifting ? 32 : 64 : spectator ? 0 : shifting ? 16 : 32;
+    }
+
     public static List<BlockPos> getConnectedBlocks(Level level, Direction face, Player player, BlockState state, BlockPos pos, WandItem item) {
         var origin = item.outsideBlocks() ? pos.relative(face) : pos;
         var originState = (item.outsideBlocks() ? level.getBlockState(pos.relative(face)) : state);
-        var creative = player.isCreative() && !player.isShiftKeyDown();
-        var spectator = player.isSpectator();
-        var maxCount = creative ? 256 : spectator ? 0 : 128;
-        int maxRange = creative ? 64 : spectator ? 0 : 32;
+        var maxCount = item.getMaxCount(level, face, player, state, pos);
+        int maxRange = item.getMaxRange(level, face, player, state, pos);
         if (maxCount == 0) return List.of();
         var eye = player.getEyePosition();
 
@@ -74,7 +86,6 @@ public class WandItem extends Item {
                 if (!item.outsideBlocks() && !level.getBlockState(neighbor.relative(face)).isAir()) continue;
                 if (item.outsideBlocks()) {
                     if (!state.is(level.getBlockState(neighbor.relative(face.getOpposite())).getBlock())) continue;
-
                 }
 
                 var neighborState = level.getBlockState(neighbor);

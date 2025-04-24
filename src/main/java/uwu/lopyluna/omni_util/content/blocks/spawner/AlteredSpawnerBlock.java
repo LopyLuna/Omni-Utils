@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.lopyluna.omni_util.content.blocks.base.OmniBlock;
 import uwu.lopyluna.omni_util.content.blocks.base.OmniBlockEntity;
@@ -49,7 +50,7 @@ public class AlteredSpawnerBlock extends OmniBlock {
     }
 
     @Override
-    public BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
+    public @NotNull BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
         return AllBlockEntities.SPAWNER.get();
     }
 

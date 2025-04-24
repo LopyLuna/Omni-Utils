@@ -43,7 +43,7 @@ public class GrimDevourBlock extends OmniBlock {
     }
 
     @Override
-    public BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
+    public @NotNull BlockEntityType<? extends OmniBlockEntity> getBlockEntityType() {
         return AllBlockEntities.GRIM_DEVOUR.get();
     }
 

@@ -148,7 +148,7 @@ public class PowerBlockEntity extends OmniBlockEntity implements GoggleOverlay {
         if (!(blockEntity instanceof PowerBlockEntity be)) return;
         var isGenerator = be.isGenerator(level, player, true);
         var getImpact = be.getImpact(level, player, true);
-        tooltipComponents.add(Component.literal(isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP"));
-        tooltipComponents.add(Component.literal("Net: " + getCachedRP() + " RP"));
+        tooltipComponents.add(Component.translatableWithFallback("", isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP"));
+        tooltipComponents.add(Component.translatableWithFallback("", "Net: " + getCachedRP() + " RP"));
     }
 }
