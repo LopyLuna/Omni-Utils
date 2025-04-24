@@ -119,7 +119,7 @@ public class PowerBlockEntity extends OmniBlockEntity implements GoggleOverlay {
     @Override
     public void onLoad(CompoundTag nbt) {
         super.onLoad(nbt);
-        if (nbt.hasUUID("isActive")) isActive = nbt.getBoolean("isActive");
+        if (nbt.contains("isActive")) isActive = nbt.getBoolean("isActive");
         if (nbt.hasUUID("OwnerUUID")) ownerUUID = nbt.getUUID("OwnerUUID");
         var pos = getBlockPos();
         PowerTickHandler.blocksToAdd.add(pos);
@@ -148,7 +148,7 @@ public class PowerBlockEntity extends OmniBlockEntity implements GoggleOverlay {
         if (!(blockEntity instanceof PowerBlockEntity be)) return;
         var isGenerator = be.isGenerator(level, player, true);
         var getImpact = be.getImpact(level, player, true);
-        tooltipComponents.add(Component.translatableWithFallback("", isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP"));
-        tooltipComponents.add(Component.translatableWithFallback("", "Net: " + getCachedRP() + " RP"));
+        tooltipComponents.add(Component.translatableWithFallback("unkown", isGenerator ? "Generating: " + getImpact + " RP" : "Usage: " + getImpact + " RP"));
+        tooltipComponents.add(Component.translatableWithFallback("unkown", "Net: " + getCachedRP() + " RP"));
     }
 }

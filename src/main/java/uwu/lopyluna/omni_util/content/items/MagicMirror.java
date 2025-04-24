@@ -86,6 +86,7 @@ public class MagicMirror extends Item {
         var worldInfo = pLevel.getLevelData();
         var spn = worldInfo.getSpawnPos();
 
+        pPlayer.causeFoodExhaustion(20.0F);
         if (pPlayer instanceof ServerPlayer pServerPlayer) {
             var spnLevel = pServerPlayer.server.getLevel(Level.OVERWORLD);
             var spnAngle = 0f;

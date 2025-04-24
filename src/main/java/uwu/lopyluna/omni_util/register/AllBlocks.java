@@ -47,6 +47,7 @@ import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBlock;
 import uwu.lopyluna.omni_util.content.blocks.grim_devour.GrimDevourBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBlock;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBlock;
+import uwu.lopyluna.omni_util.content.blocks.power_crank.PowerCrankBlock;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBlock;
 import uwu.lopyluna.omni_util.content.blocks.spike.SpikeBlock;
 import uwu.lopyluna.omni_util.content.blocks.trash_can.TrashCanBlock;
@@ -151,10 +152,19 @@ public class AllBlocks {
 
     public static final BlockEntry<TrashCanBlock> TRASH_CAN = REG.block("trash_can", TrashCanBlock::new)
             .lang("Trash Can")
-            .properties(p -> p.sound(AllSoundTypes.TRASH_CAN).strength(2.0F, 6.0F))
+            .properties(p -> p.noOcclusion().sound(AllSoundTypes.TRASH_CAN).strength(2.0F, 6.0F))
             .tag(mineablePickaxe(), needWoodTools())
             .addLayer(() -> RenderType::cutoutMipped)
-            .blockstate((c, p) -> p.simpleBlockWithItem(c.get(), p.models().getExistingFile(OmniUtils.loc(c.getName()))))
+            .blockstate((c, p) -> {
+                var model = p.models().getExistingFile(OmniUtils.loc(c.getName()));
+                var modelOpen = p.models().getExistingFile(OmniUtils.loc(c.getName() + "_open"));
+                p.getVariantBuilder(c.get()).forAllStates(state -> ConfiguredModel.builder()
+                        .modelFile(state.getValue(BlockStateProperties.OPEN) ? modelOpen : model)
+                        .rotationY(genHoriztonalAxis(state))
+                        .build()
+                );
+                p.simpleBlockItem(c.get(), model);
+            })
             .simpleItem()
             .register();
 
@@ -170,7 +180,7 @@ public class AllBlocks {
 
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(model);
-                    generateHoriztonalDirectional(builder, state);
+                    genHoriztonalDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/clock")));
@@ -200,7 +210,7 @@ public class AllBlocks {
                     boolean triggered = state.getValue(BlockStateProperties.TRIGGERED);
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(triggered ? modelOn : model);
-                    generateDirectional(builder, state);
+                    genDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), model);
@@ -220,7 +230,7 @@ public class AllBlocks {
                     boolean enabled = state.getValue(BlockStateProperties.ENABLED);
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(enabled ? modelOn : model);
-                    generateDirectional(builder, state);
+                    genDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), model);
@@ -251,7 +261,7 @@ public class AllBlocks {
 
                     var builder = ConfiguredModel.builder();
                     builder.modelFile(model);
-                    generateHoriztonalDirectional(builder, state);
+                    genHoriztonalDirectional(builder, state);
                     return builder.build();
                 });
                 p.simpleBlockItem(c.get(), p.models().getExistingFile(OmniUtils.loc("block/magma_extruder")));
@@ -296,6 +306,14 @@ public class AllBlocks {
             .lang("Consumer")
             .properties(p -> p.strength(2.0F, 3.0F).requiresCorrectToolForDrops())
             .tag(mineablePickaxe(), needStoneTools())
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<PowerCrankBlock> POWER_CRANK = REG.block("power_crank", PowerCrankBlock::new)
+            .lang("Power Crank")
+            .properties(p -> p.sound(SoundType.WOOD).strength(0.5F, 2.0F).requiresCorrectToolForDrops())
+            .tag(mineablePickaxe(), needWoodTools())
+            .blockstate(ModelHelper::getExistingModel)
             .simpleItem()
             .register();
 

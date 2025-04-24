@@ -6,6 +6,7 @@
     "omni_util:force_heat",
     "omni_util:force_cold",
     "omni_util:force_warm",
+    "omni_util:trash_can",
     "omni_util:solar_panel",
     "omni_util:lunar_panel"
   ]

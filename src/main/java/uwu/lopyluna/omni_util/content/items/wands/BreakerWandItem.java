@@ -29,7 +29,10 @@ public class BreakerWandItem extends WandItem {
     @Override
     public void processBlocks(ItemStack stack, ItemStack stackOff, Level level, Player player, Direction face, BlockPos origin, BlockState state, List<BlockPos> positions) {
         if (isValid(state, face, level, origin) == 2) breakBlock(stack, level, player, origin, state, true);
-        for (var pos : positions) breakBlock(stack, level, player, pos, level.getBlockState(pos), false);
+        for (var pos : positions) {
+            var offState = level.getBlockState(pos);
+            if (isValid(offState, face, level, pos) == 2) breakBlock(stack, level, player, pos, offState, false);
+        }
     }
 
     @Override

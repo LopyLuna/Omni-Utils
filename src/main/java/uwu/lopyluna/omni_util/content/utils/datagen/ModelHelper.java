@@ -34,7 +34,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class ModelHelper {
-    public static void generateDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
+    public static void genDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
         switch (state.getValue(BlockStateProperties.FACING)) {
             case DOWN -> builder.rotationX(90);
             case UP -> builder.rotationX(270);
@@ -45,13 +45,21 @@ public class ModelHelper {
         }
     }
 
-    public static void generateHoriztonalDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
+    public static void genHoriztonalDirectional(ConfiguredModel.Builder<?> builder, BlockState state) {
         switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
             case NORTH -> {}
             case SOUTH -> builder.rotationY(180);
             case WEST -> builder.rotationY(270);
             case EAST -> builder.rotationY(90);
         }
+    }
+
+    public static void genHoriztonalAxis(ConfiguredModel.Builder<?> builder, BlockState state) {
+        if (state.getValue(BlockStateProperties.HORIZONTAL_AXIS) == Direction.Axis.X) builder.rotationY(90);
+    }
+
+    public static int genHoriztonalAxis(BlockState state) {
+        return state.getValue(BlockStateProperties.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0;
     }
 
     @SuppressWarnings("all")
@@ -91,7 +99,7 @@ public class ModelHelper {
             p.getVariantBuilder(c.get()).forAllStates(state -> {
                 var builder = ConfiguredModel.builder();
                 builder.modelFile(model);
-                generateDirectional(builder, state);
+                genDirectional(builder, state);
                 return builder.build();
             });
             p.itemModels().basicItem(c.get().asItem());

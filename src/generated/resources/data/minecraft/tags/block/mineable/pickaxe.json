@@ -20,6 +20,7 @@
     "omni_util:force_heat",
     "omni_util:force_cold",
     "omni_util:force_warm",
+    "omni_util:trash_can",
     "omni_util:clock",
     "omni_util:breaker",
     "omni_util:interactor",

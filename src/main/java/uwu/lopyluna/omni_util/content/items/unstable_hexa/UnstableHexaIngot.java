@@ -39,7 +39,7 @@ public class UnstableHexaIngot extends Item implements IOpenContainerTick {
         if (validContainersForUnstableHexa(pContainer, pMenu)) {
             if (pLevel instanceof ServerLevel serverLevel) run(pStack, pPlayer, serverLevel);
             if (pStack.has(DataComponents.BASE_COLOR)) pStack.shrink(pStack.getCount());
-        } else if (!pStack.isEmpty() && !pPlayer.isCreative()) {
+        } else if (!pStack.isEmpty() && !pPlayer.getAbilities().instabuild) {
             explode(pStack, pPlayer.level(), pPlayer.position());
             pStack.shrink(pStack.getCount());
         }
@@ -49,7 +49,7 @@ public class UnstableHexaIngot extends Item implements IOpenContainerTick {
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {
         if (player.level() instanceof ServerLevel serverLevel) {
             if (validContainersForUnstableHexa(slot.container, player.containerMenu)) run(stack, player, serverLevel);
-            else if (!stack.isEmpty() && !player.isCreative()) {
+            else if (!stack.isEmpty() && !player.getAbilities().instabuild) {
                 explode(stack, player.level(), player.position());
                 stack.shrink(stack.getCount());
             }
@@ -66,7 +66,7 @@ public class UnstableHexaIngot extends Item implements IOpenContainerTick {
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
         if (player.level() instanceof ServerLevel serverLevel) {
             if (validContainersForUnstableHexa(slot.container, player.containerMenu)) run(stack, player, serverLevel);
-            else if (!stack.isEmpty() && !player.isCreative()) {
+            else if (!stack.isEmpty() && !player.getAbilities().instabuild) {
                 explode(stack, player.level(), player.position());
                 stack.shrink(stack.getCount());
             }

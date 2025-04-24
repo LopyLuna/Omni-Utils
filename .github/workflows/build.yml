@@ -59,9 +59,11 @@ jobs:
       - name: Get last commit message
         id: commit
         run: |
-          echo 'message<<EOF' >> $GITHUB_OUTPUT
-          git log -1 --pretty=format:%s%n%b >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          {
+            echo "message<<EOF"
+            git log -1 --pretty=format:%s%n%b
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Notify Discord on Success
         if: success()

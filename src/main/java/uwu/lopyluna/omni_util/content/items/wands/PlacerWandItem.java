@@ -39,7 +39,7 @@ public class PlacerWandItem extends WandItem {
         else paintState = fixStateByContext(paintState, player, result.withPosition(pos));
 
         var maxCount = super.getMaxCount(level, face, player, state, pos);
-        return paintState != null && !paintState.isAir() ? Mth.clamp(findWhatInInventory(state, player, maxCount), 0, maxCount) : 0;
+        return player.getAbilities().instabuild ? maxCount : paintState != null && !paintState.isAir() ? Mth.clamp(findWhatInInventory(paintState, player, maxCount), 0, maxCount) : 0;
     }
 
     @SuppressWarnings("deprecation")
@@ -54,14 +54,13 @@ public class PlacerWandItem extends WandItem {
         if (item instanceof BlockItem block) newState = block.getBlock().defaultBlockState();
 
         for (var pos : positions) {
-            if (paintState == null) continue;
-            if (paintState instanceof EntityBlock) continue;
             if (!state.equals(newState)) paintState = fixStateByContext(newState, player, hit.withPosition(pos));
             else paintState = fixStateByContext(paintState, player, hit.withPosition(pos));
             if (paintState == null) continue;
             if (paintState instanceof EntityBlock) continue;
+            if (check(level, pos)) continue;
 
-            if (!player.isCreative() && findAndRemoveInInventory(paintState, player, 1) == 0) break;
+            if (!player.getAbilities().instabuild && findAndRemoveInInventory(paintState, player, 1) == 0) break;
             var itemstack1 = stack.copy();
             boolean flag = level.setBlockAndUpdate(pos, paintState);
             level.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(player, paintState));
@@ -82,6 +81,11 @@ public class PlacerWandItem extends WandItem {
             }
             if (stack.isEmpty() && !itemstack1.isEmpty()) EventHooks.onPlayerDestroyItem(player, itemstack1, InteractionHand.MAIN_HAND);
         }
+    }
+
+    public boolean check(Level level, BlockPos pos) {
+        if (!level.isAreaLoaded(pos, 1)) return true;
+        return !level.isInWorldBounds(pos);
     }
 
     @Override

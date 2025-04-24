@@ -12,10 +12,10 @@ public class AllPowerSources {
     //GENERATE
     public static PowerSource GENERATOR_BLOCK = new PowerSource("generator_block", 64, false, true);
     public static PowerSource BASE_PANEL = new PowerSource("base_panel", 8, false, true);
-    public static PowerSource POWER_CRANK = new PowerSource("base_panel", 8, false, true);
     public static PowerSource COMBUSTION = new PowerSource("combustion", 24, false, true);
     public static PowerSource DRAGON_AMBIENT = new PowerSource("dragon_ambient", 256, false, true);
     //ADDITIVES
+    public static PowerSource POWER_CRANK = new PowerSource("crank", 16, true, true);
     public static PowerSource WATER_MILL = new PowerSource("water_mill", 8, true, true);
     public static PowerSource WIND_MILL = new PowerSource("wind_mill", 12, true, true);
     public static PowerSource HEAT_MILL = new PowerSource("heat_mill", 16, true, true);
@@ -30,9 +30,10 @@ public class AllPowerSources {
         public final boolean additive;
         public final boolean genertor;
 
-        public PowerSource(String id, int impact, boolean additive, boolean genertor) {
+        private PowerSource(String id, int impact, boolean additive, boolean genertor) {
             this(OmniUtils.loc(id), impact, additive, genertor);
         }
+
         public PowerSource(ResourceLocation id, int impact, boolean additive, boolean genertor) {
             this.id = id;
             this.impact = impact;

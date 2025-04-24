@@ -49,14 +49,15 @@ public class WandItem extends Item {
 
     public int getMaxCount(Level level, Direction face, Player player, BlockState state, BlockPos pos) {
         var shifting = player.isShiftKeyDown();
-        var creative = player.isCreative() && !player.isBlocking();
+        var creative = player.getAbilities().instabuild && !player.isBlocking();
         var spectator = player.isSpectator();
         return creative ? shifting ? 128 : 256 : spectator ? 0 : shifting ? 64 : 128;
     }
 
+    @SuppressWarnings("unused")
     public int getMaxRange(Level level, Direction face, Player player, BlockState state, BlockPos pos) {
         var shifting = player.isShiftKeyDown();
-        var creative = player.isCreative() && !player.isBlocking();
+        var creative = player.getAbilities().instabuild && !player.isBlocking();
         var spectator = player.isSpectator();
         return creative ? shifting ? 32 : 64 : spectator ? 0 : shifting ? 16 : 32;
     }
@@ -73,11 +74,16 @@ public class WandItem extends Item {
         Queue<BlockPos> queue = new ArrayDeque<>();
         visited.add(origin);
         queue.add(origin);
+        int size = 0;
 
-        while (!queue.isEmpty() && visited.size() < maxCount) {
+        while (!queue.isEmpty() && size < maxCount) {
             var current = queue.poll();
 
             for (Direction dir : Direction.values()) {
+                if (size >= maxCount) {
+                    if (!item.outsideBlocks()) visited.remove(origin);
+                    return new ArrayList<>(visited);
+                }
                 if (dir.getAxis().equals(face.getAxis())) continue;
                 var neighbor = current.relative(dir);
                 if (visited.contains(neighbor)) continue;
@@ -90,6 +96,7 @@ public class WandItem extends Item {
 
                 var neighborState = level.getBlockState(neighbor);
                 if (originState.is(neighborState.getBlock()) && item.isValid(neighborState, face, level, neighbor) == 2) {
+                    size++;
                     visited.add(neighbor);
                     queue.add(neighbor);
                 }

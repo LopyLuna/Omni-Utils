@@ -14,6 +14,7 @@ import uwu.lopyluna.omni_util.content.blocks.generator.GeneratorBE;
 import uwu.lopyluna.omni_util.content.blocks.grim_devour.GrimDevourBE;
 import uwu.lopyluna.omni_util.content.blocks.panels.LunarPanelBE;
 import uwu.lopyluna.omni_util.content.blocks.panels.SolarPanelBE;
+import uwu.lopyluna.omni_util.content.blocks.power_crank.PowerCrankBE;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerBE;
 import uwu.lopyluna.omni_util.content.blocks.spawner.AlteredSpawnerRenderer;
 import uwu.lopyluna.omni_util.content.blocks.trash_can.TrashCanBE;
@@ -23,6 +24,7 @@ import static uwu.lopyluna.omni_util.OmniUtils.REG;
 @SuppressWarnings("unused")
 public class AllBlockEntities {
 
+    public static final BlockEntityEntry<PowerCrankBE> POWER_CRANK = simpleBE("power_crank", AllBlocks.POWER_CRANK, PowerCrankBE::new);
     public static final BlockEntityEntry<TrashCanBE> TRASH_CAN = simpleBE("trash_can", AllBlocks.TRASH_CAN, TrashCanBE::new);
     public static final BlockEntityEntry<ColoredBE> COLORED_BLOCK = simpleBE("colored_block", AllBlocks.COLORED_BLOCK, ColoredBlockRenderer::new, ColoredBE::new);
     public static final BlockEntityEntry<GrimDevourBE> GRIM_DEVOUR = simpleBE("grim_devour", AllBlocks.GRIM_DEVOUR, GrimDevourBE::new);

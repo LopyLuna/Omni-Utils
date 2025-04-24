@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -21,5 +22,10 @@ public abstract class PowerBlockBlock extends OmniBlock {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof PowerBlockEntity be && placer instanceof ServerPlayer player) {
             be.ownerUUID = player.getUUID();
         }
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+        return false;
     }
 }
